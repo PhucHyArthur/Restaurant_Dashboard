@@ -1,4 +1,5 @@
 import React from "react";
+import { FaArrowRight } from "react-icons/fa";
 
 const OrderList = () => {
   return (
@@ -9,20 +10,7 @@ const OrderList = () => {
           <li className="text-sm">
             <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500">
               Order
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-chevron-right w-4 h-4"
-              >
-                <path d="m9 18 6-6-6-6"></path>
-              </svg>
+              <FaArrowRight/>
             </a>
           </li>
           <li
