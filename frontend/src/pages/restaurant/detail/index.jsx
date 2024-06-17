@@ -27,7 +27,7 @@ const RestaurantDetail = () => {
         <img
           src="https://www.shutterstock.com/image-vector/kfc-icon-logo-sign-red-260nw-2395215867.jpg"
           alt="Restaurant"
-          className="w-full h-[100px]"
+          className="w-full h-[100px] object-cover"
         />
 
         <div className="flex md:items-end items-center gap-3 md:-mt-14">
@@ -48,7 +48,7 @@ const RestaurantDetail = () => {
       <div className="grid xl:grid-cols-3 grid-cols-1 gap-6">
         <div className="xl:col-span-2">
           <div className="p-6 rounded-lg border border-default-200 mb-6 gap-3">
-            <div className="dropdown items-center flex justify-end">
+            <div className="dropdown">
               <div tabIndex={0} role="button" className="btn m-1">
                 Last 7 days
                 <FaArrowDown className="icon-cog" style={{ color: 'gray' }} />

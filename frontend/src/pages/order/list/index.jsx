@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import mockOrders from "./mockData";
 
 const OrderList = () => {
+  const [sortedColumn, setSortedColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
+
+  const handleSort = (column) => {
+    const direction = sortedColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    setSortedColumn(column);
+    setSortDirection(direction);
+  };
+
+  const sortedOrders = [...mockOrders].sort((a, b) => {
+    if (a[sortedColumn] < b[sortedColumn]) {
+      return sortDirection === "asc" ? -1 : 1;
+    }
+    if (a[sortedColumn] > b[sortedColumn]) {
+      return sortDirection === "asc" ? 1 : -1;
+    }
+    return 0;
+  });
+
+  const totalOrders = mockOrders.length;
+  const totalBalance = mockOrders.reduce((acc, order) => acc + order.total, 0);
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between w-full mb-6">
-        <h4 className="text-xl font-medium">Order Edit</h4>
+        <h4 className="text-xl font-medium">Order List</h4>
         <ol className="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2">
           <li className="text-sm">
             <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500">
-              Order
-              <FaArrowRight/>
+              Home
+              <FaArrowRight />
             </a>
           </li>
           <li
@@ -33,7 +56,7 @@ const OrderList = () => {
                       Food Delivered
                     </p>
                     <h4 className="text-2xl text-default-950 font-semibold mb-2">
-                      23,568
+                      {totalOrders}
                     </h4>
                   </div>
                 </div>
@@ -46,7 +69,7 @@ const OrderList = () => {
                       Your Balance
                     </p>
                     <h4 className="text-2xl text-default-950 font-semibold mb-2">
-                      $ 8,904.80
+                      ${totalBalance.toFixed(2)}
                     </h4>
                   </div>
                 </div>
@@ -79,18 +102,6 @@ const OrderList = () => {
                         className="grow w-1/2"
                         placeholder="Search"
                       />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        className="w-4 h-4 opacity-70"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
                     </label>
                     <div className="dropdown">
                       <div tabIndex={0} role="button" className="btn m-1">
@@ -116,64 +127,95 @@ const OrderList = () => {
 
                 <div className="relative">
                   <div className="min-w-full inline-block align-middle">
-                      <table className="min-w-full divide-y divide-default-200 w-[1000px]">
-                        <thead className="bg-default-100">
-                          <tr className="text-start">
-                            <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
-                              Date
-                            </th>
-                            <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
-                              Order ID
-                            </th>
-                            <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w">
-                              Customer's Name
-                            </th>
-                            <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w">
-                              Restaurant Name
-                            </th>
-                            <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w">
-                              Amount
-                            </th>
-                            <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w-[10rem]">
-                              Status
-                            </th>
-                            <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w-[10rem]">
-                              Action
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-default-200">
-                          <tr>
+                    <table className="min-w-full divide-y divide-default-200 w-[1000px]">
+                      <thead className="bg-default-100">
+                        <tr className="text-start">
+                          <th
+                            className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                            onClick={() => handleSort("createdAt")}
+                          >
+                            Date
+                          </th>
+                          <th
+                            className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                            onClick={() => handleSort("_id")}
+                          >
+                            Order ID
+                          </th>
+                          <th
+                            className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                            onClick={() => handleSort("username")}
+                          >
+                            Customer's Name
+                          </th>
+                          <th
+                            className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                            onClick={() => handleSort("restaurantId")}
+                          >
+                            Restaurant Name
+                          </th>
+                          <th
+                            className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                            onClick={() => handleSort("total")}
+                          >
+                            Amount
+                          </th>
+                          <th
+                            className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                            onClick={() => handleSort("status")}
+                          >
+                            Status
+                          </th>
+                          <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w-[10rem]">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-default-200">
+                        {sortedOrders.map((order) => (
+                          <tr key={order._id}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                              01/Sep/22
+                              {new Date(order.createdAt).toLocaleDateString()}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                              #4357
+                              {order._id.toString()}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                              Dong
+                              {order.username}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">
-                              BBC Restaurant
+                              {order.restaurantId.toString()}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                              $45.24
+                              ${order.total.toFixed(2)}
                             </td>
                             <td className="px-6 py-4">
-                              <span className="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-500">
-                                Refund
+                              <span
+                                className={`inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium ${
+                                  order.status === "PENDING"
+                                    ? "bg-yellow-500/20 text-yellow-500"
+                                    : order.status === "CONFIRMED"
+                                    ? "bg-green-500/20 text-green-500"
+                                    : order.status === "CANCELLED"
+                                    ? "bg-red-500/20 text-red-500"
+                                    : "bg-blue-500/20 text-blue-500"
+                                }`}
+                              >
+                                {order.status}
                               </span>
                             </td>
                             <td className="px-6 py-4">
-                            <button className="btn">View Details</button>
+                              <button className="btn">View Details</button>
                             </td>
                           </tr>
-                        </tbody>
-                      </table>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
