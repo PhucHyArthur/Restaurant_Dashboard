@@ -104,6 +104,7 @@ const ProductAdd = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const [restaurants, setRestaurants] = useState
@@ -156,6 +157,7 @@ const ProductAdd = () => {
 
       const response = await axios.post('/api/food/add', productData) 
       console.log("Food added successfully",response.data);
+      reset()
     } catch (error) {
       console.error("Error adding food: ", error)
     }

@@ -23,7 +23,7 @@ const RestaurantAdd = () => {
     // Lấy danh sách categories từ backend
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("/api/categories");
+        const response = await axios.get("/api/category/");
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
