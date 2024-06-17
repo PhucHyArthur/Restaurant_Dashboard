@@ -10,8 +10,18 @@ const DetailPage = ({ productId }) => {
 
   useEffect(() => {
     // Use mock data instead of fetching from an API
-    setProduct(mockProduct);
-    setCategories(mockCategories);
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`/api/food/getFoodById/${productId}`);
+        if (response.status === 200) {
+          setProduct(response.data.food);
+          console.log(response.data.food);
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    }
+    fetchProduct()
   }, []);
 
   const handleDelete = async () => {
@@ -62,7 +72,7 @@ const DetailPage = ({ productId }) => {
         </div>
         <div className="p-6 border rounded-lg border-default-200">
           <h3 className="text-4xl font-medium text-default-800 mb-1">{product.name}</h3>
-          <h5 className="text-lg font-medium text-default-600 mb-2"><span className="text-base font-normal text-default-500">by</span> {product.restaurantId}</h5>
+          <h5 className="text-lg font-medium text-default-600 mb-2"><span className="text-base font-normal text-default-500">by</span> {product.restaurantName}</h5>
           <h5 className="text-lg font-medium text-default-600 mb-2">Description</h5>
           <p className="text-sm text-default-500 mb-4">
             {product.description}
@@ -70,12 +80,9 @@ const DetailPage = ({ productId }) => {
           <div className="mb-4">
             <h5 className="text-lg font-medium text-default-600 mb-2">Category</h5>
             <div className="flex flex-wrap gap-2">
-              {product.categories.map((categoryId) => {
-                const category = categories.find(cat => cat._id === categoryId);
-                return category ? (
-                  <span key={category._id} className="bg-gray-200 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">{category.name}</span>
-                ) : null;
-              })}
+              {product.categories.map((category) => (
+                <span key={category._id} className="bg-gray-200 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">{category.name}</span>
+              ))}
             </div>
           </div>
           <div className="p-6 border rounded-lg border-default-200">
