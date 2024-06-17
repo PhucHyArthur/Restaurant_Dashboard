@@ -1,6 +1,7 @@
 import React from "react";
 import BarLineChart from "../../components/ChartPage/BarLineChart";
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
+import ProductList from "../../product/list";
 
 const RestaurantDetail = () => {
   return (
@@ -9,7 +10,10 @@ const RestaurantDetail = () => {
         <h4 className="text-xl font-medium">Restaurant Detail</h4>
         <ol className="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2">
           <li className="text-sm">
-            <a href="#" className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500">
+            <a
+              href="#"
+              className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500"
+            >
               Restaurant
               <FaArrowRight />
             </a>
@@ -51,8 +55,8 @@ const RestaurantDetail = () => {
             <div className="dropdown">
               <div tabIndex={0} role="button" className="btn m-1">
                 Last 7 days
-                <FaArrowDown className="icon-cog" style={{ color: 'gray' }} />
-              </div>  
+                <FaArrowDown className="icon-cog" style={{ color: "gray" }} />
+              </div>
               <ul
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
@@ -77,10 +81,12 @@ const RestaurantDetail = () => {
               OWNER PERSONAL DETAIL
             </div>
             <div className="px-6 py-5">
-              <table className="w-full">
+              <table className="w-full h-[350px]">
                 <tbody>
                   <tr>
-                    <td className="text-start text-base font-medium">Owner Name:</td>
+                    <td className="text-start text-base font-medium">
+                      Owner Name:
+                    </td>
                     <td className="text-start">Kianna Vetrovs</td>
                   </tr>
                   <tr>
@@ -88,15 +94,68 @@ const RestaurantDetail = () => {
                     <td className="text-start">kianna.vetrov@mail.com</td>
                   </tr>
                   <tr>
-                    <td className="text-start text-base font-medium">Contact No:</td>
+                    <td className="text-start text-base font-medium">
+                      Contact No:
+                    </td>
                     <td className="text-start">+(123) 456 7890</td>
                   </tr>
                   <tr>
-                    <td className="text-start text-base font-medium">Location:</td>
+                    <td className="text-start text-base font-medium">
+                      Location:
+                    </td>
                     <td className="text-start">Canada</td>
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+
+        <div className="xl:col-span-3">
+          <div className="p-6 rounded-lg border border-default-200 mb-6">
+            <div>
+              <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-6">
+                <div className="border rounded-lg p-6 overflow-hidden border-default-200 w-full">
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center justify-center rounded-full bg-primary/20 text-primary h-16 w-16"></div>
+                    <div className="">
+                      <p className="text-base text-default-500 font-medium mb-1">
+                        Food Delivered
+                      </p>
+                      <h4 className="text-2xl text-default-950 font-semibold mb-2">
+                        50
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div className="border rounded-lg p-6 overflow-hidden border-default-200 w-full">
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center justify-center rounded-full bg-yellow-500/20 text-yellow-500 h-16 w-16"></div>
+                    <div>
+                      <p className="text-base text-default-500 font-medium mb-1">
+                        Your Balance
+                      </p>
+                      <h4 className="text-2xl text-default-950 font-semibold mb-2">
+                        20.00K
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div className="border rounded-lg p-6 overflow-hidden border-default-200 w-full">
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center justify-center rounded-full bg-green-500/20 text-green-500 h-16 w-16"></div>
+                    <div className="">
+                      <p className="text-base text-default-500 font-medium mb-1">
+                        Satisfaction Rating
+                      </p>
+                      <h4 className="text-2xl text-default-950 font-semibold mb-2">
+                        98%
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ProductList />
             </div>
           </div>
         </div>
