@@ -5,30 +5,11 @@ import jwt from "jsonwebtoken";
 
 export const addRestaurant = async (req, res) => {
   try {
-    const { name, categories, email, location, description } = req.body;
+    const { name, categories, email, location, description, images } = req.body;
     
     const userId = req.user._id.toString();
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
-
-    let logoUrl = '';
-    let posterUrl = '';
-    let coverUrl = '';
-
-    if (req.files && req.files.logo) {
-      const result = await cloudinary.uploader.upload(req.files.logo[0].path);
-      logoUrl = result.secure_url;
-    }
-
-    if (req.files && req.files.poster) {
-      const result = await cloudinary.uploader.upload(req.files.poster[0].path);
-      posterUrl = result.secure_url;
-    }
-
-    if (req.files && req.files.cover) {
-      const result = await cloudinary.uploader.upload(req.files.cover[0].path);
-      coverUrl = result.secure_url;
-    }
 
     const newRestaurant = new Restaurant({
       name,
@@ -36,11 +17,7 @@ export const addRestaurant = async (req, res) => {
       email,
       location,
       description,
-      images: {
-        logo: logoUrl,
-        poster: posterUrl,
-        cover: coverUrl
-      },
+      images,
       userId: req.user._id
     });
 

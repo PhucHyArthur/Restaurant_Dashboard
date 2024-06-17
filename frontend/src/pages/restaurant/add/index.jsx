@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import * as jwt_decode from "jwt-decode";
 import cookie from "cookie";
+// import dotenv from 'dotenv'
+// dotenv.config()
 
 const RestaurantAdd = () => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -37,7 +39,7 @@ const RestaurantAdd = () => {
       const logoUpload = data.logo[0] ? await uploadFileToCloudinary(data.logo[0]) : "";
       const posterUpload = data.poster[0] ? await uploadFileToCloudinary(data.poster[0]) : "";
       const coverUpload = data.cover[0] ? await uploadFileToCloudinary(data.cover[0]) : "";
-
+      console.log(logoUpload);
       // Create restaurant data object
       const restaurantData = {
         name: data.name,
@@ -60,16 +62,17 @@ const RestaurantAdd = () => {
       console.error("Error adding restaurant:", error);
     }
   };
-
   const uploadFileToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "YOUR_CLOUDINARY_UPLOAD_PRESET"); // Replace with your Cloudinary upload preset
+    formData.append("upload_preset", 'j9rkirfq'); // Replace with your Cloudinary upload preset
 
     const response = await axios.post(
-      "https://api.cloudinary.com/v1_1/YOUR_CLOUDINARY_CLOUD_NAME/image/upload", // Replace with your Cloudinary cloud name
+      'https://api.cloudinary.com/v1_1/dpxey0jta/image/upload', // Replace with your Cloudinary cloud name
       formData
     );
+
+    console.log(response.data);
 
     return response.data.secure_url;
   };

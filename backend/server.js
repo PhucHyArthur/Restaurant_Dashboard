@@ -6,6 +6,8 @@ import { v2 as cloudinary } from "cloudinary";
 import connectMongoDB from "./db/connectMongoDB.js";
 import authRoutes from "./routes/auth.route.js"
 import restaurantRoutes from "./routes/restaurant.route.js"
+import foodRoutes from './routes/food.route.js'
+import categoryRoutes from './routes/category.route.js'
 
 dotenv.config();
 
@@ -25,6 +27,8 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/restaurant", restaurantRoutes);
+app.use("/api/food", foodRoutes);
+app.use("/api/category", categoryRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));

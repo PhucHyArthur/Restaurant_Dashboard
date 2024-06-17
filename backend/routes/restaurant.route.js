@@ -15,11 +15,6 @@ router.get("/", protectRoute, getRestaurant);
 router.post(
   "/addRestaurant",
   protectRoute,
-  upload.fields([
-    { name: "logo", maxCount: 1 },
-    { name: "poster", maxCount: 1 },
-    { name: "cover", maxCount: 1 },
-  ]),
   addRestaurant
 );
 router.put('/edit/:id', protectRoute, upload.fields([
