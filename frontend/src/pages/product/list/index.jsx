@@ -1,11 +1,46 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { FaArrowRight, FaEye, FaTrash } from 'react-icons/fa';
-import { FaPencil } from 'react-icons/fa6';
-import mockData from './mockData';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import {
+  FaArrowRight,
+  FaEye,
+  FaTrash,
+} from "react-icons/fa";
+import { FaPencil } from "react-icons/fa6";
+import mockData from "./mockData";
+import mockRestaurants from "./mockRestaurants";
 
 const ProductList = () => {
-  const { handleSubmit } = useForm();
+  const [sortedColumn, setSortedColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
+  const handleSort = (column) => {
+    const direction =
+      sortedColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    setSortedColumn(column);
+    setSortDirection(direction);
+  };
+
+  const sortedData = [...mockData]
+    .filter(
+      (product) =>
+        !selectedRestaurant || product.restaurantId === selectedRestaurant
+    )
+    .sort((a, b) => {
+      if (sortedColumn) {
+        if (a[sortedColumn] < b[sortedColumn]) {
+          return sortDirection === "asc" ? -1 : 1;
+        }
+        if (a[sortedColumn] > b[sortedColumn]) {
+          return sortDirection === "asc" ? 1 : -1;
+        }
+      }
+      return 0;
+    });
+
+  const onSelectRestaurant = (restaurantId) => {
+    setSelectedRestaurant(restaurantId);
+  };
 
   const onDelete = (productId) => {
     console.log(`Delete product with id: ${productId}`);
@@ -44,11 +79,43 @@ const ProductList = () => {
         </div>
         <div className="grid grid-cols-1">
           <div className="border rounded-lg border-default-200">
-            <div className="px-6 py-4 overflow-hidden ">
+            <div className="px-6 py-4">
               <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
                 <h2 className="text-xl text-default-800 font-semibold">
                   Item List
                 </h2>
+                <label className="input input-bordered w-[500px] flex items-center gap-2">
+                  <input type="text" className="grow" placeholder="Search" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="w-4 h-4 opacity-70"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </label>
+                <div className="dropdown">
+                  <div tabIndex={0} role="button" className="btn m-1">
+                    Choose Restaurant
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                  >
+                    {mockRestaurants.map((restaurant) => (
+                      <li key={restaurant._id}>
+                        <a onClick={() => onSelectRestaurant(restaurant._id)}>
+                          {restaurant.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
                 <div className="flex flex-wrap items-center gap-4">
                   <a
                     href="add"
@@ -66,13 +133,22 @@ const ProductList = () => {
                   <table className="min-w-full divide-y divide-default-200">
                     <thead className="bg-default-100">
                       <tr className="text-start">
-                        <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                        <th
+                          className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                          onClick={() => handleSort("name")}
+                        >
                           Name Product
                         </th>
-                        <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                        <th
+                          className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                          onClick={() => handleSort("category")}
+                        >
                           Category
                         </th>
-                        <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                        <th
+                          className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
+                          onClick={() => handleSort("price")}
+                        >
                           Price
                         </th>
                         <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
@@ -81,7 +157,7 @@ const ProductList = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-default-200">
-                      {mockData.map((product) => (
+                      {sortedData.map((product) => (
                         <tr key={product.id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">
                             <a
