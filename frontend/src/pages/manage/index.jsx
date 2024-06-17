@@ -2,7 +2,10 @@ import React from 'react'
 
 const Manage = () => {
   return (
-    <div>Day la Manage</div>
+    <div>
+      Day la Manage
+
+    </div>
   )
 }
 

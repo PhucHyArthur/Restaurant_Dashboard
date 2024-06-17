@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  FaArrowRight,
-  FaEye,
-  FaTrash,
-} from "react-icons/fa";
+import { FaArrowRight, FaEye, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import mockData from "./mockData";
 import mockRestaurants from "./mockRestaurants";
 
+
 const ProductList = () => {
+  const [products, setProducts] = useState(mockData);
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -21,7 +19,7 @@ const ProductList = () => {
     setSortDirection(direction);
   };
 
-  const sortedData = [...mockData]
+  const sortedData = [...products]
     .filter(
       (product) =>
         !selectedRestaurant || product.restaurantId === selectedRestaurant
@@ -55,6 +53,16 @@ const ProductList = () => {
   const onEdit = (productId) => {
     console.log(`Edit product with id: ${productId}`);
     // Add edit functionality here
+  };
+
+  const handleToggle = (productId) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === productId
+          ? { ...product, status: !product.status }
+          : product
+      )
+    );
   };
 
   return (
@@ -152,6 +160,9 @@ const ProductList = () => {
                           Price
                         </th>
                         <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                          Status
+                        </th>
+                        <th className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
                           Action
                         </th>
                       </tr>
@@ -181,6 +192,14 @@ const ProductList = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
                             {product.price}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
+                            <input
+                              type="checkbox"
+                              className="toggle toggle-success"
+                              checked={product.status}
+                              onChange={() => handleToggle(product.id)}
+                            />
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex gap-3">
