@@ -30,6 +30,9 @@ const OrderDetail = () => {
               <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">
                 Order #{mockOrderDetail.orderId}
               </h1>
+              <h2 className="text-xl font-semibold leading-7 lg:leading-9 text-gray-800">
+                Restaurant Name: 
+              </h2>
               <p className="text-base font-medium leading-6 text-gray-600">
                 {new Date(mockOrderDetail.orderDate).toLocaleDateString()} at {new Date(mockOrderDetail.orderDate).toLocaleTimeString()}
               </p>

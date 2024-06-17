@@ -112,13 +112,13 @@ const OrderList = () => {
                         className="dropdown-content z-[10] menu p-2 shadow bg-base-100 rounded-box w-52"
                       >
                         <li>
-                          <a>Refund</a>
+                          <a>Restaurant 1</a>
                         </li>
                         <li>
-                          <a>Ordered</a>
+                          <a>Restaurant 2</a>
                         </li>
                         <li>
-                          <a>Pending</a>
+                          <a>Restaurant 3</a>
                         </li>
                       </ul>
                     </div>
