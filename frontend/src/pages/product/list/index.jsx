@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const ProductList = () => {
   const navigate = useNavigate()
   const [products, setProducts] = useState([]);
+  const [viewProducts, setViewProducts] = useState(products);
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [restaurants, setRestaurants] = useState([]);
@@ -20,6 +21,7 @@ const ProductList = () => {
 
         if (response.status === 200) {
           setProducts(response.data.foods)
+          setViewProducts(response.data.foods)
           console.log(response.data.foods);
         }
       } catch (error) {
@@ -46,7 +48,7 @@ const ProductList = () => {
     setSortDirection(direction);
   };
 
-  const sortedData = [...products]
+  const sortedData = [...viewProducts]
     .filter(
       (product) =>
         !selectedRestaurant || product.restaurantId === selectedRestaurant
@@ -105,6 +107,11 @@ const ProductList = () => {
     );
   };
 
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    setViewProducts(products.filter(product => product.name.toLowerCase().includes(e.target.value.toLowerCase())));
+  }
+
   return (
     <div>
       <div className="p-6">
@@ -133,7 +140,7 @@ const ProductList = () => {
                   Item List
                 </h2>
                 <label className="input input-bordered w-[500px] flex items-center gap-2">
-                  <input type="text" className="grow" placeholder="Search" />
+                  <input type="text" className="grow" placeholder="Search" onChange={handleSearch}/>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"
