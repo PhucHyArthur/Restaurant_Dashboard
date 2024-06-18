@@ -103,7 +103,7 @@ const ProductList = () => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
         product.id === productId
-          ? { ...product, status: !product.status }
+          ? { ...product, available: !product.available }
           : product
       )
     );
@@ -246,7 +246,7 @@ const ProductList = () => {
                             <input
                               type="checkbox"
                               className="toggle toggle-success"
-                              checked={product.status}
+                              checked={product.available}
                               onChange={() => handleToggle(product.id)}
                             />
                           </td>
