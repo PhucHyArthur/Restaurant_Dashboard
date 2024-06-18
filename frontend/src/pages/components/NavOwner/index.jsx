@@ -72,9 +72,7 @@ const NavOwner = () => {
             </div>
             <div className="collapse-content flex flex-col gap-2">
               <Link to={"/owner/product/list"}>Product Lists</Link>
-              <Link to={"/owner/product/detail"}>Product Details</Link>
               <Link to={"/owner/product/add"}>Product Add</Link>
-              <Link to={"/owner/product/edit"}>Product Edit</Link>
             </div>
           </div>
         </div>
