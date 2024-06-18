@@ -1,9 +1,9 @@
-import DetailPage from '../../components/DetailPage'
 import { useParams } from 'react-router-dom'
+import DetailPage from './components/detailPage'
 
 const ProductDetail = () => {
-  const {id} = useParams()
- 
+  const { id } = useParams()
+
   return (
     <DetailPage productId={id} />
   )

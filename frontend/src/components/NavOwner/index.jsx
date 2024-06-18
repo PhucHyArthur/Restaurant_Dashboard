@@ -72,23 +72,21 @@ const NavOwner = () => {
             </div>
             <div className="collapse-content flex flex-col gap-2">
               <Link to={"/owner/product/list"}>Product Lists</Link>
-              <Link to={"/owner/product/detail"}>Product Details</Link>
               <Link to={"/owner/product/add"}>Product Add</Link>
-              <Link to={"/owner/product/edit"}>Product Edit</Link>
             </div>
           </div>
         </div>
       </div>
 
       <div className=" absolute w-full bottom-[20%] translate-y-1/2">
-          <button className=" flex items-center w-full gap-2 p-2 mb-1 border-[1px] border-gray-400 rounded-md">
-            <FaGripVertical />
-            <div>Setting</div>
-          </button>
-          <button className="flex items-center w-full gap-2 p-2 border-[1px] border-gray-400 rounded-md">
-            <FaGripVertical />
-            <div>Logout</div> 
-          </button>
+        <button className=" flex items-center w-full gap-2 p-2 mb-1 border-[1px] border-gray-400 rounded-md">
+          <FaGripVertical />
+          <div>Setting</div>
+        </button>
+        <button className="flex items-center w-full gap-2 p-2 border-[1px] border-gray-400 rounded-md">
+          <FaGripVertical />
+          <div>Logout</div>
+        </button>
       </div>
     </div>
   );

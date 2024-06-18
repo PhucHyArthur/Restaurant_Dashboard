@@ -1,7 +1,6 @@
-import React from "react";
-import BarLineChart from "../../components/ChartPage/BarLineChart";
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
 import ProductList from "../../product/list";
+import BarLineChart from "../../components/Chart/chart";
 
 const RestaurantDetail = () => {
   return (
