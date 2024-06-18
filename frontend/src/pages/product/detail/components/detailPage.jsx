@@ -55,18 +55,8 @@ const DetailPage = ({ productId }) => {
                 </ol>
             </div>
             <div className="grid lg:grid-cols-2 gap-6">
-                <div className="p-6 border rounded-lg border-default-200">
-                    <div className="grid grid-cols-1">
-                        <div>
-                            <div className="">
-                                <div className="swiper-wrapper" style={{ transitionDuration: "0ms", transform: "translate3d(-570px, 0px, 0px)" }}>
-                                    <div className="" data-swiper-slide-index="2" style={{ width: "546px", marginRight: "24px" }}>
-                                        <img src={product.image} className="max-w-full h-full mx-auto" alt={product.name} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div className="border overflow-hidden rounded-lg border-default-200">
+                    <img src={product.image} className="max-w-full h-full mx-auto" alt={product.name} />
                 </div>
                 <div className="p-6 border rounded-lg border-default-200">
                     <h3 className="text-4xl font-medium text-default-800 mb-1">{product.name}</h3>
