@@ -1,14 +1,14 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { LuAlignLeft, LuAlignVerticalDistributeCenter, LuDot, LuHotel, LuLayoutDashboard, LuList, LuLogOut, LuSettings, LuShoppingBag, LuSignalZero, LuTrash, LuUsers } from "react-icons/lu"; import { Link, useNavigate } from "react-router-dom";
-
+import './styles.scss'
 const NavOwner = () => {
   const navigate = useNavigate()
   const [page, setPage] = useState('')
 
   return (
     <Box className="fixed flex flex-col min-w-[260px] justify-between" h={'calc(100vh - 72px)'} borderRight={'1px solid #ccc'}>
-      <Accordion allowToggle className="p-5 flex flex-col gap-1">
+      <Accordion allowToggle className="navOwner p-5 flex flex-col gap-1 max-h-[400px] overflow-y-scroll">
 
         <AccordionItem className="border-none">
           <AccordionButton onClick={() => setPage('dashboard')} className={`rounded-lg ${page === 'dashboard' ? 'bg-[#fef2e8]' : 'transparent'}`}>

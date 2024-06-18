@@ -1,0 +1,17 @@
+/* CSS cho phần tử .navOwner */
+.navOwner {
+    &::-webkit-scrollbar {
+        width: 3px;
+        opacity: 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 1px;
+    }
+
+    &::-webkit-scrollbar-track-piece:hover,
+    &::-webkit-scrollbar-thumb:hover {
+        opacity: 1;
+    }
+}
