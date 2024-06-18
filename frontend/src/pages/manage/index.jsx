@@ -2,9 +2,18 @@ import React from 'react'
 
 const Manage = () => {
   return (
-    <div>
-      Day la Manage
+    <div className='p-6'>
+      <div>
+        
+      </div>
+      
+      <div>
 
+      </div>
+
+      <div>
+
+      </div>
     </div>
   )
 }

@@ -151,7 +151,7 @@ const RestaurantAdd = () => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Categories</label>
-          <div className="mt-2">
+          <div className="mt-2 grid grid-cols-5">
             {categories.map((category) => (
               <div key={category._id} className="flex items-center">
                 <input
