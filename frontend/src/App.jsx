@@ -31,6 +31,10 @@ function App() {
             <Route path="/register" element={<Register />} />
           </Route>
 
+          <Route path="*" element={<OwnerLayout />}>
+            <Route index element={<ErrorPage />} />
+          </Route>
+
           <Route path="/owner" element={<OwnerLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="manage" element={<Manage />} />
