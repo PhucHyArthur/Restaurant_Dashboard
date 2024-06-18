@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import NavOwner from "../../pages/components/NavOwner";
-import DefaultHeader from "../header/defaut";
+import DefaultHeader from "../components/header/default";
+import NavOwner from "../../components/NavOwner";
 
 const OwnerLayout = () => {
   return (
     <div>
       <div className="fixed top-0 left-0 h-[100px] w-full bg-gray-700 z-10">
-        <DefaultHeader/>
+        <DefaultHeader />
       </div>
 
       <div className="flex mt-[100px]">

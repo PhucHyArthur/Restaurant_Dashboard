@@ -79,14 +79,14 @@ const NavOwner = () => {
       </div>
 
       <div className=" absolute w-full bottom-[20%] translate-y-1/2">
-          <button className=" flex items-center w-full gap-2 p-2 mb-1 border-[1px] border-gray-400 rounded-md">
-            <FaGripVertical />
-            <div>Setting</div>
-          </button>
-          <button className="flex items-center w-full gap-2 p-2 border-[1px] border-gray-400 rounded-md">
-            <FaGripVertical />
-            <div>Logout</div> 
-          </button>
+        <button className=" flex items-center w-full gap-2 p-2 mb-1 border-[1px] border-gray-400 rounded-md">
+          <FaGripVertical />
+          <div>Setting</div>
+        </button>
+        <button className="flex items-center w-full gap-2 p-2 border-[1px] border-gray-400 rounded-md">
+          <FaGripVertical />
+          <div>Logout</div>
+        </button>
       </div>
     </div>
   );

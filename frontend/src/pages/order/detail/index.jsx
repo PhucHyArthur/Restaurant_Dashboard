@@ -1,4 +1,3 @@
-import React from "react";
 import { FaArrowRight, FaEnvelope } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import mockOrderDetail from "./mockData";
@@ -31,7 +30,7 @@ const OrderDetail = () => {
                 Order #{mockOrderDetail.orderId}
               </h1>
               <h2 className="text-xl font-semibold leading-7 lg:leading-9 text-gray-800">
-                Restaurant Name: 
+                Restaurant Name:
               </h2>
               <p className="text-base font-medium leading-6 text-gray-600">
                 {new Date(mockOrderDetail.orderDate).toLocaleDateString()} at {new Date(mockOrderDetail.orderDate).toLocaleTimeString()}

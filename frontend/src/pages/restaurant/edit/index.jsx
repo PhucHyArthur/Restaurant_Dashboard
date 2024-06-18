@@ -1,5 +1,5 @@
 // RestaurantEdit.js
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import * as jwt_decode from "jwt-decode";
@@ -218,7 +218,7 @@ const RestaurantEdit = () => {
           </button>
         </div>
       </form>
-      <div/>
+      <div />
     </div>
   );
 };
