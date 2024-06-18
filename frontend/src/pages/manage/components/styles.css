@@ -21,3 +21,11 @@
     object-fit: cover;
   }
   
+  .card-container {
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  
+  .card-container.removing {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
