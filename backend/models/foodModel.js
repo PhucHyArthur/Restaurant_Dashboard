@@ -31,7 +31,10 @@ const foodSchema = new mongoose.Schema(
     },
     ingredients: {
       type: String,
-
+    },
+    available : {
+      type: Boolean,
+      default: true
     }
     
   },

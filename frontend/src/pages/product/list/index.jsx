@@ -78,6 +78,8 @@ const ProductList = () => {
         setProducts((prevProducts) =>
           prevProducts.filter((product) => product._id !== productId)
         )
+        setViewProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId))
       }
     } catch (error) {
       console.error("Error deleting product: ", error)
