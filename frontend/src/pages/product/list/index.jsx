@@ -1,16 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight, FaEye, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import mockData from "./mockData";
 import mockRestaurants from "./mockRestaurants";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 const ProductList = () => {
-  const [products, setProducts] = useState(mockData);
+  const navigate = useNavigate()
+  const [products, setProducts] = useState([]);
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
+  const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
+  useEffect(() => {
+    const fetchFoodByRestaurant = async () => {
+      try {
+        const response = await axios.get(`/api/food/getAllFood/${selectedRestaurant}`)
+
+        if (response.status === 200) {
+          setProducts(response.data.foods)
+          console.log(response.data.foods);
+        }
+      } catch (error) {
+        console.error("Error fetching products: ", error)
+      }
+    }
+    fetchFoodByRestaurant()
+  }, [selectedRestaurant])
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      const response = await axios.get("/api/restaurant/");
+      if (response.status === 200) {
+        setRestaurants(response.data);
+      }
+    }
+    fetchRestaurants()
+  }, [])
 
   const handleSort = (column) => {
     const direction =
@@ -47,6 +77,7 @@ const ProductList = () => {
 
   const onView = (productId) => {
     console.log(`View product with id: ${productId}`);
+    navigate(`/owner/product/detail/${productId}`)
     // Add view functionality here
   };
 
@@ -115,7 +146,7 @@ const ProductList = () => {
                     tabIndex={0}
                     className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
-                    {mockRestaurants.map((restaurant) => (
+                    {restaurants.map((restaurant) => (
                       <li key={restaurant._id}>
                         <a onClick={() => onSelectRestaurant(restaurant._id)}>
                           {restaurant.name}
@@ -169,7 +200,7 @@ const ProductList = () => {
                     </thead>
                     <tbody className="divide-y divide-default-200">
                       {sortedData.map((product) => (
-                        <tr key={product.id}>
+                        <tr key={product._id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">
                             <a
                               href="admin-product-details.html"
@@ -188,7 +219,7 @@ const ProductList = () => {
                             </a>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                            {product.category}
+                            {product.categories}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
                             {product.price}
@@ -205,19 +236,19 @@ const ProductList = () => {
                             <div className="flex gap-3">
                               <a
                                 className="transition-all hover:text-primary"
-                                onClick={() => onEdit(product.id)}
+                                onClick={() => onEdit(product._id)}
                               >
                                 <FaPencil />
                               </a>
                               <a
                                 className="transition-all hover:text-primary"
-                                onClick={() => onView(product.id)}
+                                onClick={() => onView(product._id)}
                               >
                                 <FaEye />
                               </a>
                               <a
                                 className="transition-all hover:text-red-500"
-                                onClick={() => onDelete(product.id)}
+                                onClick={() => onDelete(product._id)}
                               >
                                 <FaTrash />
                               </a>
