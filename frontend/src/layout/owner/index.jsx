@@ -4,21 +4,18 @@ import NavOwner from "../../components/NavOwner";
 
 const OwnerLayout = () => {
   return (
-    <div>
-      <div className="fixed top-0 left-0 h-[100px] w-full bg-gray-700 z-10">
-        <DefaultHeader />
-      </div>
+    <div className="bg-white">
+      <DefaultHeader />
 
-      <div className="flex mt-[100px]">
-        <div className="fixed max-w-[200px] h-[100vh] overflow-hidden bg-gray-300">
-          <NavOwner />
-        </div>
-        <div className="w-[100%] ml-[200px]">
+      <div className="flex">
+        <NavOwner />
+
+        <div className="w-[85vw] px-5 ml-[260px]">
           <Outlet />
+          <div className="">The footer</div>
         </div>
       </div>
 
-      <div className="ml-[200px]">The footer</div>
     </div>
   );
 };
