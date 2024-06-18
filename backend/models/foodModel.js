@@ -35,6 +35,10 @@ const foodSchema = new mongoose.Schema(
     available : {
       type: Boolean,
       default: true
+    },
+    softDelete : {
+      type : Boolean,
+      default : false
     }
     
   },

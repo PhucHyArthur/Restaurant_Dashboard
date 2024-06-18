@@ -26,11 +26,11 @@ export const addFood = async (req, res) => {
 export const getFoodList = async (req, res) => {
     try {
         const {restaurantId} = req.params
-        const foods = await Food.find({ restaurantId });
+        const foods = await Food.find({ restaurantId, softDelete: false });
 
         for (let i = 0; i < foods.length; i++) {
             const categories = await Category.findById(foods[i].categories);
-            foods[i].categories = [categories.name];
+            foods[i].categories = [categories];
         }
         
         res.status(200).json({ message: 'Food list retrieved successfully', foods });
@@ -42,7 +42,7 @@ export const getFoodList = async (req, res) => {
 export const getFoodById = async (req, res) => {
     try {
         const {id} = req.params
-        const food = await Food.findById(id);
+        const food = await Food.findOne({ _id: id, softDelete: false });
         const categories = await Category.findById(food.categories);
         const restaurant = await Restaurant.findById(food.restaurantId);
         // console.log(food);
@@ -56,6 +56,7 @@ export const getFoodById = async (req, res) => {
             restaurantId: food.restaurantId,
             restaurantName : restaurant.name,
             ingredients: food.ingredients,
+            available: food.available,
             createdAt: food.createdAt,
             updatedAt: food.updatedAt,
             __v: food.__v
@@ -69,7 +70,7 @@ export const getFoodById = async (req, res) => {
 export const updateFood = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, categories, price, restaurantId, ingredients, description, image } = req.body;
+        const { name, categories, price, restaurantId, ingredients, description, image, available } = req.body;
         const updatedFood = {
             name,
             categories,
@@ -77,7 +78,8 @@ export const updateFood = async (req, res) => {
             description,
             image,
             restaurantId,
-            ingredients
+            ingredients,
+            available
         };
         // console.log(updatedFood);
         const food = await Food.findByIdAndUpdate(id, updatedFood, { new: true });
@@ -92,6 +94,31 @@ export const deleteFood = async (req, res) => {
         const { id } = req.params;
         await Food.findByIdAndDelete(id);
         res.status(200).json({ message: 'Food deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const softDeleteFood = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const food = await Food.findOne({ _id: id, softDelete: false });
+        const updatedFood = {
+            name : food.name,
+            categories : food.categories,
+            price : food.price,
+            description: food.description,
+            image : food.image,
+            restaurantId: food.restaurantId,
+            ingredients : food.ingredients,
+            available : food.available,
+            softDelete: true
+        };
+        // console.log(updatedFood);
+        await Food.findByIdAndUpdate(id, updatedFood, { new: true })
+        .then((data) => {
+            res.status(200).json({ message: 'Food soft deleted successfully' , food: data});
+        })
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

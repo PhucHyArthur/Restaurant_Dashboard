@@ -72,12 +72,20 @@ const ProductList = () => {
   const onDelete = async (productId) => {
     console.log(`Delete product with id: ${productId}`);
     try {
-      const response = await axios.delete(`/api/food/delete/${productId}`)
+      // const response = await axios.delete(`/api/food/delete/${productId}`)
+      // if (response.status === 200) {
+      //   console.log("Food deleted");
+      //   setProducts((prevProducts) =>
+      //     prevProducts.filter((product) => product._id !== productId)
+      //   )
+      //   setViewProducts((prevProducts) =>
+      //     prevProducts.filter((product) => product._id !== productId))
+      // }
+      const response = await axios.put(`/api/food/softDelete/${productId}`)
       if (response.status === 200) {
-        console.log("Food deleted");
+        console.log('Food deleted'); 
         setProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId)
-        )
+          prevProducts.filter((product) => product._id !== productId))
         setViewProducts((prevProducts) =>
           prevProducts.filter((product) => product._id !== productId))
       }
@@ -99,14 +107,41 @@ const ProductList = () => {
     // Add edit functionality here
   };
 
-  const handleToggle = (productId) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === productId
-          ? { ...product, available: !product.available }
-          : product
-      )
-    );
+  const handleToggle = async (productId) => {
+    
+    try {
+      const product = products.find((product) => product._id === productId)
+      const productData = {
+        name: product.name,
+        categories: product.categories,
+        price: product.price,
+        restaurantId: product.restaurantId,
+        ingredients: product.ingredients,
+        description: product.description,
+        image: product.image,
+        available : !product.available
+      }
+      const response = await axios.put(`/api/food/update/${productId}`, productData) 
+      if (response.status === 200) {
+        console.log("Product updated successfully")
+        setProducts((prevProducts) =>
+          prevProducts.map((product) =>
+            product._id === productId
+              ? { ...product, available: !product.available }
+              : product
+          )
+        );
+        setViewProducts((prevProducts) =>
+          prevProducts.map((product) =>
+            product._id === productId
+              ? { ...product, available: !product.available }
+              : product
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating product: ", error)
+    }
   };
 
   const handleSearch = (e) => {
@@ -237,7 +272,7 @@ const ProductList = () => {
                             </a>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                            {product.categories}
+                            {product.categories[0].name}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
                             {product.price}
@@ -247,7 +282,7 @@ const ProductList = () => {
                               type="checkbox"
                               className="toggle toggle-success"
                               checked={product.available}
-                              onChange={() => handleToggle(product.id)}
+                              onChange={() => handleToggle(product._id)}
                             />
                           </td>
                           <td className="px-6 py-4">

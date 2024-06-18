@@ -73,7 +73,7 @@ const ProductEdit = () => {
         restaurantId: data.restaurantId,
         ingredients: data.ingredients,
         description: data.description,
-        image: imageUpload
+        image: imageUpload,
       }
 
       const response = await axios.put(`/api/food/update/${productId}`, productData)
