@@ -53,9 +53,9 @@ function App() {
             <Route path="product">
               <Route index element={<ErrorPage />} />
               <Route path="list" element={<ProductList />} />
-              <Route path="detail/:id" element={<ProductDetail />} />
+              <Route path="detail/:productId" element={<ProductDetail />} />
               <Route path="add" element={<ProductAdd />} />
-              <Route path="edit" element={<ProductEdit />} />
+              <Route path="edit/:productId" element={<ProductEdit />} />
             </Route>
           </Route>
         </Routes>

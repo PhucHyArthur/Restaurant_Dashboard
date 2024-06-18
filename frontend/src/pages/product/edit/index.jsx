@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { mockCategories, mockProduct, mockRestaurants } from "./mockData";
+import uploadFileCloudinary from "../../actions/UploadFileCloudinary";
 
 const ProductEdit = () => {
-  const { productId } = useParams();
   const navigate = useNavigate();
   const {
     register,
@@ -16,49 +15,73 @@ const ProductEdit = () => {
   const [categories, setCategories] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
 
-  useEffect(() => {
-    // Fetch categories and restaurants (using mock data for now)
-    setCategories(mockCategories);
-    setRestaurants(mockRestaurants);
+  const { productId } = useParams();
 
-    // Fetch product data to populate the form fields
+  useEffect(() => {
     const fetchProduct = async () => {
       try {
-        // Replace with actual API call
-        const product = mockProduct;
-        setValue("name", product.name);
-        setValue("description", product.description);
-        setValue("ingredients", product.ingredients);
-        setValue("price", product.price);
-        setValue("categories", product.categories);
-        setValue("restaurantId", product.restaurantId);
+        const response = await axios.get(`/api/food/getFoodById/${productId}`);
+        if (response.status === 200) {
+          const product = response.data.food;
+          // console.log(product);
+          setValue("name", product.name);
+          setValue("image", product.image);
+          setValue("description", product.description);
+          setValue("ingredients", product.ingredients);
+          setValue("price", product.price);
+          setValue("categories", product.categories[0]._id);
+          setValue("restaurantId", product.restaurantId);
+        }
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
     };
+    const fetchRestaurants = async () => {
+      try {
+        const response = await axios.get("/api/restaurant/");
 
+        if (response.status === 200) {
+          setRestaurants(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching restaurants: ", error);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("/api/category/");
+        if (response.status === 200) {
+          setCategories(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching categories: ", error);
+      }
+    };
     fetchProduct();
-  }, [productId, setValue]);
+    fetchCategories()
+    fetchRestaurants()
+  }, []);
 
   const onSubmit = async (data) => {
+    // Handle form submission, e.g., sending data to the backend
     try {
-      const response = await fetch(`/api/products/${productId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const responseData = await response.json();
-
-      if (response.ok) {
-        navigate("/owner/products");
-      } else {
-        console.error(responseData.error); // Log the error message if update fails
+      const imageUpload = data.image[0] ? await uploadFileCloudinary(data.image[0]) : ''
+      const productData = {
+        name: data.name,
+        categories: data.categories,
+        price: data.price,
+        restaurantId : data.restaurantId,
+        ingredients: data.ingredients,
+        description: data.description,
+        image: imageUpload
       }
+
+      const response = await axios.put(`/api/food/update/${productId}`, productData) 
+      console.log("Food edited successfully",response.data);
+      console.log(data)
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error editing food: ", error)
     }
   };
 
