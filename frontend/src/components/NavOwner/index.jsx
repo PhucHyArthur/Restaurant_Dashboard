@@ -1,4 +1,5 @@
 import { FaGripVertical } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 
 const NavOwner = () => {
@@ -78,7 +79,11 @@ const NavOwner = () => {
         </div>
       </div>
 
-      <div className=" absolute w-full bottom-[20%] translate-y-1/2">
+      <div className=" absolute w-full bottom-[23%] translate-y-1/2">
+        <button className=" flex items-center w-full gap-2 p-2 mb-1 border-[1px] border-gray-400 rounded-md">
+          <FaTrashCan/>
+          <Link to={"/owner/remove"}>Remove Recent</Link>
+        </button>
         <button className=" flex items-center w-full gap-2 p-2 mb-1 border-[1px] border-gray-400 rounded-md">
           <FaGripVertical />
           <div>Setting</div>

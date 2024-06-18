@@ -19,7 +19,7 @@ import ProductList from "./pages/product/list";
 import ProductDetail from "./pages/product/detail";
 import ProductAdd from "./pages/product/add";
 import ProductEdit from "./pages/product/edit";
-
+import RemoveRecent from "./pages/remove";
 
 function App() {
   return (
@@ -61,6 +61,7 @@ function App() {
               <Route path="add" element={<ProductAdd />} />
               <Route path="edit/:productId" element={<ProductEdit />} />
             </Route>
+            <Route path="remove" element={<RemoveRecent/>} />
           </Route>
         </Routes>
       </Router>

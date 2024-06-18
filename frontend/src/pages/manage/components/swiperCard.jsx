@@ -68,17 +68,14 @@ export default function SwiperCard() {
     <>
       <Swiper
         slidesPerView={3}
-        spaceBetween={10}
         navigation
         modules={[Navigation]}
-        className="mySwiper"
+        className="mySwiper flex "
       >
         {items.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className={`card-container ${removing === index ? 'removing' : ''}`}>
+            <div key={index} className={`card-container mr-2 ${removing === index ? 'removing' : ''}`}>
               <CardConfirm onRemove={() => handleRemove(index)} />
             </div>
-          </SwiperSlide>
         ))}
       </Swiper>
     </>
