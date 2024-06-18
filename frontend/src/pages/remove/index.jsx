@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const RemoveRecent = () => {
   const navigate = useNavigate()
   const [products, setProducts] = useState([]);
+  const [viewProducts, setViewProducts] = useState(products);
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [restaurants, setRestaurants] = useState([]);
@@ -13,10 +14,11 @@ const RemoveRecent = () => {
   useEffect(() => {
     const fetchFoodByRestaurant = async () => {
       try {
-        const response = await axios.get(`/api/food/getAllFood/${selectedRestaurant}`)
+        const response = await axios.get(`/api/food/getAllFoodSoftDelete/${selectedRestaurant}`)
 
         if (response.status === 200) {
           setProducts(response.data.foods)
+          setViewProducts(response.data.foods)
           console.log(response.data.foods);
         }
       } catch (error) {
@@ -43,7 +45,7 @@ const RemoveRecent = () => {
     setSortDirection(direction);
   };
 
-  const sortedData = [...products]
+  const sortedData = [...viewProducts]
     .filter(
       (product) =>
         !selectedRestaurant || product.restaurantId === selectedRestaurant
@@ -73,12 +75,31 @@ const RemoveRecent = () => {
         setProducts((prevProducts) =>
           prevProducts.filter((product) => product._id !== productId)
         )
+        setViewProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId))
       }
     } catch (error) {
       console.error("Error deleting product: ", error)
     }
     // Add delete functionality here
   };
+
+  const onRestore = async (productId) => {
+    console.log(`Restore product with id: ${productId}`);
+    try {
+      const response = await axios.put(`/api/food/restore/${productId}`)
+      if (response.status === 200) {
+        console.log("Food restored");
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId)
+        )
+        setViewProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId))
+      }
+    } catch (error) {
+      console.error("Error restoring product: ", error)
+    }
+  }
 
   return (
     <div className='p-6'>
@@ -174,16 +195,16 @@ const RemoveRecent = () => {
                             </a>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                            {product.categories}
+                            {product.categories[0].name}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
                             {product.price}
                           </td>
                           <td className="flex gap-5 items-center px-6 py-4">
-                            <div className="btn">
+                            <div className="btn" onClick={() => onDelete(product._id)}>
                                 Delete
                             </div>
-                            <div className="btn">
+                            <div className="btn" onClick={() => onRestore(product._id)}>
                                 Restore
                             </div>
                           </td>

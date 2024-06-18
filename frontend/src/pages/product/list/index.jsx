@@ -72,15 +72,6 @@ const ProductList = () => {
   const onDelete = async (productId) => {
     console.log(`Delete product with id: ${productId}`);
     try {
-      // const response = await axios.delete(`/api/food/delete/${productId}`)
-      // if (response.status === 200) {
-      //   console.log("Food deleted");
-      //   setProducts((prevProducts) =>
-      //     prevProducts.filter((product) => product._id !== productId)
-      //   )
-      //   setViewProducts((prevProducts) =>
-      //     prevProducts.filter((product) => product._id !== productId))
-      // }
       const response = await axios.put(`/api/food/softDelete/${productId}`)
       if (response.status === 200) {
         console.log('Food deleted'); 

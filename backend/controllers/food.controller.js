@@ -39,6 +39,23 @@ export const getFoodList = async (req, res) => {
     }
 }
 
+export const getAllFoodSoftDelete = async (req, res) => {
+    try {
+        const {restaurantId} = req.params
+        const foods = await Food.find({ restaurantId, softDelete: true });
+
+        for (let i = 0; i < foods.length; i++) {
+            const categories = await Category.findById(foods[i].categories);
+            foods[i].categories = [categories];
+        }
+        
+        res.status(200).json({ message: 'Food list retrieved successfully', foods });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+}
+
 export const getFoodById = async (req, res) => {
     try {
         const {id} = req.params
@@ -118,6 +135,31 @@ export const softDeleteFood = async (req, res) => {
         await Food.findByIdAndUpdate(id, updatedFood, { new: true })
         .then((data) => {
             res.status(200).json({ message: 'Food soft deleted successfully' , food: data});
+        })
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const restoreFood = async (req, res) => { 
+    try {
+        const { id } = req.params;
+        const food = await Food.findOne({ _id: id, softDelete: true });
+        const updatedFood = {
+            name : food.name,
+            categories : food.categories,
+            price : food.price,
+            description: food.description,
+            image : food.image,
+            restaurantId: food.restaurantId,
+            ingredients : food.ingredients,
+            available : food.available,
+            softDelete: false
+        };
+        // console.log(updatedFood);
+        await Food.findByIdAndUpdate(id, updatedFood, { new: true })
+        .then((data) => {
+            res.status(200).json({ message: 'Food restored successfully' , food: data});
         })
     } catch (error) {
         res.status(500).json({ error: error.message });
