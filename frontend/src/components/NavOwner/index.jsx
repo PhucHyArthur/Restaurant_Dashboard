@@ -1,6 +1,6 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { LuAlignLeft, LuAlignVerticalDistributeCenter, LuDot, LuHotel, LuLayoutDashboard, LuList, LuLogOut, LuSettings, LuShoppingBag, LuSignalZero, LuUsers } from "react-icons/lu"; import { Link, useNavigate } from "react-router-dom";
+import { LuAlignLeft, LuAlignVerticalDistributeCenter, LuDot, LuHotel, LuLayoutDashboard, LuList, LuLogOut, LuSettings, LuShoppingBag, LuSignalZero, LuTrash, LuUsers } from "react-icons/lu"; import { Link, useNavigate } from "react-router-dom";
 
 const NavOwner = () => {
   const navigate = useNavigate()
@@ -9,6 +9,7 @@ const NavOwner = () => {
   return (
     <Box className="fixed flex flex-col min-w-[260px] justify-between" h={'calc(100vh - 72px)'} borderRight={'1px solid #ccc'}>
       <Accordion allowToggle className="p-5 flex flex-col gap-1">
+
         <AccordionItem className="border-none">
           <AccordionButton onClick={() => setPage('dashboard')} className={`rounded-lg ${page === 'dashboard' ? 'bg-[#fef2e8]' : 'transparent'}`}>
             <Link to={''}>
@@ -133,17 +134,26 @@ const NavOwner = () => {
                 <Text>Product List</Text>
               </Flex>
             </Link>
-            <Link to={'product/list'}>
+            <Link to={'product/detail'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
-                <Text>Product List</Text>
+                <Text>Product Detail</Text>
               </Flex>
             </Link>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
 
-      <div className="px-10 my-5">
+      <div className="px-10">
+        <Link to={'remove'}>
+          <Flex className="items-center gap-5 px-5 py-2 hover:bg-[#f5f5f5] cursor-pointer rounded-lg">
+            <Box className="text-[24px]">
+              <LuTrash />
+            </Box>
+            <Text className="text-[18px]">Remove</Text>
+          </Flex>
+        </Link>
+
         <Flex className="items-center gap-5 px-5 py-2 hover:bg-[#f5f5f5] cursor-pointer rounded-lg">
           <Box className="text-[24px]">
             <LuSettings />
