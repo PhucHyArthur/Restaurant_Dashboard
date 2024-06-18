@@ -36,6 +36,7 @@ const ProductList = () => {
       const response = await axios.get("/api/restaurant/");
       if (response.status === 200) {
         setRestaurants(response.data);
+        console.log(response.data);
       }
     }
     fetchRestaurants()

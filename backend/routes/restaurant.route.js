@@ -1,7 +1,7 @@
 import express from "express";
 import {
   addRestaurant,
-  getRestaurant,
+  getRestaurants,
   deleteRestaurant,
   editRestaurant
 } from "../controllers/restaurant.controller.js";
@@ -11,7 +11,7 @@ import multer from "multer";
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
-router.get("/", protectRoute, getRestaurant);
+router.get("/", protectRoute, getRestaurants);
 router.post(
   "/addRestaurant",
   protectRoute,

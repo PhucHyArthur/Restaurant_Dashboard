@@ -133,10 +133,10 @@ const NavOwner = () => {
                 <Text>Product List</Text>
               </Flex>
             </Link>
-            <Link to={'product/list'}>
+            <Link to={'product/add'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
-                <Text>Product List</Text>
+                <Text>Product Add</Text>
               </Flex>
             </Link>
           </AccordionPanel>
