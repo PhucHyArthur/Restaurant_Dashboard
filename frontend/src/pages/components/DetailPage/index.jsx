@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { mockProduct, mockCategories } from "./mockData";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const DetailPage = ({ productId }) => {
+const DetailPage = () => {
   const [product, setProduct] = useState(null);
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+  const {productId} = useParams()
 
   useEffect(() => {
     // Use mock data instead of fetching from an API
@@ -23,7 +23,7 @@ const DetailPage = ({ productId }) => {
     };
     fetchProduct();
   }, []);
-
+  // console.log(productId);
   const handleDelete = async () => {
     try {
       await axios.delete(`/api/products/${productId}`);
@@ -49,10 +49,7 @@ const DetailPage = ({ productId }) => {
           className="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2"
         >
           <li className="text-sm">
-            <a
-              className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500"
-              href="#"
-            >
+            <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500" href="/owner/product/list">
               Products
               <svg
                 xmlns="http://www.w3.org/2000/svg"

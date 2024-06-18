@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { FaArrowRight, FaEye, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
-import mockData from "./mockData";
-import mockRestaurants from "./mockRestaurants";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -70,8 +67,19 @@ const ProductList = () => {
     setSelectedRestaurant(restaurantId);
   };
 
-  const onDelete = (productId) => {
+  const onDelete = async (productId) => {
     console.log(`Delete product with id: ${productId}`);
+    try {
+      const response = await axios.delete(`/api/food/delete/${productId}`)
+      if (response.status === 200) {
+        console.log("Food deleted");
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId)
+        )
+      }
+    } catch (error) {
+      console.error("Error deleting product: ", error)
+    }
     // Add delete functionality here
   };
 
@@ -83,6 +91,7 @@ const ProductList = () => {
 
   const onEdit = (productId) => {
     console.log(`Edit product with id: ${productId}`);
+    navigate(`/owner/product/edit/${productId}`)
     // Add edit functionality here
   };
 
@@ -203,7 +212,7 @@ const ProductList = () => {
                         <tr key={product._id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">
                             <a
-                              href="admin-product-details.html"
+                              href={`/owner/product/detail/${product._id}`}
                               className="flex items-center gap-3"
                             >
                               <div className="shrink">

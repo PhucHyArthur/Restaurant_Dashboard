@@ -65,3 +65,34 @@ export const getFoodById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const updateFood = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, categories, price, restaurantId, ingredients, description, image } = req.body;
+        const updatedFood = {
+            name,
+            categories,
+            price,
+            description,
+            image,
+            restaurantId,
+            ingredients
+        };
+        // console.log(updatedFood);
+        const food = await Food.findByIdAndUpdate(id, updatedFood, { new: true });
+        res.status(200).json({ message: 'Food updated successfully', food });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const deleteFood = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Food.findByIdAndDelete(id);
+        res.status(200).json({ message: 'Food deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
