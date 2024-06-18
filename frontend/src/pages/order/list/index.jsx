@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import mockOrders from "./mockData";
 
@@ -191,15 +191,14 @@ const OrderList = () => {
                             </td>
                             <td className="px-6 py-4">
                               <span
-                                className={`inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium ${
-                                  order.status === "PENDING"
-                                    ? "bg-yellow-500/20 text-yellow-500"
-                                    : order.status === "CONFIRMED"
+                                className={`inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium ${order.status === "PENDING"
+                                  ? "bg-yellow-500/20 text-yellow-500"
+                                  : order.status === "CONFIRMED"
                                     ? "bg-green-500/20 text-green-500"
                                     : order.status === "CANCELLED"
-                                    ? "bg-red-500/20 text-red-500"
-                                    : "bg-blue-500/20 text-blue-500"
-                                }`}
+                                      ? "bg-red-500/20 text-red-500"
+                                      : "bg-blue-500/20 text-blue-500"
+                                  }`}
                               >
                                 {order.status}
                               </span>

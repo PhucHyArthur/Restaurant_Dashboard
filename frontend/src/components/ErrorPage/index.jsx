@@ -7,7 +7,7 @@ const ErrorPage = () => {
                 Error Page
             </div>
             <Link to={"/owner"}>
-            <button className="btn btn-outline">Go home</button>
+                <button className="btn btn-outline">Go home</button>
             </Link>
         </div>
     )
