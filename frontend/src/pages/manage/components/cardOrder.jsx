@@ -1,20 +1,24 @@
-import React from 'react'   
-import { FaCartShopping } from 'react-icons/fa6'
+import { Box, Flex, Text } from '@chakra-ui/react'
+import { FcKindle, FcMoneyTransfer, FcTodoList } from "react-icons/fc";
 
-const CardOrder = () => {
+const CardOrder = ({ title, index }) => {
+
   return (
-    <div className='w-full p-5 border-[1px] border-gray-400 rounded-md'>
-        <p>Title</p>
-        <div className='flex items-center'>
-            <div>
-                <FaCartShopping/>
-            </div>
-            <h1>
-                123
-            </h1>
-        </div>
-        
-    </div>
+    <Box className='w-full p-5 border-2 border-[#ccc] rounded-md'>
+      <Text className='text-lg font-[500] text-gray-500'>{title[index]}</Text>
+      <Flex className='items-center gap-2'>
+        <Box className='text-[24px]'>
+          {index == 0 && <FcKindle />}
+          {index == 1 && <FcTodoList />}
+          {index == 2 && <FcMoneyTransfer />}
+        </Box>
+
+        <Text className='text-[20px] font-[500]'>
+          6969
+        </Text>
+      </Flex>
+
+    </Box>
   )
 }
 

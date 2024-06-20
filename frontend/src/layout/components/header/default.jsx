@@ -17,7 +17,7 @@ const DefaultHeader = () => {
             </Box>
 
             <div className="header-nav flex items-center justify-between w-full mx-5">
-                <div className="w-1/3 ml-5 relative">
+                <div className="w-1/3 relative">
                     <input type="text" placeholder="Search something..."
                         className="bg-transparent outline-none border-[1px] border-[#ccc] rounded-md px-5 py-2 w-full" />
                     <div className="absolute right-2 top-1/2 translate-y-[-50%] border-[1px] border-[#ccc] p-[6px] rounded-md cursor-pointer bg-gray-300 hover:bg-gray-500">

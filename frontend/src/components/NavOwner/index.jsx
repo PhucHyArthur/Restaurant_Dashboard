@@ -7,7 +7,7 @@ import axios from "axios";
 const NavOwner = () => {
   const navigate = useNavigate()
   const [page, setPage] = useState('')
-  const [userData, setUserData] = useContext(UserContext) 
+  const [userData, setUserData] = useContext(UserContext)
 
   const handleLogout = async () => {
     try {
@@ -16,7 +16,7 @@ const NavOwner = () => {
       if (response.status === 200) {
         localStorage.setItem('user', null)
         setUserData({
-          user : null
+          user: null
         })
       }
     } catch (error) {
@@ -25,7 +25,7 @@ const NavOwner = () => {
   }
 
   return (
-    <Box className="fixed flex flex-col min-w-[260px] justify-between" h={'calc(100vh - 72px)'} borderRight={'1px solid #ccc'}>
+    <Box className="fixed top-0 left-0 flex flex-col pt-[60px] justify-between bg-white" w={260} h={'100%'} borderRight={'1px solid #ccc'}>
       <Accordion allowToggle className="navOwner p-5 flex flex-col gap-1 max-h-[400px] overflow-y-scroll">
 
         <AccordionItem className="border-none">
@@ -71,30 +71,6 @@ const NavOwner = () => {
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Order Details</Text>
-              </Flex>
-            </Link>
-          </AccordionPanel>
-        </AccordionItem>
-
-        <AccordionItem className="border-none">
-          <AccordionButton onClick={() => setPage('customers')} className={`rounded-lg ${page === 'customers' ? 'bg-[#fef2e8]' : 'transparent'}`}>
-            <Flex className={`items-center  w-full gap-2  rounded-lg ${page === 'customers' ? 'text-[#f58220]' : 'text-black'}`}>
-              <LuUsers />
-              <Text>Customers</Text>
-            </Flex>
-            <AccordionIcon />
-          </AccordionButton>
-          <AccordionPanel>
-            <Link to={'customer/list'}>
-              <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
-                <Box className="text-[20px]"><LuDot /></Box>
-                <Text>Customer List</Text>
-              </Flex>
-            </Link>
-            <Link to={'customer/detail'}>
-              <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
-                <Box className="text-[20px]"><LuDot /></Box>
-                <Text>Customer Details</Text>
               </Flex>
             </Link>
           </AccordionPanel>

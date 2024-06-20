@@ -3,9 +3,10 @@ import DefaultHeader from "../components/header/default";
 import NavOwner from "../../components/NavOwner";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
+import { Box } from "@chakra-ui/react";
 
 const OwnerLayout = () => {
-  const [userData, setUserData] = useContext(UserContext) 
+  const [userData, setUserData] = useContext(UserContext)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -14,18 +15,19 @@ const OwnerLayout = () => {
       navigate('/')
     }
   }, [userData])
+
   return (
     <div className="bg-white">
       <DefaultHeader />
 
-      <div className="flex">
+      <Box>
         <NavOwner />
 
-        <div className="w-[85vw] px-5 ml-[260px]">
+        <Box className="pl-[260px]">
           <Outlet />
           <div className="">The footer</div>
-        </div>
-      </div>
+        </Box>
+      </Box>
 
     </div>
   );
