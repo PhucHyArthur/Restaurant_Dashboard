@@ -1,8 +1,12 @@
 import { FaArrowRight, FaEnvelope } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import mockOrderDetail from "./mockData";
+import { Box } from "@chakra-ui/react";
+import CardDetail from "./Components/cardDetail";
 
 const OrderDetail = () => {
+  const userListOrder = mockOrderDetail.items
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between w-full mb-6">
@@ -36,29 +40,11 @@ const OrderDetail = () => {
                 {new Date(mockOrderDetail.orderDate).toLocaleDateString()} at {new Date(mockOrderDetail.orderDate).toLocaleTimeString()}
               </p>
             </div>
-            {mockOrderDetail.items.map((item, index) => (
-              <div key={index} className="w-full border-gray-200 border-b">
-                <div className="collapse w-full">
-                  <input type="checkbox" />
-                  <div className="collapse-title text-xl font-medium flex justify-between w-full">
-                    <div className="flex gap-3">
-                      <div className="items-center">{item.quantity} x</div>
-                      <div className="items-center">{item.name}</div>
-                    </div>
-                    <div className="flex">
-                      <div className="items-center">${item.price.toFixed(2)}</div>
-                    </div>
-                  </div>
-                  <div className="collapse-content">
-                    <img
-                      src={item.imageUrl}
-                      alt={item.name}
-                      className="w-[200px]"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
+
+            <Box className="w-full">
+              <CardDetail userListOrder={userListOrder} />
+            </Box>
+
           </div>
           <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
             <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6">

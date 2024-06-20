@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaArrowRight, FaEye, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Button, Image, Menu, MenuButton, MenuItem, MenuList, Switch } from "@chakra-ui/react";
+import { LuMoveDown } from "react-icons/lu";
 
 
 const ProductList = () => {
@@ -13,6 +15,10 @@ const ProductList = () => {
   const [sortDirection, setSortDirection] = useState("asc");
   const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
+  const inputRef = useRef()
+
+  console.log('check inputRef:', inputRef)
 
   useEffect(() => {
     const fetchFoodByRestaurant = async () => {
@@ -75,7 +81,7 @@ const ProductList = () => {
     try {
       const response = await axios.put(`/api/food/softDelete/${productId}`)
       if (response.status === 200) {
-        console.log('Food deleted'); 
+        console.log('Food deleted');
         setProducts((prevProducts) =>
           prevProducts.filter((product) => product._id !== productId))
         setViewProducts((prevProducts) =>
@@ -100,7 +106,7 @@ const ProductList = () => {
   };
 
   const handleToggle = async (productId) => {
-    
+
     try {
       const product = products.find((product) => product._id === productId)
       const productData = {
@@ -111,9 +117,9 @@ const ProductList = () => {
         ingredients: product.ingredients,
         description: product.description,
         image: product.image,
-        available : !product.available
+        available: !product.available
       }
-      const response = await axios.put(`/api/food/update/${productId}`, productData) 
+      const response = await axios.put(`/api/food/update/${productId}`, productData)
       if (response.status === 200) {
         console.log("Product updated successfully")
         setProducts((prevProducts) =>
@@ -169,7 +175,7 @@ const ProductList = () => {
                   Item List
                 </h2>
                 <label className="input input-bordered w-[500px] flex items-center gap-2">
-                  <input type="text" className="grow" placeholder="Search" onChange={handleSearch}/>
+                  <input type="text" className="grow" placeholder="Search" onChange={handleSearch} />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"
@@ -183,23 +189,23 @@ const ProductList = () => {
                     />
                   </svg>
                 </label>
-                <div className="dropdown">
-                  <div tabIndex={0} role="button" className="btn m-1">
-                    Choose Restaurant
-                  </div>
-                  <ul
-                    tabIndex={0}
-                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-                  >
+
+                <Menu>
+                  <MenuButton as={Button} rightIcon={<LuMoveDown />}>
+                    Actions
+                  </MenuButton>
+                  <MenuList>
                     {restaurants.map((restaurant) => (
-                      <li key={restaurant._id}>
+                      <MenuItem key={restaurant._id}>
                         <a onClick={() => onSelectRestaurant(restaurant._id)}>
                           {restaurant.name}
                         </a>
-                      </li>
+                      </MenuItem>
                     ))}
-                  </ul>
-                </div>
+                  </MenuList>
+
+                </Menu>
+
                 <div className="flex flex-wrap items-center gap-4">
                   <a
                     href="add"
@@ -251,13 +257,11 @@ const ProductList = () => {
                               href={`/owner/product/detail/${product._id}`}
                               className="flex items-center gap-3"
                             >
-                              <div className="shrink">
-                                <img
-                                  src={product.imageUrl}
-                                  alt={product.name}
-                                  className="h-12 w-12"
-                                />
-                              </div>
+                              <Image
+                                src={product.image}
+                                alt={product.name}
+                                className="h-12 w-12"
+                              />
                               <p className="text-base text-default-500 transition-all hover:text-primary">
                                 {product.name}
                               </p>
@@ -270,10 +274,8 @@ const ProductList = () => {
                             {product.price}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                            <input
-                              type="checkbox"
-                              className="toggle toggle-success"
-                              checked={product.available}
+                            <Switch
+                              isChecked={product.available}
                               onChange={() => handleToggle(product._id)}
                             />
                           </td>

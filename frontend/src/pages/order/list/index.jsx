@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import mockOrders from "./mockData";
+import { Box, Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { LuDownload, LuMoveDown } from "react-icons/lu";
 
 const OrderList = () => {
   const [sortedColumn, setSortedColumn] = useState(null);
@@ -103,25 +105,17 @@ const OrderList = () => {
                         placeholder="Search"
                       />
                     </label>
-                    <div className="dropdown">
-                      <div tabIndex={0} role="button" className="btn m-1">
+
+                    <Menu>
+                      <MenuButton as={Button} rightIcon={<LuMoveDown />}>
                         Sort by
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[10] menu p-2 shadow bg-base-100 rounded-box w-52"
-                      >
-                        <li>
-                          <a>Restaurant 1</a>
-                        </li>
-                        <li>
-                          <a>Restaurant 2</a>
-                        </li>
-                        <li>
-                          <a>Restaurant 3</a>
-                        </li>
-                      </ul>
-                    </div>
+                      </MenuButton>
+                      <MenuList minWidth={'120px'}>
+                        <MenuItem px={5}>Restaurant</MenuItem>
+                        <MenuItem px={5}>Default</MenuItem>
+                      </MenuList>
+                    </Menu>
+
                   </div>
                 </div>
 

@@ -1,4 +1,4 @@
-import { Avatar, Flex, Menu, MenuButton, MenuDivider, MenuList, Portal, Text } from '@chakra-ui/react'
+import { Avatar, Flex, Menu, MenuButton, MenuDivider, MenuList, Text } from '@chakra-ui/react'
 import { LuLogOut, LuNewspaper, LuSettings, LuUser } from 'react-icons/lu'
 
 const MenuAvatar = () => {

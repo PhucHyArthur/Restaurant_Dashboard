@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/react";
 
 const Form = ({
     title,
@@ -70,7 +71,7 @@ const Form = ({
                                     type="file"
                                     {...register("image")}
                                     className="hidden"
-                                    
+
                                 />
                                 <img src={imageSource}></img>
                             </div>
@@ -176,18 +177,14 @@ const Form = ({
                                         </div>
 
                                         <div className="flex justify-end gap-4">
-                                            <button
-                                                type="submit"
-                                                className="py-2.5 px-4 rounded-lg text-sm font-medium bg-primary text-black"
-                                            >
+                                            <Button colorScheme="twitter"
+                                                type="submit">
                                                 Save
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="py-2.5 px-4 rounded-lg text-sm font-medium bg-primary text-black"
-                                            >
+                                            </Button>
+                                            <Button colorScheme="red"
+                                                type="button">
                                                 Cancel
-                                            </button>
+                                            </Button>
                                         </div>
                                     </div>
                                 </div>

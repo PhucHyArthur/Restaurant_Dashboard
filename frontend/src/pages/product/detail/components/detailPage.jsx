@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button } from '@chakra-ui/react';
 
 const DetailPage = ({ productId }) => {
     const [product, setProduct] = useState(null);
@@ -82,8 +83,8 @@ const DetailPage = ({ productId }) => {
                         </ul>
                     </div>
                     <div className="flex items-center justify-end gap-2 mt-4">
-                        <button type="button" className="btn btn-outline" onClick={handleEdit}>Edit</button>
-                        <button type="button" className="btn btn-outline" onClick={handleDelete}>Delete</button>
+                        <Button colorScheme='facebook' onClick={handleEdit}>Edit</Button>
+                        <Button colorScheme='red' onClick={handleDelete}>Delete</Button>
                     </div>
                 </div>
             </div>
