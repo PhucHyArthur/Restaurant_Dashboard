@@ -1,10 +1,28 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LuAlignLeft, LuAlignVerticalDistributeCenter, LuDot, LuHotel, LuLayoutDashboard, LuList, LuLogOut, LuSettings, LuShoppingBag, LuSignalZero, LuTrash, LuUsers } from "react-icons/lu"; import { Link, useNavigate } from "react-router-dom";
 import './styles.scss'
+import { UserContext } from "../../context/UserContext";
+import axios from "axios";
 const NavOwner = () => {
   const navigate = useNavigate()
   const [page, setPage] = useState('')
+  const [userData, setUserData] = useContext(UserContext) 
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('/api/auth/logout')
+
+      if (response.status === 200) {
+        localStorage.setItem('user', null)
+        setUserData({
+          user : null
+        })
+      }
+    } catch (error) {
+      console.error("Error logging out: ", error)
+    }
+  }
 
   return (
     <Box className="fixed flex flex-col min-w-[260px] justify-between" h={'calc(100vh - 72px)'} borderRight={'1px solid #ccc'}>
@@ -161,7 +179,7 @@ const NavOwner = () => {
           <Text className="text-[18px]">Settings</Text>
         </Flex>
 
-        <Flex className="items-center gap-5 text-[#991b1b] px-5 py-2 hover:bg-[#f5f5f5] cursor-pointer rounded-lg">
+        <Flex className="items-center gap-5 text-[#991b1b] px-5 py-2 hover:bg-[#f5f5f5] cursor-pointer rounded-lg" onClick={() => handleLogout()}>
           <Box className="text-[24px]">
             <LuLogOut />
           </Box>

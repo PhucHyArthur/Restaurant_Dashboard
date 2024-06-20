@@ -1,16 +1,18 @@
 import { useForm } from "react-hook-form"
 import { FaEye, FaEyeLowVision } from "react-icons/fa6"
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 
 import './styles.scss'
+import { UserContext } from "../../../context/UserContext"
 
 
 const Login = () => {
   const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors }, } = useForm()
   const [show, setShow] = useState(false)
+  const [userData, setUserData] = useContext(UserContext)
 
   const onSubmit = async (data) => {
     console.log(data)
@@ -24,8 +26,11 @@ const Login = () => {
       });
 
       const responseData = await response.json();
-
+      console.log(response)
       if (response.ok) {
+        setUserData({
+          user : responseData.user
+        })
         navigate('/owner')
       } else {
         console.error(responseData.error); // Log the error message if registration fails
