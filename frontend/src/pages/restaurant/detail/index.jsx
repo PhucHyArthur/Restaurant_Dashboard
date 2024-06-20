@@ -4,7 +4,6 @@ import BarLineChart from "../../components/Chart/chart";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { set } from "mongoose";
 
 const RestaurantDetail = () => {
   const {restaurantId} = useParams()
@@ -16,7 +15,7 @@ const RestaurantDetail = () => {
         const response = await axios.get(`/api/restaurant/getRestaurant/${restaurantId}`)
 
         if (response.status === 200) {
-
+          console.log(response.data)
           setRestaurant(response.data)
         }
 
@@ -51,14 +50,14 @@ const RestaurantDetail = () => {
 
       <div className="p-6 rounded-lg border border-default-200 mb-6">
         <img
-          src={restaurant.images}
+          src={restaurant.images?.cover}
           alt="Restaurant"
           className="w-full h-[100px] object-cover"
         />
 
         <div className="flex md:items-end items-center gap-3 md:-mt-14">
           <img
-            src={restaurant.images}
+            src={restaurant.images?.logo}
             alt="Logo"
             className="w-28 h-28 bg-default-50 rounded-full"
           />
@@ -109,7 +108,7 @@ const RestaurantDetail = () => {
                     <td className="text-start text-base font-medium">
                       Owner Name:
                     </td>
-                    <td className="text-start">{restaurant.userName}</td>
+                    <td className="text-start">{restaurant.userId?.name}</td>
                   </tr>
                   <tr>
                     <td className="text-start text-base font-medium">Email:</td>
@@ -158,7 +157,7 @@ const RestaurantDetail = () => {
                         Your Balance
                       </p>
                       <h4 className="text-2xl text-default-950 font-semibold mb-2">
-                        20.00K
+                        {restaurant.totalSales}
                       </h4>
                     </div>
                   </div>

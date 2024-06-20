@@ -1,13 +1,24 @@
 import Order from "../models/orderModel.js";
+import Cart from "../models/cartModel.js";
+import Food from "../models/foodModel.js";
 
 export const createOrder = async (req, res) => {
     try {
-        const {username, restaurantId, cartItems, total} = req.body
+        const {username, restaurantId, cartItems} = req.body
+        const cartsArray = [] 
+        let totalPrice = 0
+        for (let i = 0; i < cartItems.length; i++) {
+            const cart = await Cart.findById(cartItems[i])
+            const {foodId, count} = cart
+            const {price} = await Food.findById(foodId)
+            totalPrice += price * count
+            cartsArray.push(cart)
+        }
         const newOrder = new Order({
             username,
             restaurantId,
-            cartItems,
-            total
+            cartItems : cartsArray,
+            total : totalPrice
         })
 
         await newOrder.save() 

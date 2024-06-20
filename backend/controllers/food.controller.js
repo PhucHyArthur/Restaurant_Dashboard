@@ -59,7 +59,7 @@ export const getAllFoodSoftDelete = async (req, res) => {
 export const getFoodById = async (req, res) => {
     try {
         const {id} = req.params
-        const food = await Food.findOne({ _id: id, softDelete: false });
+        const food = await Food.findOne({ _id: id });
         const categories = await Category.findById(food.categories);
         const restaurant = await Restaurant.findById(food.restaurantId);
         // console.log(food);

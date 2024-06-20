@@ -14,13 +14,12 @@ export const UserProvider = (props) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                console.log("Verifying token")
+                // console.log("Verifying token")
                 const response = await axios.get('/api/auth/me')
 
                 if (response.status === 200) {
-                    console.log(response);
                     localStorage.setItem('user', JSON.stringify(response.data))
-                    console.log("Verified jwt token");
+                    // console.log("Verified jwt token");
                 }
             } catch (error) {
                 console.error("Error fetching user: ", error) 

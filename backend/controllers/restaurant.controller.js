@@ -4,6 +4,7 @@ import User from "../models/userModel.js";
 import Food from "../models/foodModel.js";
 import Category from "../models/categoryModel.js";
 import jwt from "jsonwebtoken";
+import Order from "../models/orderModel.js";
 
 export const addRestaurant = async (req, res) => {
   try {
@@ -67,26 +68,20 @@ export const getRestaurants = async (req, res) => {
 export const getRestaurant = async (req, res) => {
   const restaurantId = req.params.id
   try {
-    const restaurant = await Restaurant.findById(restaurantId); 
-    const categories = await Category.findById(restaurant.categories);
+    const restaurant = await Restaurant.findById(restaurantId).populate('userId').populate('categories'); 
+    // const categories = await Category.findById(restaurant.categories);
     const foodCount = await Food.countDocuments({ restaurantId });
-    const user = await User.findById(restaurant.userId)
-    console.log(user)
+    
+    const orders = await Order.find({ restaurantId: restaurantId });
+    let totalSales = 0;
+    for (let i = 0; i < orders.length; i++) {
+      totalSales += orders[i].total;
+    }
 
     const newRestaurant = {
-      name : restaurant.name,
-      email : restaurant.email,
-      location : restaurant.location,
-      description : restaurant.description,
-      images : restaurant.images,
-      categories : [categories],
-      _id : restaurant._id,
-      userId : restaurant.userId,
-      userName : user.name,
-      updatedAt : restaurant.updatedAt,
-      createdAt : restaurant.createdAt,
+      ...restaurant._doc,
       totalProducts : foodCount,
-      totalSales : 0
+      totalSales : totalSales
     }
     res.status(200).json(newRestaurant);
   } catch (error) {

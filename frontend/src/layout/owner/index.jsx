@@ -10,7 +10,7 @@ const OwnerLayout = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log("userData: ", userData);
+    // console.log("userData: ", userData);
     if (userData.user === "null" || !userData.user) {
       navigate('/')
     }

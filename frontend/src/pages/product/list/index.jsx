@@ -16,10 +16,6 @@ const ProductList = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
-  const inputRef = useRef()
-
-  console.log('check inputRef:', inputRef)
-
   useEffect(() => {
     const fetchFoodByRestaurant = async () => {
       try {
@@ -28,7 +24,7 @@ const ProductList = () => {
         if (response.status === 200) {
           setProducts(response.data.foods)
           setViewProducts(response.data.foods)
-          console.log(response.data.foods);
+          // console.log(response.data.foods);
         }
       } catch (error) {
         console.error("Error fetching products: ", error)
@@ -42,7 +38,7 @@ const ProductList = () => {
       const response = await axios.get("/api/restaurant/");
       if (response.status === 200) {
         setRestaurants(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       }
     }
     fetchRestaurants()
@@ -143,7 +139,7 @@ const ProductList = () => {
   };
 
   const handleSearch = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setViewProducts(products.filter(product => product.name.toLowerCase().includes(e.target.value.toLowerCase())));
   }
 

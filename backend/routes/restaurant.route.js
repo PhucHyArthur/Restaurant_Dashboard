@@ -23,6 +23,7 @@ router.post(
   protectRoute,
   addRestaurant
 );
+
 router.put('/edit/:id', protectRoute, upload.fields([
     { name: 'logo', maxCount: 1 },
     { name: 'poster', maxCount: 1 },
