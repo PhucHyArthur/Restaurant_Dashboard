@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Box, Button } from "@chakra-ui/react";
 
 const RestaurantList = () => {
   const { register, handleSubmit, watch } = useForm();
@@ -84,17 +85,16 @@ const RestaurantList = () => {
         </div>
       </form>
 
-      <div className="grid 2xl:grid-cols-4 md:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-4 gap-5">
         {filteredRestaurants.map((restaurant, index) => (
-          <div
-            key={index}
-            className="relative p-6 rounded-lg border border-default-200"
-          >
-            <img
-              src="/yum/assets/1-1bb67308.png"
-              className="h-14 w-14 mx-auto mb-4"
-              alt="Restaurant"
-            />
+          <div key={index}>
+            <Box className="w-full">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStOB26e6FqhS8YWtkvN0L3cbFpupGF5VN8XA&s"
+                className="h-14 w-14 mx-auto mb-4"
+                alt="Restaurant"
+              />
+            </Box>
             <h4 className="text-base uppercase font-medium text-center text-default-900">
               {restaurant.name}
             </h4>
@@ -181,18 +181,14 @@ const RestaurantList = () => {
               </div>
             </div>
             <div className="items-center justify-center flex">
-              <button
-                type="button"
-                className="btn btn-outline hover:bg-green-500"
-                onClick={() => handleOnClick(restaurant._id)}
-              >
+              <Button colorScheme="whatsapp" onClick={() => handleOnClick(restaurant._id)}>
                 View Details
-              </button>
+              </Button>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </div >
   );
 };
 
