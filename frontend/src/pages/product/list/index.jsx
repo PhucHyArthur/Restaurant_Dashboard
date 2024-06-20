@@ -3,8 +3,8 @@ import { FaArrowRight, FaEye, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button, Image, Menu, MenuButton, MenuItem, MenuList, Switch } from "@chakra-ui/react";
-import { LuMoveDown } from "react-icons/lu";
+import { Button, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Switch } from "@chakra-ui/react";
+import { LuEye, LuMoveDown, LuPencil, LuTrash } from "react-icons/lu";
 
 
 const ProductList = () => {
@@ -170,7 +170,7 @@ const ProductList = () => {
         <div className="grid grid-cols-1">
           <div className="border rounded-lg border-default-200">
             <div className="px-6 py-4">
-              <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
+              <div className="flex justify-between items-center">
                 <h2 className="text-xl text-default-800 font-semibold">
                   Item List
                 </h2>
@@ -190,30 +190,31 @@ const ProductList = () => {
                   </svg>
                 </label>
 
-                <Menu>
-                  <MenuButton as={Button} rightIcon={<LuMoveDown />}>
-                    Actions
-                  </MenuButton>
-                  <MenuList>
-                    {restaurants.map((restaurant) => (
-                      <MenuItem key={restaurant._id}>
-                        <a onClick={() => onSelectRestaurant(restaurant._id)}>
-                          {restaurant.name}
-                        </a>
-                      </MenuItem>
-                    ))}
-                  </MenuList>
+                <Flex className="items-center gap-2">
+                  <Menu>
+                    <MenuButton as={Button} rightIcon={<LuMoveDown />}>
+                      Actions
+                    </MenuButton>
+                    <MenuList>
+                      {restaurants.map((restaurant) => (
+                        <MenuItem key={restaurant._id}>
+                          <a onClick={() => onSelectRestaurant(restaurant._id)}>
+                            {restaurant.name}
+                          </a>
+                        </MenuItem>
+                      ))}
+                    </MenuList>
+                  </Menu>
 
-                </Menu>
-
-                <div className="flex flex-wrap items-center gap-4">
-                  <a
-                    href="add"
-                    className="py-2.5 px-4 inline-flex rounded-lg text-sm font-medium bg-primary text-white transition-all hover:bg-primary-500"
-                  >
-                    Add Product
-                  </a>
-                </div>
+                  <Button colorScheme="whatsapp">
+                    <a
+                      href="add"
+                      className="py-2.5 px-4 inline-flex rounded-lg text-sm font-medium bg-primary  transition-all hover:bg-primary-500"
+                    >
+                      Add Product
+                    </a>
+                  </Button>
+                </Flex>
               </div>
             </div>
 
@@ -282,22 +283,22 @@ const ProductList = () => {
                           <td className="px-6 py-4">
                             <div className="flex gap-3">
                               <a
-                                className="transition-all hover:text-primary"
+                                className="transition-all hover:text-primary p-2 bg-gray-200 rounded-full hover:text-blue-500 cursor-pointer"
                                 onClick={() => onEdit(product._id)}
                               >
-                                <FaPencil />
+                                <LuPencil />
                               </a>
                               <a
-                                className="transition-all hover:text-primary"
+                                className="transition-all hover:text-primary p-2 bg-gray-200 rounded-full hover:text-green-500 cursor-pointer"
                                 onClick={() => onView(product._id)}
                               >
-                                <FaEye />
+                                <LuEye />
                               </a>
                               <a
-                                className="transition-all hover:text-red-500"
+                                className="transition-all hover:text-red-500 p-2 bg-gray-200 rounded-full cursor-pointer"
                                 onClick={() => onDelete(product._id)}
                               >
-                                <FaTrash />
+                                <LuTrash />
                               </a>
                             </div>
                           </td>
