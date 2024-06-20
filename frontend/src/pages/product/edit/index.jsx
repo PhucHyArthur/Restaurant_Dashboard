@@ -11,12 +11,25 @@ const ProductEdit = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm();
   const [categories, setCategories] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
+  const [imageSource, setImageSource] = useState("")
 
   const { productId } = useParams();
+  
+  const watchFile = watch('image', null)
+
+  useEffect(() => {
+    if (watchFile && typeof watchFile === 'string') {
+      setImageSource(watchFile)
+    }
+    if (watchFile && watchFile.length > 0 && typeof watchFile === 'object') {
+      setImageSource(URL.createObjectURL(watchFile[0]))
+    }
+  }, [watchFile])
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -31,6 +44,7 @@ const ProductEdit = () => {
           setValue("price", product.price);
           setValue("categories", product.categories[0]._id);
           setValue("restaurantId", product.restaurantId);
+          setImageSource(product.image)
         }
       } catch (error) {
         console.error("Error fetching product data:", error);
@@ -65,6 +79,7 @@ const ProductEdit = () => {
 
   const onSubmit = async (data) => {
     try {
+      console.log("data :",data);
       const imageUpload = data.image[0] ? await uploadFileCloudinary(data.image[0]) : ''
       const productData = {
         name: data.name,
@@ -75,7 +90,6 @@ const ProductEdit = () => {
         description: data.description,
         image: imageUpload,
       }
-
       const response = await axios.put(`/api/food/update/${productId}`, productData)
       console.log("Food edited successfully", response.data);
       console.log(data)
@@ -85,7 +99,7 @@ const ProductEdit = () => {
   };
 
   return (
-    <Form handleSubmit={handleSubmit} onSubmit={onSubmit} errors={errors} register={register} restaurants={restaurants} categories={categories} />
+    <Form title={"Edit"} imageSource={imageSource} setImageSource={setImageSource} handleSubmit={handleSubmit} onSubmit={onSubmit} errors={errors} register={register} restaurants={restaurants} categories={categories} />
 
   );
 };

@@ -10,11 +10,24 @@ const ProductAdd = () => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
   const [restaurants, setRestaurants] = useState
     ([])
   const [categories, setCategories] = useState([])
+  const [imageSource, setImageSource] = useState("")
+
+  const watchFile = watch('image', null)
+
+  useEffect(() => {
+    if (watchFile && typeof watchFile === 'string') {
+      setImageSource(watchFile)
+    }
+    if (watchFile && watchFile.length > 0 && typeof watchFile === 'object') {
+      setImageSource(URL.createObjectURL(watchFile[0]))
+    }
+  }, [watchFile])
 
   useEffect(() => {
     // Fetch data from the backend
@@ -70,7 +83,7 @@ const ProductAdd = () => {
 
 
   return (
-    <Form handleSubmit={handleSubmit} onSubmit={onSubmit} errors={errors} register={register} restaurants={restaurants} categories={categories} />
+    <Form title={"Add"} handleSubmit={handleSubmit} imageSource={imageSource} onSubmit={onSubmit} errors={errors} register={register} restaurants={restaurants} categories={categories} />
   );
 };
 

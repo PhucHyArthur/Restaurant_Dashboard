@@ -1,18 +1,25 @@
 
 const Form = ({
+    title,
     handleSubmit,
     onSubmit,
     errors,
     register,
+    imageSource = "",
+    setImageSource,
     restaurants = [],
     categories = []
 }) => {
+
+    const onChange = (e) => {
+        setImageSource(URL.createObjectURL(e.target.files[0]))
+    }
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="p-6">
                     <div className="flex items-center justify-between w-full mb-6">
-                        <h4 className="text-xl font-medium">Product Add</h4>
+                        <h4 className="text-xl font-medium">Product {title}</h4>
                         <ol className="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2">
                             <li className="text-sm">
                                 <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500">
@@ -37,7 +44,7 @@ const Form = ({
                                 aria-current="page"
                                 className="text-sm font-medium text-primary truncate leading-none hover:text-primary-500"
                             >
-                                Product Add
+                                Product {title}
                             </li>
                         </ol>
                     </div>
@@ -63,7 +70,9 @@ const Form = ({
                                     type="file"
                                     {...register("image")}
                                     className="hidden"
+                                    
                                 />
+                                <img src={imageSource}></img>
                             </div>
                         </div>
 
@@ -169,13 +178,13 @@ const Form = ({
                                         <div className="flex justify-end gap-4">
                                             <button
                                                 type="submit"
-                                                className="py-2.5 px-4 rounded-lg text-sm font-medium bg-primary text-white"
+                                                className="py-2.5 px-4 rounded-lg text-sm font-medium bg-primary text-black"
                                             >
                                                 Save
                                             </button>
                                             <button
                                                 type="button"
-                                                className="py-2.5 px-4 rounded-lg text-sm font-medium bg-primary text-white"
+                                                className="py-2.5 px-4 rounded-lg text-sm font-medium bg-primary text-black"
                                             >
                                                 Cancel
                                             </button>
