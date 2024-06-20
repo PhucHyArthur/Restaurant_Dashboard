@@ -1,11 +1,7 @@
-import { Box } from "@chakra-ui/react";
-import {
-    FaBell,
-    FaGlobe,
-    FaOptinMonster,
-    FaSearch,
-    FaSquare,
-} from "react-icons/fa";
+import { Box, Center } from "@chakra-ui/react";
+import { LuBell, LuGlobe, LuScan, LuSearch, LuSettings } from "react-icons/lu";
+import MenuAvatar from "./Components/menuAvatar";
+
 
 const DefaultHeader = () => {
 
@@ -20,35 +16,33 @@ const DefaultHeader = () => {
                 <p>Wibu Food</p>
             </Box>
 
-            <div className="header-nav flex items-center justify-between w-full">
+            <div className="header-nav flex items-center justify-between w-full mx-5">
                 <div className="w-1/3 ml-5 relative">
                     <input type="text" placeholder="Search something..."
                         className="bg-transparent outline-none border-[1px] border-[#ccc] rounded-md px-5 py-2 w-full" />
-                    <div className="absolute right-2 top-1/2 translate-y-[-50%] border-[1px] border-[#ccc] p-2 rounded-md bg-gray-300 hover:bg-gray-500">
-                        <FaSearch />
+                    <div className="absolute right-2 top-1/2 translate-y-[-50%] border-[1px] border-[#ccc] p-[6px] rounded-md cursor-pointer bg-gray-300 hover:bg-gray-500">
+                        <LuSearch />
                     </div>
                 </div>
 
                 <div className="flex items-center gap-5">
-                    <div className="text-lg p-3 rounded-full bg-[#dfdcdc]">
-                        <FaGlobe />
-                    </div>
+                    <Center className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
+                        <LuGlobe />
+                    </Center>
 
-                    <div className="text-lg p-3 rounded-full bg-[#dfdcdc]">
-                        <FaSquare />
-                    </div>
+                    <Center className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
+                        <LuScan />
+                    </Center>
 
-                    <div className="text-lg p-3 rounded-full bg-[#dfdcdc]">
-                        <FaOptinMonster />
-                    </div>
+                    <Center className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
+                        <LuSettings />
+                    </Center>
 
-                    <div className="text-lg p-3 rounded-full bg-[#dfdcdc]">
-                        <FaBell />
-                    </div>
+                    <Center className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
+                        <LuBell />
+                    </Center>
 
-                    <div className="flex items-center">
-
-                    </div>
+                    <MenuAvatar />
                 </div>
             </div>
         </Box>
