@@ -75,7 +75,7 @@ function App() {
             <Route path="restaurant">
               <Route index element={<ErrorPage />} />
               <Route path="list" element={<RestaurantList />} />
-              <Route path="detail" element={<RestaurantDetail />} />
+              <Route path="detail/:restaurantId" element={<RestaurantDetail />} />
               <Route path="add" element={<RestaurantAdd />} />
               <Route path="edit" element={<RestaurantEdit />} />
             </Route>

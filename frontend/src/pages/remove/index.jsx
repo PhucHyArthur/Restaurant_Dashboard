@@ -64,10 +64,6 @@ const RemoveRecent = () => {
       return 0;
     });
 
-  const onSelectRestaurant = (restaurantId) => {
-    setSelectedRestaurant(restaurantId);
-  };
-
   const onDelete = async (productId) => {
     console.log(`Delete product with id: ${productId}`);
     try {
@@ -134,8 +130,8 @@ const RemoveRecent = () => {
 
                 <MenuList>
                   {restaurants.map((restaurant) => (
-                    <MenuItem key={restaurant._id}>
-                      <a onClick={() => onSelectRestaurant(restaurant._id)}>
+                    <MenuItem key={restaurant._id} onClick={() => setSelectedRestaurant(restaurant._id)}>
+                      <a>
                         {restaurant.name}
                       </a>
                     </MenuItem>

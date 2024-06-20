@@ -1,8 +1,31 @@
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
 import ProductList from "../../product/list";
 import BarLineChart from "../../components/Chart/chart";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { set } from "mongoose";
 
 const RestaurantDetail = () => {
+  const {restaurantId} = useParams()
+  const [restaurant, setRestaurant] = useState({})
+
+  useEffect(() => {
+    const fetchRestaurant = async () => {
+      try {
+        const response = await axios.get(`/api/restaurant/getRestaurant/${restaurantId}`)
+
+        if (response.status === 200) {
+
+          setRestaurant(response.data)
+        }
+
+      } catch (error) {
+        console.error("Error fetching restaurant detail: ", error)
+      }
+    }
+    fetchRestaurant()
+  }, [])
   return (
     <div className="p-6">
       <div className="flex items-center justify-between w-full mb-6">
@@ -28,22 +51,22 @@ const RestaurantDetail = () => {
 
       <div className="p-6 rounded-lg border border-default-200 mb-6">
         <img
-          src="https://www.shutterstock.com/image-vector/kfc-icon-logo-sign-red-260nw-2395215867.jpg"
+          src={restaurant.images}
           alt="Restaurant"
           className="w-full h-[100px] object-cover"
         />
 
         <div className="flex md:items-end items-center gap-3 md:-mt-14">
           <img
-            src="https://seeklogo.com/images/K/kfc-logo-A232F2E6D1-seeklogo.com.png"
+            src={restaurant.images}
             alt="Logo"
             className="w-28 h-28 bg-default-50 rounded-full"
           />
           <div>
             <h4 className="text-base font-medium text-default-800 mb-1">
-              Healthy Feast Corner
+              {restaurant.name}
             </h4>
-            <p className="text-sm text-default-600">Since 2013</p>
+            <p className="text-sm text-default-600">Since {restaurant.createdAt}</p>
           </div>
         </div>
       </div>
@@ -86,11 +109,11 @@ const RestaurantDetail = () => {
                     <td className="text-start text-base font-medium">
                       Owner Name:
                     </td>
-                    <td className="text-start">Kianna Vetrovs</td>
+                    <td className="text-start">{restaurant.userName}</td>
                   </tr>
                   <tr>
                     <td className="text-start text-base font-medium">Email:</td>
-                    <td className="text-start">kianna.vetrov@mail.com</td>
+                    <td className="text-start">{restaurant.email}</td>
                   </tr>
                   <tr>
                     <td className="text-start text-base font-medium">
@@ -102,7 +125,7 @@ const RestaurantDetail = () => {
                     <td className="text-start text-base font-medium">
                       Location:
                     </td>
-                    <td className="text-start">Canada</td>
+                    <td className="text-start">{restaurant.location}</td>
                   </tr>
                 </tbody>
               </table>

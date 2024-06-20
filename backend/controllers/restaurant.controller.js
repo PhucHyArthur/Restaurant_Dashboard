@@ -64,6 +64,36 @@ export const getRestaurants = async (req, res) => {
   }
 };
 
+export const getRestaurant = async (req, res) => {
+  const restaurantId = req.params.id
+  try {
+    const restaurant = await Restaurant.findById(restaurantId); 
+    const categories = await Category.findById(restaurant.categories);
+    const foodCount = await Food.countDocuments({ restaurantId });
+    const user = await User.findById(restaurant.userId)
+    console.log(user)
+
+    const newRestaurant = {
+      name : restaurant.name,
+      email : restaurant.email,
+      location : restaurant.location,
+      description : restaurant.description,
+      images : restaurant.images,
+      categories : [categories],
+      _id : restaurant._id,
+      userId : restaurant.userId,
+      userName : user.name,
+      updatedAt : restaurant.updatedAt,
+      createdAt : restaurant.createdAt,
+      totalProducts : foodCount,
+      totalSales : 0
+    }
+    res.status(200).json(newRestaurant);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 export const deleteRestaurant = async (req, res) => {
   const restaurantId = req.params.id;
   const userId = req.user._id; // User ID từ middleware protectRoute

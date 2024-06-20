@@ -9,6 +9,9 @@ import restaurantRoutes from "./routes/restaurant.route.js"
 import foodRoutes from './routes/food.route.js'
 import categoryRoutes from './routes/category.route.js'
 import userRoutes from "./routes/user.route.js" 
+import orderRoutes from "./routes/order.route.js"
+import cartRoutes from "./routes/cart.route.js"
+
 dotenv.config();
 
 cloudinary.config({
@@ -29,6 +32,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/restaurant", restaurantRoutes);
 app.use("/api/food", foodRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/app/order", orderRoutes)
+app.use("/api/cart", cartRoutes)
+
+
 //------------------------------------------ADMIN----------------------------------------------------
 app.use("/api/user", userRoutes);
 //----------------------------------------------------------------------------------------------------

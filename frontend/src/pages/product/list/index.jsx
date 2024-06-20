@@ -111,7 +111,7 @@ const ProductList = () => {
       const product = products.find((product) => product._id === productId)
       const productData = {
         name: product.name,
-        categories: product.categories,
+        categories: product.categories[0]._id,
         price: product.price,
         restaurantId: product.restaurantId,
         ingredients: product.ingredients,

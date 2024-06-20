@@ -10,7 +10,6 @@ import {
 
 const router = express.Router();
 
-// t?o th�m router
 router.get("/all", getUserAll);
 //
 // router.get("/", protectRoute, getRestaurant);

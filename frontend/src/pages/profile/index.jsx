@@ -236,7 +236,7 @@ const ProfileOwner = () => {
             </div>
             <div className="ml-auto">
             <button
-              className="flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-6 py-2.5 text-center text-sm font-semibold text-white"
+              className="flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-6 py-2.5 text-center text-sm font-semibold text-black"
               type="submit"
             >
               Save Changes

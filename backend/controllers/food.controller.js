@@ -6,6 +6,7 @@ export const addFood = async (req, res) => {
     try {
         console.log(req.body)
         const { name, categories, price, restaurantId, ingredients, description, image } = req.body;
+        console.log(categories)
         const newFood = new Food({
             name,
             categories,
@@ -48,7 +49,6 @@ export const getAllFoodSoftDelete = async (req, res) => {
             const categories = await Category.findById(foods[i].categories);
             foods[i].categories = [categories];
         }
-        
         res.status(200).json({ message: 'Food list retrieved successfully', foods });
     } catch (error) {
         res.status(500).json({ error: error.message });

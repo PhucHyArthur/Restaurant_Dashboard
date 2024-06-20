@@ -69,6 +69,7 @@ export const editUser = async (req, res) => {
     const { name, email, role, phone, address } = req.body;
 
     user.name = name || user.name;
+    user.fullname = fullname || user.fullname;
     user.email = email || user.email;
     user.role = role || user.role;
     user.phone = phone || user.phone;

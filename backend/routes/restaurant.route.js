@@ -4,7 +4,8 @@ import {
   getRestaurants,
   deleteRestaurant,
   editRestaurant,
-  getRestaurantAll_Admin
+  getRestaurantAll_Admin,
+  getRestaurant
 } from "../controllers/restaurant.controller.js";
 import { protectRoute } from "../middlewares/protectRoute.js";
 import multer from "multer";
@@ -14,6 +15,9 @@ const upload = multer({ dest: "uploads/" });
 
 router.get("/all", getRestaurantAll_Admin);
 router.get("/", protectRoute, getRestaurants);
+
+router.get("/getRestaurant/:id", getRestaurant)
+
 router.post(
   "/addRestaurant",
   protectRoute,
