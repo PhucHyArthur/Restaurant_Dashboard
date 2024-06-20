@@ -5,6 +5,7 @@ import axios from "axios";
 import * as jwt_decode from "jwt-decode";
 import cookie from "cookie";
 import { useParams } from "react-router-dom";
+import { Box, Button } from "@chakra-ui/react";
 
 const RestaurantEdit = () => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -127,36 +128,39 @@ const RestaurantEdit = () => {
         </ol>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className=" items-center gap-10">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
+        <Box className="grid grid-cols-3 gap-5">
+          <div className=" items-center gap-10">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Name</label>
+            </div>
+            <div>
+              <input
+                {...register("name", { required: "Name is required" })}
+                type="text" placeholder="Your Restaurant Name" className="input input-bordered w-full"
+              />
+            </div>
+            {errors.name && <span className="text-red-600">{errors.name.message}</span>}
           </div>
+
           <div>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
-              {...register("name", { required: "Name is required" })}
-              type="text" placeholder="Your Restaurant Name" className="input input-bordered w-full"
+              {...register("email", { required: "Email is required" })}
+              type="text" placeholder="Your Email" className="input input-bordered w-full"
             />
+            {errors.email && <span className="text-red-600">{errors.email.message}</span>}
           </div>
-          {errors.name && <span className="text-red-600">{errors.name.message}</span>}
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            {...register("email", { required: "Email is required" })}
-            type="text" placeholder="Your Email" className="input input-bordered w-full"
-          />
-          {errors.email && <span className="text-red-600">{errors.email.message}</span>}
-        </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Location</label>
+            <input
+              {...register("location", { required: "Location is required" })}
+              type="text" placeholder="Your Restaurant's Location" className="input input-bordered w-full"
+            />
+            {errors.location && <span className="text-red-600">{errors.location.message}</span>}
+          </div>
+        </Box>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Location</label>
-          <input
-            {...register("location", { required: "Location is required" })}
-            type="text" placeholder="Your Restaurant's Location" className="input input-bordered w-full"
-          />
-          {errors.location && <span className="text-red-600">{errors.location.message}</span>}
-        </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Description</label>
@@ -213,9 +217,9 @@ const RestaurantEdit = () => {
         </div>
 
         <div className="flex justify-center">
-          <button type="submit" className="btn btn-primary">
+          <Button colorScheme="green">
             Update Restaurant
-          </button>
+          </Button>
         </div>
       </form>
       <div />

@@ -9,8 +9,6 @@ import Manage from "./pages/manage";
 import ErrorPage from "./components/ErrorPage";
 import OrderList from "./pages/order/list";
 import OrderDetail from "./pages/order/detail";
-import CustomerList from "./pages/customer/list";
-import CustomerDetail from "./pages/customer/detail";
 import RestaurantList from "./pages/restaurant/list";
 import RestaurantDetail from "./pages/restaurant/detail";
 import RestaurantAdd from "./pages/restaurant/add";
@@ -26,6 +24,9 @@ import CustomerAdminEdit from "./pages/customerAdmin/edit";
 import RestaurantAdminList from "./pages/restaurantAdmin/list";
 import RestaurantAdminDetail from "./pages/restaurantAdmin/detail";
 import AdminLayout from "./layout/admin";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (
@@ -67,11 +68,6 @@ function App() {
               <Route path="list" element={<OrderList />} />
               <Route path="detail" element={<OrderDetail />} />
             </Route>
-            <Route path="customer">
-              <Route index element={<ErrorPage />} />
-              <Route path="list" element={<CustomerList />} />
-              <Route path="detail" element={<CustomerDetail />} />
-            </Route>
             <Route path="restaurant">
               <Route index element={<ErrorPage />} />
               <Route path="list" element={<RestaurantList />} />
@@ -89,8 +85,8 @@ function App() {
               <Route path="add" element={<ProductAdd />} />
               <Route path="edit/:productId" element={<ProductEdit />} />
             </Route>
-            <Route path="remove" element={<RemoveRecent/>} />
-            <Route path="profile" element={<ProfileOwner/>}/>
+            <Route path="remove" element={<RemoveRecent />} />
+            <Route path="profile" element={<ProfileOwner />} />
           </Route>
         </Routes>
       </Router>
