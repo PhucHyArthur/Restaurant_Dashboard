@@ -92,22 +92,10 @@ const NavOwner = () => {
                 <Text>Restaurants List</Text>
               </Flex>
             </Link>
-            <Link to={'/owner/restaurant/detail'}>
-              <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
-                <Box className="text-[20px]"><LuDot /></Box>
-                <Text>Restaurants Details</Text>
-              </Flex>
-            </Link>
             <Link to={'/owner/restaurant/add'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Restaurants Add</Text>
-              </Flex>
-            </Link>
-            <Link to={'/owner/restaurant/edit'}>
-              <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
-                <Box className="text-[20px]"><LuDot /></Box>
-                <Text>Restaurants Edit</Text>
               </Flex>
             </Link>
           </AccordionPanel>
