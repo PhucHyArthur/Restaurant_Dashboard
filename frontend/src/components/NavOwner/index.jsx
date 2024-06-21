@@ -122,13 +122,13 @@ const NavOwner = () => {
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel>
-            <Link to={'/owner/product/list'}>
+            <Link to={'product/list'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Product List</Text>
               </Flex>
             </Link>
-            <Link to={'owner/product/add'}>
+            <Link to={'product/add'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Product Add</Text>
