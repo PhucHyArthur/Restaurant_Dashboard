@@ -66,7 +66,7 @@ export const getRestaurants = async (req, res) => {
 };
 
 export const getRestaurant = async (req, res) => {
-  const restaurantId = req.params.id
+  const restaurantId = req.params.restaurantId
   try {
     const restaurant = await Restaurant.findById(restaurantId).populate('userId').populate('categories'); 
     // const categories = await Category.findById(restaurant.categories);
