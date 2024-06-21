@@ -30,7 +30,7 @@ const NavOwner = () => {
 
         <AccordionItem className="border-none">
           <AccordionButton onClick={() => setPage('dashboard')} className={`rounded-lg ${page === 'dashboard' ? 'bg-[#fef2e8]' : 'transparent'}`}>
-            <Link to={''}>
+            <Link to={'/owner'}>
               <Flex className={`items-center  w-full gap-2  rounded-lg ${page === 'dashboard' ? 'text-[#f58220]' : 'text-black'}`}>
                 <LuLayoutDashboard />
                 <Text>Dash Board</Text>
@@ -41,7 +41,7 @@ const NavOwner = () => {
 
         <AccordionItem className="border-none">
           <AccordionButton onClick={() => setPage('manage')} className={`rounded-lg ${page === 'manage' ? 'bg-[#fef2e8]' : 'transparent'}`}>
-            <Link to={'manage'}>
+            <Link to={'/owner/manage'}>
               <Flex className={`items-center  w-full gap-2  rounded-lg ${page === 'manage' ? 'text-[#f58220]' : 'text-black'}`}>
                 <LuAlignVerticalDistributeCenter />
                 <Text>Manage</Text>
@@ -60,14 +60,14 @@ const NavOwner = () => {
           </AccordionButton>
 
           <AccordionPanel>
-            <Link to={'order/list'}>
+            <Link to={'/owner/order/list'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Order List</Text>
               </Flex>
             </Link>
 
-            <Link to={'order/detail'}>
+            <Link to={'/owner/order/detail'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Order Details</Text>
@@ -86,25 +86,25 @@ const NavOwner = () => {
           </AccordionButton>
 
           <AccordionPanel>
-            <Link to={'restaurant/list'}>
+            <Link to={'/owner/restaurant/list'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Restaurants List</Text>
               </Flex>
             </Link>
-            <Link to={'restaurant/detail'}>
+            <Link to={'/owner/restaurant/detail'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Restaurants Details</Text>
               </Flex>
             </Link>
-            <Link to={'restaurant/add'}>
+            <Link to={'/owner/restaurant/add'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Restaurants Add</Text>
               </Flex>
             </Link>
-            <Link to={'restaurant/edit'}>
+            <Link to={'/owner/restaurant/edit'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Restaurants Edit</Text>
@@ -122,13 +122,13 @@ const NavOwner = () => {
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel>
-            <Link to={'product/list'}>
+            <Link to={'/owner/product/list'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Product List</Text>
               </Flex>
             </Link>
-            <Link to={'product/add'}>
+            <Link to={'owner/product/add'}>
               <Flex className="items-center gap-3 p-2 hover:bg-[#f5f5f5]">
                 <Box className="text-[20px]"><LuDot /></Box>
                 <Text>Product Add</Text>
