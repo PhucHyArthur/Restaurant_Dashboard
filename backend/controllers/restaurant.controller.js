@@ -66,7 +66,7 @@ export const getRestaurants = async (req, res) => {
 };
 
 export const getRestaurant = async (req, res) => {
-  const restaurantId = req.params.restaurantId
+  const restaurantId = req.params.id
   try {
     const restaurant = await Restaurant.findById(restaurantId).populate('userId').populate('categories'); 
     // const categories = await Category.findById(restaurant.categories);
@@ -107,50 +107,29 @@ export const deleteRestaurant = async (req, res) => {
   }
 };
 
+
+
 export const editRestaurant = async (req, res) => {
-  const restaurantId = req.params.id;
-  const userId = req.user._id; // User ID từ middleware protectRoute
-
   try {
-    const restaurant = await Restaurant.findOne({ _id: restaurantId, userId });
-
-    if (!restaurant) {
-      return res.status(404).json({ message: "Restaurant not found or you are not authorized to edit it" });
+    const restaurantId = req.params.id;
+    const userId = req.user._id; 
+    const {name, categories, email, location, description, images} = req.body;
+    // const restaurant = await Restaurant.findById(restaurantId);
+    console.log(categories)
+    const updatedRestaurant = {
+      name: name,
+      categories: categories,
+      email: email,
+      location: location,
+      description: description,
+      userId : userId.toString(),
+      images: {
+        logo : images.logo,
+        poster: images.poster,
+        cover: images.cover
+      }
     }
-
-    const { name, categories, email, location, description } = req.body;
-
-    let logoUrl = restaurant.images.logo;
-    let posterUrl = restaurant.images.poster;
-    let coverUrl = restaurant.images.cover;
-
-    if (req.files && req.files.logo) {
-      const result = await cloudinary.uploader.upload(req.files.logo[0].path);
-      logoUrl = result.secure_url;
-    }
-
-    if (req.files && req.files.poster) {
-      const result = await cloudinary.uploader.upload(req.files.poster[0].path);
-      posterUrl = result.secure_url;
-    }
-
-    if (req.files && req.files.cover) {
-      const result = await cloudinary.uploader.upload(req.files.cover[0].path);
-      coverUrl = result.secure_url;
-    }
-
-    restaurant.name = name || restaurant.name;
-    restaurant.categories = categories ? categories.split(',') : restaurant.categories; // Assuming categories are passed as a comma-separated string
-    restaurant.email = email || restaurant.email;
-    restaurant.location = location || restaurant.location;
-    restaurant.description = description || restaurant.description;
-    restaurant.images = {
-      logo: logoUrl,
-      poster: posterUrl,
-      cover: coverUrl
-    };
-
-    await restaurant.save();
+    const restaurant = await Restaurant.findByIdAndUpdate(restaurantId, updatedRestaurant, {new: true})
     res.status(200).json({ message: 'Restaurant updated successfully', restaurant });
   } catch (error) {
     res.status(500).json({ error: error.message });

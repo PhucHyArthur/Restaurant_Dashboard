@@ -24,11 +24,7 @@ router.post(
   addRestaurant
 );
 
-router.put('/edit/:id', protectRoute, upload.fields([
-    { name: 'logo', maxCount: 1 },
-    { name: 'poster', maxCount: 1 },
-    { name: 'cover', maxCount: 1 }
-  ]), editRestaurant);
+router.put('/edit/:id', protectRoute, editRestaurant);
 
 router.delete("/delete/:id", protectRoute, deleteRestaurant);
 

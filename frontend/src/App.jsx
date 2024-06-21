@@ -70,7 +70,7 @@ function App() {
               <Route path="list" element={<RestaurantList />} />
               <Route path="detail/:restaurantId" element={<RestaurantDetail />} />
               <Route path="add" element={<RestaurantAdd />} />
-              <Route path="edit" element={<RestaurantEdit />} />
+              <Route path="edit/:restaurantId" element={<RestaurantEdit />} />
             </Route>
             <Route path="product">
               <Route index element={<ErrorPage />} />

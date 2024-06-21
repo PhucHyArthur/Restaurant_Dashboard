@@ -6,26 +6,20 @@ import * as jwt_decode from "jwt-decode";
 import cookie from "cookie";
 import { useParams } from "react-router-dom";
 import { Box, Button } from "@chakra-ui/react";
+import uploadFileCloudinary from "../../actions/UploadFileCloudinary";
 
 const RestaurantEdit = () => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();
-  const { id } = useParams(); // Lấy id của nhà hàng từ URL
+  const { restaurantId } = useParams(); // Lấy id của nhà hàng từ URL
   const [categories, setCategories] = useState([]);
+  const [restaurant, setRestaurant] = useState({}); 
   const [userID, setUserID] = useState("");
 
   useEffect(() => {
-    // Lấy token từ cookie
-    const cookies = cookie.parse(document.cookie);
-    const token = cookies.jwt;
-    if (token) {
-      const decoded = jwt_decode(token);
-      setUserID(decoded.userId); // Giả sử userId nằm trong payload của token
-    }
-
     // Lấy danh sách categories từ backend
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("/api/categories");
+        const response = await axios.get("/api/category/");
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -35,14 +29,20 @@ const RestaurantEdit = () => {
     // Lấy thông tin nhà hàng từ backend
     const fetchRestaurant = async () => {
       try {
-        const response = await axios.get(`/api/restaurants/${id}`);
+        const response = await axios.get(`/api/restaurant/getRestaurant/${restaurantId}`);
         const restaurant = response.data;
         // Đặt giá trị mặc định cho form
         setValue("name", restaurant.name);
         setValue("email", restaurant.email);
         setValue("location", restaurant.location);
         setValue("description", restaurant.description);
-        setValue("categories", restaurant.categories);
+        setValue("categories", restaurant.categories._id);
+
+        setValue("logo", restaurant.images.logo);
+        setValue("poster", restaurant.images.poster);
+        setValue("cover", restaurant.images.cover);
+        setRestaurant(restaurant);
+        console.log(restaurant)
       } catch (error) {
         console.error("Error fetching restaurant:", error);
       }
@@ -50,49 +50,35 @@ const RestaurantEdit = () => {
 
     fetchCategories();
     fetchRestaurant();
-  }, [id, setValue]);
+  }, []);
 
   const onSubmit = async (data) => {
     try {
+      console.log("data:",data)
       // Upload files to Cloudinary nếu cần thiết
-      const logoUpload = data.logo[0] ? await uploadFileToCloudinary(data.logo[0]) : "";
-      const posterUpload = data.poster[0] ? await uploadFileToCloudinary(data.poster[0]) : "";
-      const coverUpload = data.cover[0] ? await uploadFileToCloudinary(data.cover[0]) : "";
+      const logoUpload = data.logo===restaurant.images.logo ? data.logo : await uploadFileCloudinary(data.logo)
+      const posterUpload = data.poster===restaurant.images.poster ? data.poster : await uploadFileCloudinary(data.poster)
+      const coverUpload = data.cover===restaurant.images.cover ? data.cover : await uploadFileCloudinary(data.cover)
 
-      // Tạo object chứa dữ liệu nhà hàng đã chỉnh sửa
       const restaurantData = {
         name: data.name,
         email: data.email,
         location: data.location,
         description: data.description,
-        categories: data.categories, // Mảng các categoryId
-        userId: userID, // Sử dụng userID từ token
+        categories: data.categories, 
         images: {
-          logo: logoUpload || data.logo,
-          poster: posterUpload || data.poster,
-          cover: coverUpload || data.cover,
+          logo: logoUpload,
+          poster: posterUpload,
+          cover: coverUpload,
         },
       };
 
       // Gửi dữ liệu đã chỉnh sửa đến backend
-      const response = await axios.put(`/api/restaurants/${id}`, restaurantData);
+      const response = await axios.put(`/api/restaurant/edit/${restaurantId}`, restaurantData);
       console.log("Restaurant updated successfully:", response.data);
     } catch (error) {
       console.error("Error updating restaurant:", error);
     }
-  };
-
-  const uploadFileToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "YOUR_CLOUDINARY_UPLOAD_PRESET"); // Replace with your Cloudinary upload preset
-
-    const response = await axios.post(
-      "https://api.cloudinary.com/v1_1/YOUR_CLOUDINARY_CLOUD_NAME/image/upload", // Replace with your Cloudinary cloud name
-      formData
-    );
-
-    return response.data.secure_url;
   };
 
   return (
@@ -174,12 +160,33 @@ const RestaurantEdit = () => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Categories</label>
-          <div className="mt-2">
+          <div className="mt-2 grid grid-cols-5">
+            {/* {categories.map((category) => console.log(category._id + " : " + restaurant.categories?.map(a => a._id).includes(category._id)))} */}
             {categories.map((category) => (
+              
               <div key={category._id} className="flex items-center">
                 <input
                   type="checkbox"
                   value={category._id}
+                  // defaultChecked
+                  checked={restaurant.categories?.map(a => a._id).includes(category._id)}
+                  // defaultChecked={console.log(restaurant.categories?.map(a => a._id).includes(category._id))}
+                  onClick={() => {
+                    setRestaurant(prevState => {
+                      // console.log("categories:",prevState.categories)
+                      const updatedCategories = [...prevState.categories];
+                      if (prevState.categories.map(a => a._id).includes(category._id)) {
+                        updatedCategories.splice(updatedCategories.findIndex(a => a._id === category._id), 1);
+                      } else {
+                        updatedCategories.push(category);
+                      }
+                      // console.log("updated categories:",updatedCategories)
+                      return {
+                        ...prevState,
+                        categories: updatedCategories
+                      };
+                    });
+                  }}
                   {...register("categories")}
                   className="mr-2"
                 />
@@ -217,7 +224,7 @@ const RestaurantEdit = () => {
         </div>
 
         <div className="flex justify-center">
-          <Button colorScheme="green">
+          <Button colorScheme="green" type="submit">
             Update Restaurant
           </Button>
         </div>
