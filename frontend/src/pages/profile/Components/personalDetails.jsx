@@ -16,7 +16,7 @@ const PersonalDetails = () => {
 
     const onSubmit = (data) => console.log(data)
 
-    console.log('check imageSource:', imageSource)
+    // console.log('check imageSource:', imageSource)
 
 
     return (
