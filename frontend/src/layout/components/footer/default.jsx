@@ -1,9 +1,10 @@
+import { Box } from "@chakra-ui/react"
 
 const FooterDefault = () => {
     return (
-        <div>
-            Footer default nè
-        </div>
+        <Box className="p-5 border-t border-[#ccc]">
+            Built by 3 Weeb guys with 💕
+        </Box>
     )
 }
 

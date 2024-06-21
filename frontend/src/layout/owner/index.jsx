@@ -4,6 +4,7 @@ import NavOwner from "../../components/NavOwner";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import { Box } from "@chakra-ui/react";
+import FooterDefault from "../components/footer/default";
 
 const OwnerLayout = () => {
   const [userData, setUserData] = useContext(UserContext)
@@ -25,7 +26,7 @@ const OwnerLayout = () => {
 
         <Box className="pl-[260px]">
           <Outlet />
-          <div className="">The footer</div>
+          <FooterDefault />
         </Box>
       </Box>
 
