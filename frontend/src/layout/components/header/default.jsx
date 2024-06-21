@@ -1,9 +1,14 @@
 import { Box, Center } from "@chakra-ui/react";
 import { LuBell, LuGlobe, LuScan, LuSearch, LuSettings } from "react-icons/lu";
 import MenuAvatar from "./Components/menuAvatar";
-
+import CustomToast from "../../../components/Toast";
 
 const DefaultHeader = () => {
+    const showToast = CustomToast()
+
+    const handleShowToast = () => {
+        showToast('success', '', 'vui lòng thử lại sau')
+    }
 
     return (
         <Box className="flex items-center sticky top-0 z-10 bg-white" borderBottom={'1px solid #ccc'}>
@@ -26,7 +31,7 @@ const DefaultHeader = () => {
                 </div>
 
                 <div className="flex items-center gap-5">
-                    <Center className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
+                    <Center onClick={handleShowToast} className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
                         <LuGlobe />
                     </Center>
 
