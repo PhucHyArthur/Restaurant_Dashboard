@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import uploadFileCloudinary from "../../actions/UploadFileCloudinary";
 import axios from "axios";
 import Form from "../components/form";
+import CustomToast from "../../../components/Toast";
 
 const ProductAdd = () => {
   const {
@@ -17,6 +18,7 @@ const ProductAdd = () => {
     ([])
   const [categories, setCategories] = useState([])
   const [imageSource, setImageSource] = useState("")
+  const showToast = CustomToast()
 
   const watchFile = watch('image', null)
 
@@ -60,7 +62,6 @@ const ProductAdd = () => {
   }, [])
 
   const onSubmit = async (data) => {
-    // Handle form submission, e.g., sending data to the backend
     try {
       const imageUpload = data.image[0] ? await uploadFileCloudinary(data.image[0]) : ''
       const productData = {
@@ -74,7 +75,7 @@ const ProductAdd = () => {
       }
 
       const response = await axios.post('/api/food/add', productData)
-      console.log("Food added successfully", response.data);
+      showToast('success', 'Thêm món thành công', '')
       reset()
     } catch (error) {
       console.error("Error adding food: ", error)

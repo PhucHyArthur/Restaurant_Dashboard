@@ -4,27 +4,30 @@ import BarLineChart from "../../components/Chart/chart";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Box, Button, Center, Flex, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { LuArrowDown } from "react-icons/lu";
 
 const RestaurantDetail = () => {
-  const {restaurantId} = useParams()
-  const [restaurant, setRestaurant] = useState({})
+  const { restaurantId } = useParams();
+  const [restaurant, setRestaurant] = useState({});
 
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const response = await axios.get(`/api/restaurant/getRestaurant/${restaurantId}`)
+        const response = await axios.get(
+          `/api/restaurant/getRestaurant/${restaurantId}`
+        );
 
         if (response.status === 200) {
-          console.log(response.data)
-          setRestaurant(response.data)
+          console.log(response.data);
+          setRestaurant(response.data);
         }
-
       } catch (error) {
-        console.error("Error fetching restaurant detail: ", error)
+        console.error("Error fetching restaurant detail: ", error);
       }
-    }
-    fetchRestaurant()
-  }, [])
+    };
+    fetchRestaurant();
+  }, []);
   return (
     <div className="p-6">
       <div className="flex items-center justify-between w-full mb-6">
@@ -65,31 +68,29 @@ const RestaurantDetail = () => {
             <h4 className="text-base font-medium text-default-800 mb-1">
               {restaurant.name}
             </h4>
-            <p className="text-sm text-default-600">Since {restaurant.createdAt}</p>
+            <p className="text-sm text-default-600">
+              Since {restaurant.createdAt}
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="grid xl:grid-cols-3 grid-cols-1 gap-6">
-        <div className="xl:col-span-2">
-          <div className="p-6 rounded-lg border border-default-200 mb-6 gap-3">
-            <div className="dropdown">
-              <div tabIndex={0} role="button" className="btn m-1">
-                Last 7 days
-                <FaArrowDown className="icon-cog" style={{ color: "gray" }} />
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li>
-                  <a href="#">Last Month</a>
-                </li>
-                <li>
-                  <a href="#">Last Year</a>
-                </li>
-              </ul>
-            </div>
+      <div className="grid xl:grid-cols-3 grid-cols-1 gap-6 h-[1000px]">
+        <div className="xl:col-span-2 ">
+          <div className="p-6 rounded-lg border border-default-200 mb-6 gap-3 h-full">
+            <Menu isLazy>
+              <MenuButton>
+                <Flex className="items-center gap-2 border-2 border-[#ccc] p-2 rounded-md">
+                  <Text>Sort by</Text>
+                  <Box><LuArrowDown/></Box>
+                </Flex>
+              </MenuButton>
+              <MenuList>
+                <MenuItem>Last 7 days</MenuItem>
+                <MenuItem>Last Month</MenuItem>
+                <MenuItem>Last Year</MenuItem>
+              </MenuList>
+            </Menu>
             <div>
               <BarLineChart />
             </div>
@@ -97,7 +98,7 @@ const RestaurantDetail = () => {
         </div>
 
         <div className="xl:col-span-1">
-          <div className="p-6 rounded-lg border border-default-200 mb-6">
+          <div className="p-6 rounded-lg border border-default-200 mb-6 h-full">
             <div className="font-bold text-xl text-center border-b border-default-200 pb-2 mb-4">
               OWNER PERSONAL DETAIL
             </div>
@@ -129,6 +130,9 @@ const RestaurantDetail = () => {
                 </tbody>
               </table>
             </div>
+            <Center>
+              <Button variant={"outline"}>Edit Restaurant</Button>
+            </Center>
           </div>
         </div>
 

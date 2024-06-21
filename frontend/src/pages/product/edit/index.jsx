@@ -4,9 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import uploadFileCloudinary from "../../actions/UploadFileCloudinary";
 import Form from "../components/form";
+import CustomToast from "../../../components/Toast";
 
 const ProductEdit = () => {
   const navigate = useNavigate()
+  const showToast = CustomToast()
   const {
     register,
     handleSubmit,
@@ -19,7 +21,7 @@ const ProductEdit = () => {
   const [imageSource, setImageSource] = useState("")
 
   const { productId } = useParams();
-  
+
   const watchFile = watch('image', null)
 
   useEffect(() => {
@@ -79,7 +81,7 @@ const ProductEdit = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log("data :",data);
+      console.log("data :", data);
       const imageUpload = data.image[0] ? await uploadFileCloudinary(data.image[0]) : ''
       const productData = {
         name: data.name,
@@ -91,8 +93,7 @@ const ProductEdit = () => {
         image: imageUpload,
       }
       const response = await axios.put(`/api/food/update/${productId}`, productData)
-      console.log("Food edited successfully", response.data);
-      console.log(data)
+      showToast('success', 'Cập nhật thành công', '')
     } catch (error) {
       console.error("Error editing food: ", error)
     }
