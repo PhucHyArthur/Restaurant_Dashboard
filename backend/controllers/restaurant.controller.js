@@ -115,7 +115,7 @@ export const editRestaurant = async (req, res) => {
     const userId = req.user._id; 
     const {name, categories, email, location, description, images} = req.body;
     // const restaurant = await Restaurant.findById(restaurantId);
-    console.log(categories)
+    // console.log(images)
     const updatedRestaurant = {
       name: name,
       categories: categories,

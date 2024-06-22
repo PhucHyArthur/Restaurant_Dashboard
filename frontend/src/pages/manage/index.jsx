@@ -37,6 +37,10 @@ const Manage = () => {
     fetchPendingOrders()
   }, [])
 
+  const handleAccept = async (orderId) => {
+    console.log("Accepting order:", orderId)
+  }
+
   return (
     <div className="mt-5 mx-5">
       <div className="grid grid-cols-3 gap-5">
@@ -46,7 +50,7 @@ const Manage = () => {
       </div>
 
       <Box className="mt-10">
-        <CardListSlider pendingOrders={pendingOrders} />
+        <CardListSlider pendingOrders={pendingOrders} handleAccept={handleAccept} />
       </Box>
     </div>
   );

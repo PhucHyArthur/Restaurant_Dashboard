@@ -1,12 +1,14 @@
 import { Box, Button, Flex, Grid, Image, Input, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 import AvatarPicking from './avatar'
+import axios from 'axios'
 
 const PersonalDetails = () => {
     const {
         register,
         handleSubmit,
+        setValue,
         watch,
         setError,
         formState: { errors },
@@ -14,10 +16,44 @@ const PersonalDetails = () => {
 
     const [imageSource, setImageSource] = useState('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA-9w-zOzzGAyK-ExVZvG6IU4fznAvxDylAg&s')
 
-    const onSubmit = (data) => console.log(data)
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get('/api/auth/me')
+                if (response.status === 200) {
+                    // console.log("User data:", response.data)
+                    const user = response.data
+                    setValue("username", user.name)
+                    setValue("fullname", user.fullname) 
+                    setValue("address", user.address)
+                    setValue("number", user.phone)
+                    
+                }
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        }
+        fetchUser()
+    },[])
 
-    // console.log('check imageSource:', imageSource)
+    const onSubmit = async (data) => {
+        // console.log("user data:", data)
+        try {
+            const userData = {
+                name : data.username,
+                fullname : data.fullname,
+                address : data.address,
+                phone : data.number
+            }
+            const response = await axios.put('/api/user/edit', userData)
 
+            if (response.status===200) {
+                console.log("User updated successfully:", response.data)
+            }
+        } catch (error) {
+            console.error("Error updating user:", error);
+        }
+    }
 
     return (
         <Box className='w-full border-[1px] h-fit border-default rounded-lg p-5 mb-5'>
@@ -31,7 +67,7 @@ const PersonalDetails = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
                     <Box className='grid grid-cols-2 w-full gap-2'>
                         <Box className='w-full'>
-                            <Input {...register('fullName', { required: "Vui lòng không để trống" })} placeholder='Full Name' type='text' />
+                            <Input {...register('fullname', { required: "Vui lòng không để trống" })} placeholder='Full Name' type='text' />
                             {errors.fullName && (
                                 <Text className='text-red-500'>{errors.fullName.message}</Text>
                             )}
@@ -45,9 +81,9 @@ const PersonalDetails = () => {
                         </Box>
 
                         <Box className='w-full'>
-                            <Input {...register('location', { required: "Vui lòng không để trống" })} placeholder='Location' type='text' />
-                            {errors.location && (
-                                <Text className='text-red-500'>{errors.location.message}</Text>
+                            <Input {...register('address', { required: "Vui lòng không để trống" })} placeholder='Address' type='text' />
+                            {errors.address && (
+                                <Text className='text-red-500'>{errors.address.message}</Text>
                             )}
                         </Box>
 

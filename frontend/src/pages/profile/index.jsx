@@ -4,6 +4,7 @@ import "./styles.scss";
 import PersonalDetails from "./Components/personalDetails";
 import { useForm } from "react-hook-form"
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import axios from "axios";
 
 
 const ProfileOwner = () => {
@@ -14,12 +15,27 @@ const ProfileOwner = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    console.log(data)
+    console.log("user data:", data)
+    try {
+      const userData = {
+        currentPassword : data.currentPassword,
+        newPassword : data.newPassword,
+      }
+      const response = await axios.put('/api/user/editPassword', userData)
+
+      if (response.status === 200) {
+        console.log("message", response.data)
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
 
   const newPassword = watch("newPassword", "")
   const [show1, setShow1] = useState(false)
   const [show2, setShow2] = useState(false)
+
+
 
   return (
     <div className="p-6">
