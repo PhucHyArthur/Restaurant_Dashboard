@@ -5,21 +5,35 @@ import { Box, Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/re
 import { LuDownload, LuMoveDown } from "react-icons/lu";
 
 const OrderList = () => {
+  const orderStatus = ["PENDING", "CONFIRMED", "CANCELLED", "DELIVERED"];
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
+  const [statusSortOrder, setStatusSortOrder] = useState(0); // Trạng thái sắp xếp hiện tại của trạng thái đơn hàng
 
   const handleSort = (column) => {
-    const direction = sortedColumn === column && sortDirection === "asc" ? "desc" : "asc";
-    setSortedColumn(column);
-    setSortDirection(direction);
+    if (column === "status") {
+      setStatusSortOrder((prevOrder) => (prevOrder + 1) % 5); // Chu kỳ qua các trạng thái từ 0 đến 4
+    } else {
+      const direction = sortedColumn === column && sortDirection === "asc" ? "desc" : "asc";
+      setSortedColumn(column);
+      setSortDirection(direction);
+    }
   };
 
   const sortedOrders = [...mockOrders].sort((a, b) => {
-    if (a[sortedColumn] < b[sortedColumn]) {
-      return sortDirection === "asc" ? -1 : 1;
-    }
-    if (a[sortedColumn] > b[sortedColumn]) {
-      return sortDirection === "asc" ? 1 : -1;
+    if (sortedColumn && sortedColumn !== "status") {
+      if (a[sortedColumn] < b[sortedColumn]) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (a[sortedColumn] > b[sortedColumn]) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
+      return 0;
+    } else if (statusSortOrder > 0 && statusSortOrder <= 4) {
+      const statusPriority = orderStatus[statusSortOrder - 1];
+      if (a.status === statusPriority && b.status !== statusPriority) return -1;
+      if (a.status !== statusPriority && b.status === statusPriority) return 1;
+      return 0;
     }
     return 0;
   });
@@ -144,7 +158,7 @@ const OrderList = () => {
                           </th>
                           <th
                             className="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 cursor-pointer"
-                            onClick={() => handleSort("restaurantId")}
+                            onClick={() => handleSort("restaurantName")}
                           >
                             Restaurant Name
                           </th>
@@ -178,7 +192,7 @@ const OrderList = () => {
                               {order.username}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">
-                              {order.restaurantId.toString()}
+                              {order.restaurantName}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
                               ${order.total.toFixed(2)}

@@ -3,7 +3,7 @@ import { FaArrowRight, FaEye, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Switch } from "@chakra-ui/react";
+import { Button, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Switch, useDisclosure  } from "@chakra-ui/react";
 import { LuEye, LuMoveDown, LuPencil, LuTrash } from "react-icons/lu";
 
 
@@ -15,6 +15,7 @@ const ProductList = () => {
   const [sortDirection, setSortDirection] = useState("asc");
   const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const { isOpen, onToggle, onClose } = useDisclosure()
 
   useEffect(() => {
     const fetchFoodByRestaurant = async () => {
