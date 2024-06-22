@@ -35,11 +35,11 @@ const OrderList = () => {
       if (a.status !== statusPriority && b.status === statusPriority) return 1;
       return 0;
     }
-    return 0;
-  });
+    return 0
+  })
 
-  const totalOrders = mockOrders.length;
-  const totalBalance = mockOrders.reduce((acc, order) => acc + order.total, 0);
+  const totalOrders = mockOrders.length
+  const totalBalance = mockOrders.reduce((acc, order) => acc + order.total, 0)
 
   return (
     <div className="p-6">

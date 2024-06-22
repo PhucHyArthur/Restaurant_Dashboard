@@ -7,7 +7,7 @@ import { Pagination } from 'swiper/modules';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-export default function CardListSlider({pendingOrders}) {
+export default function CardListSlider({ pendingOrders }) {
     // const [list, setList] = useState([pendingOrders])
 
     const handleDeleteCard = (cardIndex) => {
@@ -15,6 +15,9 @@ export default function CardListSlider({pendingOrders}) {
         const newList = list.filter((item, index) => index !== cardIndex)
         setList(newList)
     }
+
+    console.log('check pendingOrders:', pendingOrders)
+
     return (
         <>
             <Swiper
@@ -28,7 +31,7 @@ export default function CardListSlider({pendingOrders}) {
                         <SwiperSlide key={index}>
                             <Box className='h-[200px] border-2 border-gray-300 rounded-md relative'>
                                 <Text>{item.username}</Text>
-                                
+
                                 <Flex className='absolute bottom-5 right-5 gap-5'>
                                     <Button onClick={() => handleDeleteCard(index)} colorScheme='red'>Decline</Button>
                                     <Button colorScheme='green'>Accept</Button>
