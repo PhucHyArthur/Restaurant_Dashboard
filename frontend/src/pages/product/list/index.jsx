@@ -74,23 +74,6 @@ const ProductList = () => {
     setSelectedRestaurant(restaurantId);
   };
 
-  // const onDelete = async (productId) => {
-  //   console.log(`Delete product with id: ${productId}`);
-  //   try {
-  //     const response = await axios.put(`/api/food/softDelete/${productId}`)
-  //     if (response.status === 200) {
-  //       console.log('Food deleted');
-  //       setProducts((prevProducts) =>
-  //         prevProducts.filter((product) => product._id !== productId))
-  //       setViewProducts((prevProducts) =>
-  //         prevProducts.filter((product) => product._id !== productId))
-  //     }
-  //   } catch (error) {
-  //     console.error("Error deleting product: ", error)
-  //   }
-  //   // Add delete functionality here
-  // };
-
   const onView = (productId) => {
     console.log(`View product with id: ${productId}`);
     navigate(`/owner/product/detail/${productId}`)
@@ -103,43 +86,6 @@ const ProductList = () => {
     // Add edit functionality here
   };
 
-  // const handleToggle = async (productId) => {
-
-  //   try {
-  //     const product = products.find((product) => product._id === productId)
-  //     const productData = {
-  //       name: product.name,
-  //       categories: product.categories[0]._id,
-  //       price: product.price,
-  //       restaurantId: product.restaurantId,
-  //       ingredients: product.ingredients,
-  //       description: product.description,
-  //       image: product.image,
-  //       available: !product.available
-  //     }
-  //     const response = await axios.put(`/api/food/update/${productId}`, productData)
-  //     if (response.status === 200) {
-  //       console.log("Product updated successfully")
-  //       setProducts((prevProducts) =>
-  //         prevProducts.map((product) =>
-  //           product._id === productId
-  //             ? { ...product, available: !product.available }
-  //             : product
-  //         )
-  //       );
-  //       setViewProducts((prevProducts) =>
-  //         prevProducts.map((product) =>
-  //           product._id === productId
-  //             ? { ...product, available: !product.available }
-  //             : product
-  //         )
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating product: ", error)
-  //   }
-  // };
-
   const handleSearch = (e) => {
     // console.log(e.target.value);
     setViewProducts(products.filter(product => product.name.toLowerCase().includes(e.target.value.toLowerCase())));
@@ -149,10 +95,10 @@ const ProductList = () => {
     setModalContent({
       productId,
       action,
-      title: action === "delete" ? "Confirm Deletion" : "Confirm Toggle Availability",
+      title: action === "delete" ? "Confirm Deletion" : "Confirm Availability",
       bodyContent: action === "delete" 
-        ? "Are you sure you want to delete this product?" 
-        : "Are you sure you want to toggle the availability of this product?"
+        ? "This product will move to Remove if you click confirm" 
+        : "Are you sure you want to change the availability of this product?"
     });
     setIsModalOpen(true);
   };
@@ -353,7 +299,7 @@ const ProductList = () => {
                               </a>
                               <a
                                 className="transition-all hover:text-red-500 p-2 bg-gray-200 rounded-full cursor-pointer"
-                                onChange={() => openModal(product._id, "delete")}
+                                onClick={() => openModal(product._id, "delete")}
                               >
                                 <LuTrash />
                               </a>

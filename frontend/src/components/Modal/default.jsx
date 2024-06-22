@@ -13,19 +13,22 @@ import PropTypes from "prop-types";
 
 const CustomModal = ({ isOpen, onClose, title, bodyContent, onConfirm }) => {
   return (
-    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent className="border-black border-[2px]">
         <ModalHeader className="flex justify-center items-center">
-          <Text className="text-red-500">{title}</Text>
+            <Text className="text-red-500 font-bold ">{title}</Text>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6}>{bodyContent}</ModalBody>
+        <ModalBody pb={6}>
+            <Text className="font-semibold">{bodyContent}</Text></ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onConfirm}>
+          <Button  colorScheme="red" onClick={onClose} mr={3}>
+            Cancel
+          </Button>
+          <Button colorScheme="green" onClick={onConfirm}>
             Confirm
           </Button>
-          <Button onClick={onClose}>Cancel</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
