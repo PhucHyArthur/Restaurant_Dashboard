@@ -1,7 +1,7 @@
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
 import ProductList from "../../product/list";
 import BarLineChart from "../../components/Chart/chart";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Button, Center, Flex, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
@@ -10,6 +10,7 @@ import { LuArrowDown } from "react-icons/lu";
 const RestaurantDetail = () => {
   const { restaurantId } = useParams();
   const [restaurant, setRestaurant] = useState({});
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -131,7 +132,9 @@ const RestaurantDetail = () => {
               </table>
             </div>
             <Center>
-              <Button variant={"outline"}>Edit Restaurant</Button>
+              <Button variant={"outline"} onClick={() => {
+                navigate("/owner/restaurant/edit/" + restaurantId)
+              }}>Edit Restaurant</Button>
             </Center>
           </div>
         </div>
