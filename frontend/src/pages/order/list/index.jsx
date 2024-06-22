@@ -5,27 +5,29 @@ import { Box, Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/re
 import { LuDownload, LuMoveDown } from "react-icons/lu";
 
 const OrderList = () => {
-  const [sortedColumn, setSortedColumn] = useState(null);
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortedColumn, setSortedColumn] = useState(null)
+  const [sortDirection, setSortDirection] = useState("asc")
 
   const handleSort = (column) => {
-    const direction = sortedColumn === column && sortDirection === "asc" ? "desc" : "asc";
-    setSortedColumn(column);
-    setSortDirection(direction);
-  };
+    const direction = sortedColumn === column && sortDirection === "asc" ? "desc" : "asc"
+    setSortedColumn(column)
+    setSortDirection(direction)
+  }
+
+  console.log('check mockOrders:', mockOrders)
 
   const sortedOrders = [...mockOrders].sort((a, b) => {
     if (a[sortedColumn] < b[sortedColumn]) {
-      return sortDirection === "asc" ? -1 : 1;
+      return sortDirection === "asc" ? -1 : 1
     }
     if (a[sortedColumn] > b[sortedColumn]) {
-      return sortDirection === "asc" ? 1 : -1;
+      return sortDirection === "asc" ? 1 : -1
     }
-    return 0;
-  });
+    return 0
+  })
 
-  const totalOrders = mockOrders.length;
-  const totalBalance = mockOrders.reduce((acc, order) => acc + order.total, 0);
+  const totalOrders = mockOrders.length
+  const totalBalance = mockOrders.reduce((acc, order) => acc + order.total, 0)
 
   return (
     <div className="p-6">

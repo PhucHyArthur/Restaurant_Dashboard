@@ -25,7 +25,9 @@ const OwnerLayout = () => {
         <NavOwner />
 
         <Box className="pl-[260px]">
-          <Outlet />
+          <Box className="min-h-[95vh]">
+            <Outlet />
+          </Box>
           <FooterDefault />
         </Box>
       </Box>

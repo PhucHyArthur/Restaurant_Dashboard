@@ -13,7 +13,7 @@ const Manage = () => {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const response = await axios.get("/api/order/getOrdersCount") 
+        const response = await axios.get("/api/order/getOrdersCount")
         if (response.status === 200) {
           setCount(response.data)
         }
@@ -21,16 +21,16 @@ const Manage = () => {
         console.error("Error fetching counts:", error);
       }
     }
+
     const fetchPendingOrders = async () => {
       try {
         const response = await axios.get("/api/order/getPendingOrders")
         if (response.status === 200) {
-          // console.log(response.data);
           setPendingOrders(response.data)
         }
       } catch (error) {
         console.error("Error fetching pending orders:", error);
-      
+
       }
     }
     fetchCount()
@@ -41,12 +41,12 @@ const Manage = () => {
     <div className="mt-5 mx-5">
       <div className="grid grid-cols-3 gap-5">
         {new Array(3).fill(null).map((item, index) => {
-          return <CardOrder key={index} title={title} index={index} count={count}/>;
+          return <CardOrder key={index} title={title} index={index} count={count} />;
         })}
       </div>
 
       <Box className="mt-10">
-        <CardListSlider pendingOrders={pendingOrders}/>
+        <CardListSlider pendingOrders={pendingOrders} />
       </Box>
     </div>
   );
