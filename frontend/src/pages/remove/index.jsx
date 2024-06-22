@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { LuArrowDown } from "react-icons/lu";
+import CustomModal from "../../components/Modal/default";
 // import { useNavigate } from "react-router-dom";
 
 const RemoveRecent = () => {
@@ -12,6 +13,8 @@ const RemoveRecent = () => {
   const [sortDirection, setSortDirection] = useState("asc");
   const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({});
 
   useEffect(() => {
     const fetchFoodByRestaurant = async () => {
@@ -64,40 +67,72 @@ const RemoveRecent = () => {
       return 0;
     });
 
-  const onDelete = async (productId) => {
-    console.log(`Delete product with id: ${productId}`);
-    try {
-      const response = await axios.delete(`/api/food/delete/${productId}`)
-      if (response.status === 200) {
-        console.log("Food deleted");
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId)
-        )
-        setViewProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId))
-      }
-    } catch (error) {
-      console.error("Error deleting product: ", error)
-    }
-    // Add delete functionality here
+  // const onDelete = async (productId) => {
+  //   console.log(`Delete product with id: ${productId}`);
+  //   try {
+  //     const response = await axios.delete(`/api/food/delete/${productId}`)
+  //     if (response.status === 200) {
+  //       console.log("Food deleted");
+  //       setProducts((prevProducts) =>
+  //         prevProducts.filter((product) => product._id !== productId)
+  //       )
+  //       setViewProducts((prevProducts) =>
+  //         prevProducts.filter((product) => product._id !== productId))
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting product: ", error)
+  //   }
+  //   // Add delete functionality here
+  // };
+
+  // const onRestore = async (productId) => {
+  //   console.log(`Restore product with id: ${productId}`);
+  //   try {
+  //     const response = await axios.put(`/api/food/restore/${productId}`)
+  //     if (response.status === 200) {
+  //       console.log("Food restored");
+  //       setProducts((prevProducts) =>
+  //         prevProducts.filter((product) => product._id !== productId)
+  //       )
+  //       setViewProducts((prevProducts) =>
+  //         prevProducts.filter((product) => product._id !== productId))
+  //     }
+  //   } catch (error) {
+  //     console.error("Error restoring product: ", error)
+  //   }
+  // }
+
+  const openModal = (productId, action) => {
+    setModalContent({
+      productId,
+      action,
+      title: action === "delete" ? "Confirm Deletion" : "Confirm Restoration",
+      bodyContent: `Are you sure you want to ${action} this product?`
+    });
+    setIsModalOpen(true);
   };
 
-  const onRestore = async (productId) => {
-    console.log(`Restore product with id: ${productId}`);
+  const handleModalConfirm = async () => {
+    const { productId, action } = modalContent;
     try {
-      const response = await axios.put(`/api/food/restore/${productId}`)
-      if (response.status === 200) {
-        console.log("Food restored");
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId)
-        )
-        setViewProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId))
+      if (action === "delete") {
+        const response = await axios.delete(`/api/food/delete/${productId}`);
+        if (response.status === 200) {
+          setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+          setViewProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+        }
+      } else if (action === "restore") {
+        const response = await axios.put(`/api/food/restore/${productId}`);
+        if (response.status === 200) {
+          setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+          setViewProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+        }
       }
     } catch (error) {
-      console.error("Error restoring product: ", error)
+      console.error(`Error ${action === "delete" ? "deleting" : "restoring"} product: `, error);
     }
-  }
+    setIsModalOpen(false);
+  };
 
   return (
     <div className='p-6'>
@@ -197,11 +232,11 @@ const RemoveRecent = () => {
                           {product.price}
                         </td>
                         <td className="flex gap-5 items-center px-6 py-4">
-                          <Button colorScheme="red" onClick={() => onDelete(product._id)}>
+                          <Button colorScheme="red" onClick={() => openModal(product._id, "delete")}>
                             Delete
                           </Button>
 
-                          <Button colorScheme="whatsapp" onClick={() => onRestore(product._id)}>
+                          <Button colorScheme="whatsapp" onClick={() => openModal(product._id, "restore")}>
                             Restore
                           </Button>
                         </td>
@@ -214,6 +249,13 @@ const RemoveRecent = () => {
           </div>
         </div>
       </div>
+      <CustomModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={modalContent.title}
+        bodyContent={modalContent.bodyContent}
+        onConfirm={handleModalConfirm}
+      />
     </div>
   )
 }
