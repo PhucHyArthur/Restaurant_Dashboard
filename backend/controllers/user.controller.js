@@ -1,7 +1,7 @@
-import Restaurant from "../models/restaurantModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 export const addUser = async (req, res) => {
   try {
@@ -55,9 +55,8 @@ export const deleteUser = async (req, res) => {
 };
 
 export const editUser = async (req, res) => {
-  const userId = req.params.id;
-
   try {
+    const userId = req.user._id;
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
@@ -66,7 +65,8 @@ export const editUser = async (req, res) => {
       });
     }
 
-    const { name, email, role, phone, address } = req.body;
+    const { name, fullname, email, role, phone, address } = req.body;
+    // console.log(req.body)
 
     user.name = name || user.name;
     user.fullname = fullname || user.fullname;
@@ -81,3 +81,22 @@ export const editUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const editPassword = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findOne({ _id: userId });
+    const { currentPassword, newPassword} = req.body
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(400).json({ error: "Old password is incorrect" });
+    } 
+    const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword || user.password
+    await user.save();
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}

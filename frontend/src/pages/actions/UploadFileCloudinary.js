@@ -2,7 +2,7 @@ import axios from "axios"
 
 const uploadFileCloudinary = async (file) => {
     const formData = new FormData() 
-    formData.append('file',file) 
+    formData.append('file',file[0]) 
     formData.append('upload_preset','j9rkirfq') 
 
     try {
@@ -13,7 +13,7 @@ const uploadFileCloudinary = async (file) => {
         }
 
     } catch (error) {
-        console.error(error)
+        console.error("Upload to cloudinary failed:", error)
         return ''
     }
 }

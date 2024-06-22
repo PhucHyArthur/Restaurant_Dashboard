@@ -42,7 +42,7 @@ const RestaurantEdit = () => {
         setValue("poster", restaurant.images.poster);
         setValue("cover", restaurant.images.cover);
         setRestaurant(restaurant);
-        console.log(restaurant)
+        // console.log(restaurant)
       } catch (error) {
         console.error("Error fetching restaurant:", error);
       }
