@@ -8,11 +8,11 @@ const OrderList = () => {
   const orderStatus = ["PENDING", "CONFIRMED", "CANCELLED", "DELIVERED"];
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
-  const [statusSortOrder, setStatusSortOrder] = useState(0); // Trạng thái sắp xếp hiện tại của trạng thái đơn hàng
+  const [statusSortOrder, setStatusSortOrder] = useState(0); 
 
   const handleSort = (column) => {
     if (column === "status") {
-      setStatusSortOrder((prevOrder) => (prevOrder + 1) % 5); // Chu kỳ qua các trạng thái từ 0 đến 4
+      setStatusSortOrder((prevOrder) => (prevOrder + 1) % 5);
     } else {
       const direction = sortedColumn === column && sortDirection === "asc" ? "desc" : "asc";
       setSortedColumn(column);
