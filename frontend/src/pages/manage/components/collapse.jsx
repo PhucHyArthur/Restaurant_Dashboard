@@ -3,7 +3,7 @@ import React from "react"
 
 export default function CustomCollapse({ cartItems }) {
 
-    console.log('check cartItems:', cartItems.length)
+    // console.log('check cartItems:', cartItems.length)
 
     const [show, setShow] = React.useState(false)
 
@@ -13,7 +13,7 @@ export default function CustomCollapse({ cartItems }) {
         <>
             <Collapse startingHeight={50} in={show}>
                 {cartItems?.map((item, index) => {
-                    const itemName = item.name
+                    const itemName = item.foodName
                     const itemCount = item.count
                     return (
                         <Box key={index}>{itemName} x {itemCount}</Box>

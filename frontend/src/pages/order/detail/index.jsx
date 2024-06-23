@@ -3,9 +3,29 @@ import { FaLocationDot } from "react-icons/fa6";
 import mockOrderDetail from "./mockData";
 import { Box } from "@chakra-ui/react";
 import CardDetail from "./Components/cardDetail";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const OrderDetail = () => {
-  const userListOrder = mockOrderDetail.items
+  const {orderId} = useParams()
+  const [order, setOrder] = useState({})
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const response = await axios.get(`/api/order/getOrder/${orderId}`)
+        if (response.status === 200) {
+          setOrder(response.data)
+          console.log("Order:", response.data)
+        }
+      } catch (error) {
+        console.error("Error fetching order:", error);
+      
+      }
+    }
+    fetchOrder()
+  }, [])
 
   return (
     <div className="p-6">
@@ -31,18 +51,18 @@ const OrderDetail = () => {
           <div className="flex flex-col justify-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full gap-3">
             <div className="flex justify-start item-start space-y-2 flex-col ">
               <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">
-                Order #{mockOrderDetail.orderId}
+                Order #{order._id}
               </h1>
               <h2 className="text-xl font-semibold leading-7 lg:leading-9 text-gray-800">
-                Restaurant Name:
+                Restaurant Name: {order.restaurantId?.name}
               </h2>
               <p className="text-base font-medium leading-6 text-gray-600">
-                {new Date(mockOrderDetail.orderDate).toLocaleDateString()} at {new Date(mockOrderDetail.orderDate).toLocaleTimeString()}
+                {new Date(order.createdAt).toLocaleDateString()} at {new Date(order.createdAt).toLocaleTimeString()}
               </p>
             </div>
 
             <Box className="w-full">
-              <CardDetail userListOrder={userListOrder} />
+              <CardDetail cartItems={order.cartItems} />
             </Box>
 
           </div>
@@ -54,11 +74,11 @@ const OrderDetail = () => {
               <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
                 <div className="flex justify-between w-full">
                   <p className="text-base leading-4 text-gray-800">Subtotal</p>
-                  <p className="text-base leading-4 text-gray-600">${mockOrderDetail.subtotal.toFixed(2)}</p>
+                  <p className="text-base leading-4 text-gray-600">{Intl.NumberFormat().format(order.total)} ₫</p>
                 </div>
                 <div className="flex justify-between items-center w-full">
                   <p className="text-base leading-4 text-gray-800">Shipping</p>
-                  <p className="text-base leading-4 text-gray-600">${mockOrderDetail.shipping.toFixed(2)}</p>
+                  <p className="text-base leading-4 text-gray-600">{0} ₫ </p>
                 </div>
               </div>
               <div className="flex justify-between items-center w-full">
@@ -66,7 +86,7 @@ const OrderDetail = () => {
                   Total
                 </p>
                 <p className="text-base font-semibold leading-4 text-gray-600">
-                  ${mockOrderDetail.total.toFixed(2)}
+                  {Intl.NumberFormat().format(order.total)} ₫ 
                 </p>
               </div>
             </div>
@@ -82,14 +102,14 @@ const OrderDetail = () => {
                 <div className="flex justify-start items-start flex-col space-y-2">
                   <p>Customer's Name</p>
                   <p className="text-base font-semibold leading-4 text-left text-gray-800">
-                    {mockOrderDetail.customerName}
+                    {order.username}
                   </p>
                 </div>
               </div>
               <div className="flex justify-center md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
                 <FaEnvelope />
                 <p className="text-sm leading-5 text-gray-800">
-                  {mockOrderDetail.email}
+                  xxx@gmail.com
                 </p>
               </div>
             </div>

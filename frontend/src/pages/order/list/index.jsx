@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import mockOrders from "./mockData";
 import { Box, Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { LuDownload, LuMoveDown } from "react-icons/lu";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const OrderList = () => {
+  const navigate = useNavigate()
+
   const orderStatus = ["PENDING", "CONFIRMED", "CANCELLED", "DELIVERED"];
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [statusSortOrder, setStatusSortOrder] = useState(0); 
+  const [count, setCount] = useState({})
+  const [orders, setOrders] = useState([])
 
   const handleSort = (column) => {
     if (column === "status") {
@@ -20,7 +26,7 @@ const OrderList = () => {
     }
   };
 
-  const sortedOrders = [...mockOrders].sort((a, b) => {
+  const sortedOrders = [...orders].sort((a, b) => {
     if (sortedColumn && sortedColumn !== "status") {
       if (a[sortedColumn] < b[sortedColumn]) {
         return sortDirection === "asc" ? -1 : 1;
@@ -37,6 +43,32 @@ const OrderList = () => {
     }
     return 0
   })
+
+  useEffect(() => {
+    const fetchAllOrders = async () => {
+      try {
+        const response = await axios.get("/api/order/getAllOrders") 
+        if (response.status === 200) {
+          // console.log("All orders: ", response.data)
+          setOrders(response.data)
+        }
+      } catch (error) {
+        console.error("Error fetching all orders: ", error)
+      }
+    } 
+    const fetchCount = async () => {
+      try {
+        const response = await axios.get("/api/order/getOrdersCount")
+        if (response.status === 200) {
+          setCount(response.data)
+        }
+      } catch (error) {
+        console.error("Error fetching counts:", error);
+      }
+    }
+    fetchCount()
+    fetchAllOrders()
+  }, [])
 
   const totalOrders = mockOrders.length
   const totalBalance = mockOrders.reduce((acc, order) => acc + order.total, 0)
@@ -69,10 +101,10 @@ const OrderList = () => {
                   <div className="inline-flex items-center justify-center rounded-full bg-primary/20 text-primary h-16 w-16"></div>
                   <div className="">
                     <p className="text-base text-default-500 font-medium mb-1">
-                      Food Delivered
+                      Orders Delivered
                     </p>
                     <h4 className="text-2xl text-default-950 font-semibold mb-2">
-                      {totalOrders}
+                      {count.confirmed + count.delivered}
                     </h4>
                   </div>
                 </div>
@@ -85,7 +117,7 @@ const OrderList = () => {
                       Your Balance
                     </p>
                     <h4 className="text-2xl text-default-950 font-semibold mb-2">
-                      ${totalBalance.toFixed(2)}
+                      {Intl.NumberFormat().format(count.revenue)} ₫ 
                     </h4>
                   </div>
                 </div>
@@ -192,10 +224,10 @@ const OrderList = () => {
                               {order.username}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">
-                              {order.restaurantName}
+                              {order.restaurantId.name}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
-                              ${order.total.toFixed(2)}
+                              {Intl.NumberFormat().format(order.total)} ₫ 
                             </td>
                             <td className="px-6 py-4">
                               <span
@@ -212,7 +244,7 @@ const OrderList = () => {
                               </span>
                             </td>
                             <td className="px-6 py-4">
-                              <button className="btn">View Details</button>
+                              <button className="btn" onClick={() => navigate(`/owner/order/detail/${order._id}`)}>View Details</button>
                             </td>
                           </tr>
                         ))}

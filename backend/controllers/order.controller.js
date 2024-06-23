@@ -31,7 +31,10 @@ export const createOrder = async (req, res) => {
 
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find()
+        const userId = req.user._id
+        const restaurants = await Restaurant.find({ userId })
+        const restaurantIds = restaurants.map(restaurant => restaurant._id);
+        const orders = await Order.find({ restaurantId: { $in: restaurantIds } }).populate('restaurantId').populate('cartItems')
         res.status(200).json(orders)
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -47,16 +50,13 @@ export const getPendingOrders = async (req, res) => {
         const orders = await Order.find({ restaurantId: { $in: restaurantIds }, status: 'PENDING' }).populate('restaurantId').populate('cartItems')
         const newOrders = JSON.parse(JSON.stringify(orders))
         for (let i = 0; i < orders.length; i++) {
-            newOrders[i]._id = i
+            newOrders[i].id = i
             for (let j = 0; j < orders[i].cartItems.length; j++) {
                 const foodId = orders[i].cartItems[j].foodId
                 const {name} = await Food.findById(foodId) 
-                newOrders[i].cartItems[j].name = name
+                newOrders[i].cartItems[j].foodName = name
             }
-            // console.log(newOrders[i].cartItems)
-
         }
-        // console.log(orders)
         res.status(200).json(newOrders)
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -95,13 +95,24 @@ export const getOrdersCount = async (req, res) => {
     }
 }
 
-export const getConfirmedOrdersCount = async (req, res) => {
+export const getOrder = async (req, res) => {
     try {
-        const orders = await Order.find({ status: 'CONFIRMED' })
-        res.status(200).json(orders.length)
+        const { id } = req.params;
+        const order = await Order.findById(id).populate('restaurantId').populate('cartItems')   
+        const newOrder = JSON.parse(JSON.stringify(order))
+        for (let i = 0; i < order.cartItems.length; i++) {
+            const foodId = order.cartItems[i].foodId
+            const {name, image, price} = await Food.findById(foodId) 
+            newOrder.cartItems[i].foodName = name
+            newOrder.cartItems[i].foodImage = image
+            newOrder.cartItems[i].foodPrice = Number.parseInt(price)
+        }
+        res.status(200).json(newOrder)
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
 
 

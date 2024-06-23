@@ -63,7 +63,7 @@ function App() {
             <Route path="order">
               <Route index element={<ErrorPage />} />
               <Route path="list" element={<OrderList />} />
-              <Route path="detail" element={<OrderDetail />} />
+              <Route path="detail/:orderId" element={<OrderDetail />} />
             </Route>
             <Route path="restaurant">
               <Route index element={<ErrorPage />} />
