@@ -3,9 +3,9 @@ import { FaArrowRight, FaEye, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Switch, useDisclosure  } from "@chakra-ui/react";
+import { Button, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Switch} from "@chakra-ui/react";
 import { LuEye, LuMoveDown, LuPencil, LuTrash } from "react-icons/lu";
-
+import CustomModal from "../../../components/Modal/default";
 
 const ProductList = () => {
   const navigate = useNavigate()
@@ -15,7 +15,8 @@ const ProductList = () => {
   const [sortDirection, setSortDirection] = useState("asc");
   const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  const { isOpen, onToggle, onClose } = useDisclosure()
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({});
 
   useEffect(() => {
     const fetchFoodByRestaurant = async () => {
@@ -73,23 +74,6 @@ const ProductList = () => {
     setSelectedRestaurant(restaurantId);
   };
 
-  const onDelete = async (productId) => {
-    console.log(`Delete product with id: ${productId}`);
-    try {
-      const response = await axios.put(`/api/food/softDelete/${productId}`)
-      if (response.status === 200) {
-        console.log('Food deleted');
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId))
-        setViewProducts((prevProducts) =>
-          prevProducts.filter((product) => product._id !== productId))
-      }
-    } catch (error) {
-      console.error("Error deleting product: ", error)
-    }
-    // Add delete functionality here
-  };
-
   const onView = (productId) => {
     console.log(`View product with id: ${productId}`);
     navigate(`/owner/product/detail/${productId}`)
@@ -102,47 +86,69 @@ const ProductList = () => {
     // Add edit functionality here
   };
 
-  const handleToggle = async (productId) => {
-
-    try {
-      const product = products.find((product) => product._id === productId)
-      const productData = {
-        name: product.name,
-        categories: product.categories[0]._id,
-        price: product.price,
-        restaurantId: product.restaurantId,
-        ingredients: product.ingredients,
-        description: product.description,
-        image: product.image,
-        available: !product.available
-      }
-      const response = await axios.put(`/api/food/update/${productId}`, productData)
-      if (response.status === 200) {
-        console.log("Product updated successfully")
-        setProducts((prevProducts) =>
-          prevProducts.map((product) =>
-            product._id === productId
-              ? { ...product, available: !product.available }
-              : product
-          )
-        );
-        setViewProducts((prevProducts) =>
-          prevProducts.map((product) =>
-            product._id === productId
-              ? { ...product, available: !product.available }
-              : product
-          )
-        );
-      }
-    } catch (error) {
-      console.error("Error updating product: ", error)
-    }
-  };
-
   const handleSearch = (e) => {
     // console.log(e.target.value);
     setViewProducts(products.filter(product => product.name.toLowerCase().includes(e.target.value.toLowerCase())));
   }
+
+  const openModal = (productId, action) => {
+    setModalContent({
+      productId,
+      action,
+      title: action === "delete" ? "Confirm Deletion" : "Confirm Availability",
+      bodyContent: action === "delete" 
+        ? "This product will move to Remove if you click confirm" 
+        : "Are you sure you want to change the availability of this product?"
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleModalConfirm = async () => {
+    const { productId, action } = modalContent;
+    try {
+      if (action === "delete") {
+        const response = await axios.put(`/api/food/softDelete/${productId}`);
+        if (response.status === 200) {
+          setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+          setViewProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+        }
+      } else if (action === "toggle") {
+        const product = products.find((product) => product._id === productId);
+        const productData = {
+          name: product.name,
+          categories: product.categories[0]._id,
+          price: product.price,
+          restaurantId: product.restaurantId,
+          ingredients: product.ingredients,
+          description: product.description,
+          image: product.image,
+          available: !product.available
+        };
+        const response = await axios.put(`/api/food/update/${productId}`, productData);
+        if (response.status === 200) {
+          setProducts((prevProducts) =>
+            prevProducts.map((product) =>
+              product._id === productId
+                ? { ...product, available: !product.available }
+                : product
+            )
+          );
+          setViewProducts((prevProducts) =>
+            prevProducts.map((product) =>
+              product._id === productId
+                ? { ...product, available: !product.available }
+                : product
+            )
+          );
+        }
+      }
+    } catch (error) {
+      console.error(`Error ${action === "delete" ? "deleting" : "updating"} product: `, error);
+    }
+    setIsModalOpen(false);
+  };
+
+  
 
   return (
     <div>
@@ -274,7 +280,7 @@ const ProductList = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
                             <Switch
                               isChecked={product.available}
-                              onChange={() => handleToggle(product._id)}
+                              onChange={() => openModal(product._id, "toggle")}
                             />
                           </td>
                           <td className="px-6 py-4">
@@ -293,7 +299,7 @@ const ProductList = () => {
                               </a>
                               <a
                                 className="transition-all hover:text-red-500 p-2 bg-gray-200 rounded-full cursor-pointer"
-                                onClick={() => onDelete(product._id)}
+                                onClick={() => openModal(product._id, "delete")}
                               >
                                 <LuTrash />
                               </a>
@@ -309,6 +315,13 @@ const ProductList = () => {
           </div>
         </div>
       </div>
+      <CustomModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={modalContent.title}
+        bodyContent={modalContent.bodyContent}
+        onConfirm={handleModalConfirm}
+      />
     </div>
   );
 };
