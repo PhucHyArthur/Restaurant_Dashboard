@@ -38,4 +38,4 @@ export const UserProvider = (props) => {
   )
 }
 
-export const useUser = () => useContext(useContext)
+export const useUser = () => useContext(UserContext)

@@ -55,7 +55,7 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        let user = await User.findOne({ email });
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(400).json({ error: "Email or password is incorrect" });
@@ -68,8 +68,10 @@ export const loginUser = async (req, res) => {
         }
 
 		generateTokenAndSetCookie(user._id, res);
+
+		const returnedUser = await User.findById(user._id).select("-password");
 		
-        res.status(200).json({ message: "Login successful", user: { email: user.email } });
+        res.status(200).json({ message: "Login successful", user: returnedUser});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Server Error" });

@@ -1,18 +1,25 @@
 import { Avatar, Flex, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from '@chakra-ui/react'
+import { useContext, useEffect, useState } from 'react'
 import { LuLogOut, LuNewspaper, LuSettings, LuUser } from 'react-icons/lu'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../../../../context/UserContext'
 
 const MenuAvatar = () => {
+    const [userData, setUserData] = useContext(UserContext)
+    const [user, setUser] = useState({})
+    useEffect(() => {
+        setUser(JSON.parse(JSON.stringify(userData.user)))
+    }, [])
     return (
         <>
             <Menu closeOnSelect>
                 <MenuButton>
                     <Flex className="items-center gap-2 cursor-pointer">
-                        <Avatar size='md' showBorder={true} name="Phuc Hy" src="https://bit.ly/broken-link" />
+                        <Avatar size='md' showBorder={true} name={user.name} src="https://bit.ly/broken-link" />
 
                         <Flex className="flex-col justify-center">
-                            <Text>Phúc Hỷ</Text>
-                            <Text className="text-[14px] font-[500] text-gray-500">Admin</Text>
+                            <Text>{user.fullname}</Text>
+                            <Text className="text-[14px] font-[500] text-gray-500">{user.role}</Text>
                         </Flex>
                     </Flex>
                 </MenuButton>

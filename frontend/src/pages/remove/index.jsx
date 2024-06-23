@@ -220,7 +220,7 @@ const RemoveRecent = () => {
       <CustomModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={modalContent.title}
+        title={modalContent?.title}
         bodyContent={modalContent.bodyContent}
         onConfirm={handleModalConfirm}
       />
