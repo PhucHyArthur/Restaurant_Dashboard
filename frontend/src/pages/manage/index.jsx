@@ -27,6 +27,7 @@ const Manage = () => {
         const response = await axios.get("/api/order/getPendingOrders")
         if (response.status === 200) {
           setPendingOrders(response.data)
+          console.log("Pending orders:", response.data)
         }
       } catch (error) {
         console.error("Error fetching pending orders:", error);

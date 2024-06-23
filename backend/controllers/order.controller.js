@@ -44,8 +44,15 @@ export const getPendingOrders = async (req, res) => {
         const restaurants = await Restaurant.find({ userId })
         // console.log(restaurantId)
         const restaurantIds = restaurants.map(restaurant => restaurant._id);
-        const orders = await Order.find({ restaurantId: { $in: restaurantIds }, status: 'PENDING' }).populate('cartItems').populate('restaurantId');
-        res.status(200).json(orders)
+        const orders = await Order.find({ restaurantId: { $in: restaurantIds }, status: 'PENDING' }).populate('restaurantId').populate('cartItems')
+        const newOrders = JSON.parse(JSON.stringify(orders))
+        for (let i = 0; i < orders.length; i++) {
+            newOrders[i]._id = i
+            // console.log(newOrders[i].cartItems)
+
+        }
+        // console.log(orders)
+        res.status(200).json(newOrders)
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
