@@ -24,7 +24,26 @@ const Manage = () => {
       }
     }
 
+    const fetchNewOrdersEvent = async () => {
+      const eventSource = new EventSource("/api/order/getEvent") 
+
+      eventSource.onmessage = (event) => {
+        const newOrder = JSON.parse(event.data)
+        setPendingOrders((prevOrders) => [...prevOrders, newOrder])
+        console.log(event.data)
+      }
+
+      eventSource.onerror = (error) => {
+        console.error("Event source error:", error)
+        eventSource.close()
+      }
+
+      return () => {
+        eventSource.close()
+      }
+    }
     fetchPendingOrders()
+    // fetchNewOrdersEvent()
   }, [])
 
   useEffect(() => {
@@ -42,7 +61,7 @@ const Manage = () => {
   }, [pendingOrders])
 
   const handleAccept = async (orderId) => {
-    console.log("Accepting order:", orderId)
+    // console.log("Accepting order:", orderId)
     try {
       const response = await axios.put(`/api/order/updateOrders/${orderId}`, { status: "CONFIRMED" })
       if (response.status === 200) {
@@ -66,8 +85,6 @@ const Manage = () => {
       console.error("Error declining order:", error)
     }
   }
-
-
   return (
     <div className="mt-5 mx-5">
       <div className="grid grid-cols-3 gap-5">

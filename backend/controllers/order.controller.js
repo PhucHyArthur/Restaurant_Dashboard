@@ -13,16 +13,16 @@ export const createOrder = async (req, res) => {
             const {foodId, count} = cart
             const {price} = await Food.findById(foodId)
             totalPrice += Number.parseInt(price) * count
-            cartsArray.push(cart)
+            cartsArray.push(JSON.parse(JSON.stringify(cart)))
         }
-        const newOrder = new Order({
+        const order = new Order({
             username,
             restaurantId,
             cartItems : cartsArray,
             total : totalPrice
         })
 
-        await newOrder.save() 
+        const newOrder = await order.save() 
         res.status(201).json({ message: 'Order created successfully', order: newOrder })
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -48,6 +48,7 @@ export const getPendingOrders = async (req, res) => {
         // console.log(restaurantId)
         const restaurantIds = restaurants.map(restaurant => restaurant._id);
         const orders = await Order.find({ restaurantId: { $in: restaurantIds }, status: 'PENDING' }).populate('restaurantId').populate('cartItems')
+        // console.log(orders)
         const newOrders = JSON.parse(JSON.stringify(orders))
         for (let i = 0; i < orders.length; i++) {
             newOrders[i].id = i

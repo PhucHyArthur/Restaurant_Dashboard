@@ -15,7 +15,7 @@ const Login = () => {
   const [userData, setUserData] = useContext(UserContext)
 
   const onSubmit = async (data) => {
-    console.log(data)
+    // console.log(data)
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",

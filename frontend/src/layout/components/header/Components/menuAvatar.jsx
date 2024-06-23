@@ -6,10 +6,21 @@ import { UserContext } from '../../../../context/UserContext'
 
 const MenuAvatar = () => {
     const [userData, setUserData] = useContext(UserContext)
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState('')
     useEffect(() => {
-        setUser(JSON.parse(JSON.stringify(userData.user)))
-    }, [])
+        const set = () => {
+            if (typeof userData.user === 'string') {
+                const tempUser = JSON.parse(userData.user)
+                console.log(tempUser)
+                setUser(tempUser)
+            } 
+            if (typeof userData.user === 'object') {
+                setUser(userData.user)
+            }
+        }
+        set()
+        // console.log(user.json())
+    }, [userData.user, setUserData])
     return (
         <>
             <Menu closeOnSelect>

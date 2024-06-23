@@ -32,7 +32,8 @@ export default function CardListSlider({
                     <IoFastFoodOutline />
                   </Box>
                   <Box>
-                    <Text>Order #{item.id + 1}</Text>
+                    {/* <Text>Order #{item.id + 1}</Text> */}
+                    <Text>Order #{index + 1}</Text>
                     <Text>{item.cartItems?.length} Items</Text>
                   </Box>
                 </Flex>
