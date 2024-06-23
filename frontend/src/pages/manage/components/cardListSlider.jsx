@@ -37,15 +37,15 @@ export default function CardListSlider({ pendingOrders, handleAccept }) {
                                         <IoFastFoodOutline />
                                     </Box>
                                     <Box>
-                                        <Text>{item._id}</Text>
-                                        <Text>{item.cartItems?.length > 1 ? item.cartItems?.length : 0} Items</Text>
+                                        <Text>Order #{item._id + 1}</Text>
+                                        <Text>{item.cartItems?.length} Items</Text>
                                     </Box>
                                 </Flex>
 
                                 <Box className='h-[130px] overflow-y-auto mt-2 border-[1px] rounded-lg p-2'>
                                     <Box className='font-[500] text-gray-500'>Customer: <Text className='inline-block text-black'>{item.username}</Text></Box>
 
-                                    <CustomCollapse item={item} />
+                                    <CustomCollapse cartItems={item.cartItems} />
                                 </Box>
 
                                 <Box className='font-[500] text-gray-500'>
