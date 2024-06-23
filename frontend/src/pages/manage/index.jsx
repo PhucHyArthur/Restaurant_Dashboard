@@ -41,6 +41,8 @@ const Manage = () => {
     console.log("Accepting order:", orderId)
   }
 
+  console.log('check pendingOrders:', pendingOrders)
+
   return (
     <div className="mt-5 mx-5">
       <div className="grid grid-cols-3 gap-5">
