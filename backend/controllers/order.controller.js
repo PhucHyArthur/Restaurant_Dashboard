@@ -48,6 +48,11 @@ export const getPendingOrders = async (req, res) => {
         const newOrders = JSON.parse(JSON.stringify(orders))
         for (let i = 0; i < orders.length; i++) {
             newOrders[i]._id = i
+            for (let j = 0; j < orders[i].cartItems.length; j++) {
+                const foodId = orders[i].cartItems[j].foodId
+                const {name} = await Food.findById(foodId) 
+                newOrders[i].cartItems[j].name = name
+            }
             // console.log(newOrders[i].cartItems)
 
         }
