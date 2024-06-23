@@ -45,14 +45,19 @@ export default function CardListSlider({ pendingOrders, handleAccept }) {
                                 <Box className='h-[130px] overflow-y-auto mt-2 border-[1px] rounded-lg p-2'>
                                     <Box className='font-[500] text-gray-500'>Customer: <Text className='inline-block text-black'>{item.username}</Text></Box>
 
-                                    <CustomCollapse />
+                                    <CustomCollapse item={item} />
+                                </Box>
+
+                                <Box className='font-[500] text-gray-500'>
+                                    Total Price:
+                                    <Text className='inline-block ml-1 text-black'>
+                                        {item.total.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                                    </Text>
                                 </Box>
 
                                 <Flex className='absolute bottom-5 right-5 gap-5'>
                                     <Button onClick={() => handleDeleteCard(item._id)} colorScheme='red'>Decline</Button>
-                                    <Button colorScheme='green' onClick={() => handleAccept(item._id)}>Accept</Button>
-                                    <Button colorScheme='blue' onClick={() => setItem(item)}>item</Button>
-
+                                    <Button colorScheme='blue' onClick={() => handleAccept(item._id)}>Accept</Button>
                                 </Flex>
                             </Box>
                         </SwiperSlide>
