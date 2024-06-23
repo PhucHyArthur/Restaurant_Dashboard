@@ -1,4 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { IoFastFoodOutline } from "react-icons/io5";
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -6,15 +7,18 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import CustomCollapse from './collapse';
 
 export default function CardListSlider({ pendingOrders, handleAccept }) {
-    // const [list, setList] = useState([pendingOrders])
+    const [item, setItem] = useState()
 
     const handleDeleteCard = (cardIndex) => {
         console.log('check cardIndex:', cardIndex)
-        const newList = list.filter((item, index) => index !== cardIndex)
-        setList(newList)
+        // const newList = list.filter((item, index) => index !== cardIndex)
+        // setList(newList)
     }
+
+    console.log('check item:', item)
 
     return (
         <>
@@ -27,12 +31,33 @@ export default function CardListSlider({ pendingOrders, handleAccept }) {
                 {pendingOrders?.map((item, index) => {
                     return (
                         <SwiperSlide key={index}>
-                            <Box className='h-[200px] border-2 border-gray-300 rounded-md relative'>
-                                <Text>{item.username}</Text>
+                            <Box className='h-[300px] border-2 border-gray-300 rounded-md relative p-3'>
+                                <Flex className='items-center gap-2'>
+                                    <Box className='text-[30px] p-2 rounded-full bg-[#ccc] text-gray-600'>
+                                        <IoFastFoodOutline />
+                                    </Box>
+                                    <Box>
+                                        <Text>{item._id}</Text>
+                                        <Text>{item.cartItems?.length > 1 ? item.cartItems?.length : 0} Items</Text>
+                                    </Box>
+                                </Flex>
+
+                                <Box className='h-[130px] overflow-y-auto mt-2 border-[1px] rounded-lg p-2'>
+                                    <Box className='font-[500] text-gray-500'>Customer: <Text className='inline-block text-black'>{item.username}</Text></Box>
+
+                                    <CustomCollapse item={item} />
+                                </Box>
+
+                                <Box className='font-[500] text-gray-500'>
+                                    Total Price:
+                                    <Text className='inline-block ml-1 text-black'>
+                                        {item.total.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                                    </Text>
+                                </Box>
 
                                 <Flex className='absolute bottom-5 right-5 gap-5'>
-                                    <Button onClick={() => handleDeleteCard(index)} colorScheme='red'>Decline</Button>
-                                    <Button colorScheme='green' onClick={() => handleAccept(item._id)}>Accept</Button>
+                                    <Button onClick={() => handleDeleteCard(item._id)} colorScheme='red'>Decline</Button>
+                                    <Button colorScheme='blue' onClick={() => handleAccept(item._id)}>Accept</Button>
                                 </Flex>
                             </Box>
                         </SwiperSlide>
