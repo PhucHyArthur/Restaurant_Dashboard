@@ -15,10 +15,10 @@ const DefaultHeader = () => {
             <Box className="header-logo flex justify-center items-center min-w-[260px]" borderRight={'1px solid #ccc'}>
                 <img
                     className="w-[70px]"
-                    src="https://i.imgur.com/WdNmCr0.png"
+                    src="https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbN6RoM_xsl761_AzX3DR4YgCDy2RyEFVvlyItZsbV4DqxQKxEfxwEsG549l6E727svRWMUq3WTmhJlVemZzYQw_QT7YSDDAQU=w1860-h927-rw-v1?fbclid=IwZXh0bgNhZW0CMTAAAR10rK6A_sUPQKva-TpPm_Y6j8ECx6EUFen40bFjh7YrgnVp9LFMOBTI4lI_aem_xZiD1pTMo6k4WlwKb3EMyw"
                     alt="logo"
                 />
-                <p>Wibu Food</p>
+                <p>ChooseMe</p>
             </Box>
 
             <div className="header-nav flex items-center justify-between w-full mx-5">
@@ -35,15 +35,15 @@ const DefaultHeader = () => {
                         <LuGlobe />
                     </Center>
 
-                    <Center className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
+                    <Center onClick={handleShowToast} className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
                         <LuScan />
                     </Center>
 
-                    <Center className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
+                    <Center onClick={handleShowToast} className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
                         <LuSettings />
                     </Center>
 
-                    <Center className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
+                    <Center onClick={handleShowToast} className="text-[24px] w-12 h-12 rounded-full bg-[#f1f5f9] hover:text-[#f58220] cursor-pointer">
                         <LuBell />
                     </Center>
 

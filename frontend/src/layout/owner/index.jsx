@@ -15,7 +15,7 @@ const OwnerLayout = () => {
     if (userData.user === "null" || !userData.user) {
       navigate('/')
     }
-  }, [userData])
+  }, [userData, navigate])
 
   return (
     <div className="bg-white">

@@ -3,7 +3,6 @@ import { FaEye, FaEyeLowVision } from "react-icons/fa6"
 import { Link, useNavigate } from "react-router-dom"
 import { useContext, useState } from "react"
 
-
 import './styles.scss'
 import { UserContext } from "../../../context/UserContext"
 
@@ -31,7 +30,7 @@ const Login = () => {
         setUserData({
           user : responseData.user
         })
-        navigate('/owner')
+        navigate('/owner/restaurant/list')
       } else {
         console.error(responseData.error); // Log the error message if registration fails
         // You can handle the error in your application as needed

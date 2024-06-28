@@ -28,7 +28,7 @@ export const addRestaurant = async (req, res) => {
     res.status(201).json({ message: 'Restaurant added successfully', restaurant: newRestaurant });
   } catch (error) {
     res.status(500).json({ error: error.message });
-  }
+  } 
 };
 
 export const getRestaurants = async (req, res) => {

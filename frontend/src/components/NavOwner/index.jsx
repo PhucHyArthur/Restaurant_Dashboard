@@ -26,19 +26,7 @@ const NavOwner = () => {
 
   return (
     <Box className="fixed top-0 left-0 flex flex-col pt-[60px] justify-between bg-white" w={260} h={'100%'} borderRight={'1px solid #ccc'}>
-      <Accordion allowToggle className="navOwner p-5 flex flex-col gap-1 max-h-[400px] overflow-y-scroll">
-
-        <AccordionItem className="border-none">
-          <AccordionButton onClick={() => setPage('dashboard')} className={`rounded-lg ${page === 'dashboard' ? 'bg-[#fef2e8]' : 'transparent'}`}>
-            <Link to={'/owner'}>
-              <Flex className={`items-center  w-full gap-2  rounded-lg ${page === 'dashboard' ? 'text-[#f58220]' : 'text-black'}`}>
-                <LuLayoutDashboard />
-                <Text>Dash Board</Text>
-              </Flex>
-            </Link>
-          </AccordionButton>
-        </AccordionItem>
-
+      <Accordion allowMultiple defaultIndex={0} className="navOwner p-5 flex flex-col gap-1 max-h-[400px] overflow-y-scroll">
         <AccordionItem className="border-none">
           <AccordionButton onClick={() => setPage('manage')} className={`rounded-lg ${page === 'manage' ? 'bg-[#fef2e8]' : 'transparent'}`}>
             <Link to={'/owner/manage'}>

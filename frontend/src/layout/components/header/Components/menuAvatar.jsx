@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import { LuLogOut, LuNewspaper, LuSettings, LuUser } from 'react-icons/lu'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../../../context/UserContext'
+import axios from "axios";
 
 const MenuAvatar = () => {
     const [userData, setUserData] = useContext(UserContext)
@@ -10,6 +11,21 @@ const MenuAvatar = () => {
     useEffect(() => {
         setUser(JSON.parse(JSON.stringify(userData.user)))
     }, [])
+
+    const handleLogout = async () => {
+        try {
+          const response = await axios.post('/api/auth/logout')
+    
+          if (response.status === 200) {
+            localStorage.setItem('user', null)
+            setUserData({
+              user: null
+            })
+          }
+        } catch (error) {
+          console.error("Error logging out: ", error)
+        }
+      }
     return (
         <>
             <Menu closeOnSelect>
@@ -56,7 +72,7 @@ const MenuAvatar = () => {
 
                     <MenuItem>
                         <Link to={''}>
-                            <Flex className='items-center gap-2 cursor-pointer hover:bg-[#fef1f1] text-[#f97d7d] rounded-md'>
+                            <Flex className='items-center gap-2 cursor-pointer hover:bg-[#fef1f1] text-[#f97d7d] rounded-md' onClick={() => handleLogout()}>
                                 <LuLogOut />
                                 <Text>Logout</Text>
                             </Flex>

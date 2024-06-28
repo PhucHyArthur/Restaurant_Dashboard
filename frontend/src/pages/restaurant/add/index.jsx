@@ -4,13 +4,16 @@ import axios from "axios";
 import * as jwt_decode from "jwt-decode";
 import cookie from "cookie";
 import { Box, Button, Flex } from "@chakra-ui/react";
+import CustomToast from "../../../components/Toast";
 // import dotenv from 'dotenv'
 // dotenv.config()
 
 const RestaurantAdd = () => {
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [categories, setCategories] = useState([]);
   const [userID, setUserID] = useState("");
+  const showToast = CustomToast()
+
 
   useEffect(() => {
     // Lấy token từ cookie
@@ -58,7 +61,8 @@ const RestaurantAdd = () => {
 
       // Send restaurant data to backend
       const response = await axios.post("/api/restaurant/addRestaurant", restaurantData);
-      console.log("Restaurant added successfully:", response.data);
+      showToast("success","Add Restaurant Succeed","")
+      reset()
     } catch (error) {
       console.error("Error adding restaurant:", error);
     }
@@ -199,9 +203,9 @@ const RestaurantAdd = () => {
         </Flex>
 
         <div className="flex justify-center">
-          <Button colorScheme="blue">
+          <button className=""type="submit">
             Add Restaurant
-          </Button>
+          </button>
         </div>
       </form>
     </div>
