@@ -211,7 +211,7 @@ const ProductList = () => {
 
                   <Button colorScheme="whatsapp">
                     <a
-                      href="add"
+                      onClick={() => navigate("/owner/product/add")}
                       className="py-2.5 px-4 inline-flex rounded-lg text-sm font-medium bg-primary  transition-all hover:bg-primary-500"
                     >
                       Add Product
