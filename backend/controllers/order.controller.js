@@ -11,7 +11,7 @@ export const createOrder = async (req, res) => {
         for (let i = 0; i < cartItems.length; i++) {
             const cart = await Cart.findById(cartItems[i])
             const {foodId, count} = cart
-            const {price} = await Food.findById(foodId)
+            const {price} = await Food.findById(foodId) 
             totalPrice += Number.parseInt(price) * count
             cartsArray.push(JSON.parse(JSON.stringify(cart)))
         }

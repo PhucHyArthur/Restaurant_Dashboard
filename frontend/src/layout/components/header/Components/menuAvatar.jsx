@@ -22,8 +22,6 @@ const MenuAvatar = () => {
         set()
         // console.log(user.json())
     }, [userData.user, setUserData])
-        setUser(JSON.parse(JSON.stringify(userData.user)))
-    }, [])
 
     const handleLogout = async () => {
         try {
