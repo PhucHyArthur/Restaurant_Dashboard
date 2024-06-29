@@ -2,7 +2,7 @@ import axios from "axios"
 
 const uploadFileCloudinary = async (file) => {
     const formData = new FormData() 
-    formData.append('file', file) 
+    formData.append('file',file) 
     formData.append('upload_preset','j9rkirfq') 
 
     try {

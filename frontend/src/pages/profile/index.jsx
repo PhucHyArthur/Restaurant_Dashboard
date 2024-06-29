@@ -15,7 +15,7 @@ const ProfileOwner = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    console.log("user data:", data)
+    // console.log("user data:", data)
     try {
       const userData = {
         currentPassword : data.currentPassword,

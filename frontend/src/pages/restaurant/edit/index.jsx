@@ -56,9 +56,9 @@ const RestaurantEdit = () => {
     try {
       console.log("data:",data)
       // Upload files to Cloudinary nếu cần thiết
-      const logoUpload = data.logo===restaurant.images.logo ? data.logo : await uploadFileCloudinary(data.logo)
-      const posterUpload = data.poster===restaurant.images.poster ? data.poster : await uploadFileCloudinary(data.poster)
-      const coverUpload = data.cover===restaurant.images.cover ? data.cover : await uploadFileCloudinary(data.cover)
+      const logoUpload = data.logo===restaurant.images.logo ? data.logo : await uploadFileCloudinary(data.logo[0])
+      const posterUpload = data.poster===restaurant.images.poster ? data.poster : await uploadFileCloudinary(data.poster[0])
+      const coverUpload = data.cover===restaurant.images.cover ? data.cover : await uploadFileCloudinary(data.cover[0])
 
       const restaurantData = {
         name: data.name,
