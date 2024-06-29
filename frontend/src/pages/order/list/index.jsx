@@ -15,7 +15,8 @@ const OrderList = () => {
   const [statusSortOrder, setStatusSortOrder] = useState(0); 
   const [count, setCount] = useState({})
   const [orders, setOrders] = useState([])
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [viewOrders, setViewOrders] = useState([])
+  const [selectedRestaurant, setSelectedRestaurant] = useState("All");
   const [restaurants, setRestaurants] = useState([]);
 
   const handleSort = (column) => {
@@ -28,7 +29,7 @@ const OrderList = () => {
     }
   };
 
-  const sortedOrders = [...orders].sort((a, b) => {
+  const sortedOrders = [...viewOrders].sort((a, b) => {
     if (sortedColumn && sortedColumn !== "status") {
       if (a[sortedColumn] < b[sortedColumn]) {
         return sortDirection === "asc" ? -1 : 1;
@@ -50,11 +51,10 @@ const OrderList = () => {
     const fetchRestaurants = async () => {
       const response = await axios.get("/api/restaurant/");
       if (response.status === 200) {
-        setRestaurants(response.data);
+        setRestaurants(response.data)
         // console.log(response.data);
       }
     }
-    fetchRestaurants()
     
     const fetchAllOrders = async () => {
       try {
@@ -62,6 +62,7 @@ const OrderList = () => {
         if (response.status === 200) {
           // console.log("All orders: ", response.data)
           setOrders(response.data)
+          setViewOrders(response.data)
         }
       } catch (error) {
         console.error("Error fetching all orders: ", error)
@@ -77,16 +78,25 @@ const OrderList = () => {
         console.error("Error fetching counts:", error);
       }
     }
+    fetchRestaurants()
     fetchCount()
     fetchAllOrders()
   }, [])
-
-  const totalOrders = mockOrders.length
-  const totalBalance = mockOrders.reduce((acc, order) => acc + order.total, 0)
   
   const onSelectRestaurant = (restaurantId) => {
     setSelectedRestaurant(restaurantId);
   };
+
+  useEffect(() => {
+    if (selectedRestaurant==="All") {
+      setViewOrders(orders) 
+    } else {
+      const filteredOrders = orders.filter(order => order.restaurantId._id === selectedRestaurant)
+      setViewOrders(filteredOrders)
+    }
+  }, [selectedRestaurant])
+
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between w-full mb-6">
@@ -171,9 +181,14 @@ const OrderList = () => {
                       Select Restaurant
                     </MenuButton>
                     <MenuList>
+                      <MenuItem key={""} onClick={() => onSelectRestaurant("All")}>
+                        <a>
+                          All
+                        </a>
+                      </MenuItem>
                       {restaurants.map((restaurant) => (
-                        <MenuItem key={restaurant._id}>
-                          <a onClick={() => onSelectRestaurant(restaurant._id)}>
+                        <MenuItem key={restaurant._id} onClick={() => onSelectRestaurant(restaurant._id)}>
+                          <a>
                             {restaurant.name}
                           </a>
                         </MenuItem>
