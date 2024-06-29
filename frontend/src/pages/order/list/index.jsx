@@ -15,6 +15,8 @@ const OrderList = () => {
   const [statusSortOrder, setStatusSortOrder] = useState(0); 
   const [count, setCount] = useState({})
   const [orders, setOrders] = useState([])
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [restaurants, setRestaurants] = useState([]);
 
   const handleSort = (column) => {
     if (column === "status") {
@@ -45,6 +47,15 @@ const OrderList = () => {
   })
 
   useEffect(() => {
+    const fetchRestaurants = async () => {
+      const response = await axios.get("/api/restaurant/");
+      if (response.status === 200) {
+        setRestaurants(response.data);
+        // console.log(response.data);
+      }
+    }
+    fetchRestaurants()
+    
     const fetchAllOrders = async () => {
       try {
         const response = await axios.get("/api/order/getAllOrders") 
@@ -72,7 +83,10 @@ const OrderList = () => {
 
   const totalOrders = mockOrders.length
   const totalBalance = mockOrders.reduce((acc, order) => acc + order.total, 0)
-
+  
+  const onSelectRestaurant = (restaurantId) => {
+    setSelectedRestaurant(restaurantId);
+  };
   return (
     <div className="p-6">
       <div className="flex items-center justify-between w-full mb-6">
@@ -153,14 +167,19 @@ const OrderList = () => {
                     </label>
 
                     <Menu>
-                      <MenuButton as={Button} rightIcon={<LuMoveDown />}>
-                        Sort by
-                      </MenuButton>
-                      <MenuList minWidth={'120px'}>
-                        <MenuItem px={5}>Restaurant</MenuItem>
-                        <MenuItem px={5}>Default</MenuItem>
-                      </MenuList>
-                    </Menu>
+                    <MenuButton as={Button} rightIcon={<LuMoveDown />}>
+                      Select Restaurant
+                    </MenuButton>
+                    <MenuList>
+                      {restaurants.map((restaurant) => (
+                        <MenuItem key={restaurant._id}>
+                          <a onClick={() => onSelectRestaurant(restaurant._id)}>
+                            {restaurant.name}
+                          </a>
+                        </MenuItem>
+                      ))}
+                    </MenuList>
+                  </Menu>
 
                   </div>
                 </div>

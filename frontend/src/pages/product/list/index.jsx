@@ -26,7 +26,7 @@ const ProductList = () => {
         if (response.status === 200) {
           setProducts(response.data.foods)
           setViewProducts(response.data.foods)
-          // console.log(response.data.foods);
+          console.log(response.data.foods);
         }
       } catch (error) {
         console.error("Error fetching products: ", error)
@@ -77,7 +77,6 @@ const ProductList = () => {
   const onView = (productId) => {
     console.log(`View product with id: ${productId}`);
     navigate(`/owner/product/detail/${productId}`)
-    // Add view functionality here
   };
 
   const onEdit = (productId) => {
@@ -157,7 +156,7 @@ const ProductList = () => {
           <h4 className="text-xl font-medium">Product List</h4>
           <ol className="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2">
             <li className="text-sm">
-              <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500">
+              <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500 cursor-pointer">
                 Product
                 <FaArrowRight />
               </a>
@@ -211,7 +210,7 @@ const ProductList = () => {
 
                   <Button colorScheme="whatsapp">
                     <a
-                      href="add"
+                      onClick={()=>navigate("/owner/product/add")}
                       className="py-2.5 px-4 inline-flex rounded-lg text-sm font-medium bg-primary  transition-all hover:bg-primary-500"
                     >
                       Add Product

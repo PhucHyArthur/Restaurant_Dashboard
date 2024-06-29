@@ -1,4 +1,5 @@
 import { Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const Form = ({
   title,
@@ -14,6 +15,7 @@ const Form = ({
   const onChange = (e) => {
     setImageSource(URL.createObjectURL(e.target.files[0]));
   };
+  const navigate = useNavigate()
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -22,7 +24,7 @@ const Form = ({
             <h4 className="text-xl font-medium">Product {title}</h4>
             <ol className="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2">
               <li className="text-sm">
-                <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500">
+                <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500 cursor-pointer" onClick={()=>navigate("/owner/product/list")}>
                   Product
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

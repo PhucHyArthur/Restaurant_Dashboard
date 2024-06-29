@@ -33,7 +33,7 @@ const OrderDetail = () => {
         <h4 className="text-xl font-medium">Order Detail</h4>
         <ol className="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2">
           <li className="text-sm">
-            <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500">
+            <a className="flex items-center gap-2 align-middle text-default-800 cursor-pointer">
               Order
               <FaArrowRight />
             </a>

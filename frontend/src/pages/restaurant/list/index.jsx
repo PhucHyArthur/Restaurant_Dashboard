@@ -7,7 +7,7 @@ import { Box, Button } from "@chakra-ui/react";
 
 const RestaurantList = () => {
   const { register, handleSubmit, watch } = useForm();
-  const watchAllFields = watch(); // Watch all fields to trigger re-render on input change
+  const watchAllFields = watch();
   const [restaurants, setRestaurants] = useState([]); 
   const navigate = useNavigate()
 

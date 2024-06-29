@@ -45,7 +45,7 @@ const DetailPage = ({ productId }) => {
                 <h4 className="text-xl font-medium">Products Detail</h4>
                 <ol aria-label="Breadcrumb" className="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2">
                     <li className="text-sm">
-                        <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500" href="/owner/product/list">
+                        <a className="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500 cursor-pointer">
                             Products
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="lucide lucide-chevron-right w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg>
                         </a>

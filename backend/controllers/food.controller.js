@@ -65,7 +65,7 @@ export const getFoodById = async (req, res) => {
         // console.log(food);
         const newFood = {
             _id: food._id,
-            name: food.name,
+            name: food.name,    
             categories: [categories],
             price: food.price,
             description: food.description,

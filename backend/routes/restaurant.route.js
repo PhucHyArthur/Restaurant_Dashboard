@@ -1,3 +1,5 @@
+// Định nghĩa các Endpoint
+
 import express from "express";
 import {
   addRestaurant,
