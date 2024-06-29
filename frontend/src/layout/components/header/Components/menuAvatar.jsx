@@ -12,7 +12,7 @@ const MenuAvatar = () => {
         const set = () => {
             if (typeof userData.user === 'string') {
                 const tempUser = JSON.parse(userData.user)
-                console.log(tempUser)
+                // console.log(tempUser)
                 setUser(tempUser)
             } 
             if (typeof userData.user === 'object') {
