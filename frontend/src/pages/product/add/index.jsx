@@ -75,10 +75,11 @@ const ProductAdd = () => {
       }
 
       const response = await axios.post('/api/food/add', productData)
-      showToast('success', 'Thêm món thành công', '')
+      showToast('success', 'Food added successfully', '')
       reset()
       setImageSource("")
     } catch (error) {
+      showToast('error', 'Food added failed', '')
       console.error("Error adding food: ", error)
     }
   };

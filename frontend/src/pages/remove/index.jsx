@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { LuArrowDown } from "react-icons/lu";
 import CustomModal from "../../components/Modal/default";
+import CustomToast from "../../components/Toast";
 // import { useNavigate } from "react-router-dom";
 
 const RemoveRecent = () => {
@@ -15,6 +16,7 @@ const RemoveRecent = () => {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({});
+  const showToast = CustomToast()
 
   useEffect(() => {
     const fetchFoodByRestaurant = async () => {
@@ -86,17 +88,20 @@ const RemoveRecent = () => {
       if (action === "delete") {
         const response = await axios.delete(`/api/food/delete/${productId}`);
         if (response.status === 200) {
+          showToast("success", "Product deleted successfully", "")
           setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
           setViewProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
         }
       } else if (action === "restore") {
         const response = await axios.put(`/api/food/restore/${productId}`);
         if (response.status === 200) {
+          showToast("success", "Product restored successfully", "")
           setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
           setViewProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
         }
       }
     } catch (error) {
+      showToast("error", `Error ${action === "delete" ? "deleting" : "restoring"} product`, "")
       console.error(`Error ${action === "delete" ? "deleting" : "restoring"} product: `, error);
     }
     setIsModalOpen(false);

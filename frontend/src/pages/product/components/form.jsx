@@ -12,9 +12,6 @@ const Form = ({
   restaurants = [],
   categories = [],
 }) => {
-  const onChange = (e) => {
-    setImageSource(URL.createObjectURL(e.target.files[0]));
-  };
   const navigate = useNavigate()
   return (
     <div>

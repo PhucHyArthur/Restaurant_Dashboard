@@ -1,30 +1,16 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import * as jwt_decode from "jwt-decode";
-import cookie from "cookie";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import CustomToast from "../../../components/Toast";
 import uploadFileCloudinary from "../../actions/UploadFileCloudinary";
-// import dotenv from 'dotenv'
-// dotenv.config()
 
 const RestaurantAdd = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [categories, setCategories] = useState([]);
-  const [userID, setUserID] = useState("");
   const showToast = CustomToast()
 
-
   useEffect(() => {
-    // Lấy token từ cookie
-    const cookies = cookie.parse(document.cookie);
-    const token = cookies.token; // Assumed the token name is `token`
-    if (token) {
-      const decoded = jwt_decode(token);
-      setUserID(decoded.userId); // Giả sử userId nằm trong payload của token
-    }
-
     // Lấy danh sách categories từ backend
     const fetchCategories = async () => {
       try {
@@ -52,7 +38,6 @@ const RestaurantAdd = () => {
         location: data.location,
         description: data.description,
         categories: data.categories, // Chuyển thành mảng các categoryId
-        userId: userID, // Sử dụng userID từ token
         images: {
           logo: logoUpload,
           poster: posterUpload,
@@ -62,9 +47,12 @@ const RestaurantAdd = () => {
 
       // Send restaurant data to backend
       const response = await axios.post("/api/restaurant/addRestaurant", restaurantData);
-      showToast("success","Add Restaurant Succeed","")
-      reset()
+      if (response.status === 200) {
+        showToast("success","Restaurant added successfully","")
+        reset()
+      }
     } catch (error) {
+      showToast("error","Restaurant added failed","")
       console.error("Error adding restaurant:", error);
     }
   };

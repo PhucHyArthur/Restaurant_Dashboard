@@ -4,6 +4,7 @@ import { FaEye, FaEyeLowVision } from "react-icons/fa6";
 import "./styles.scss";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import CustomToast from "../../../components/Toast";
 
 const Register = () => {
   const navigate = useNavigate()
@@ -13,6 +14,7 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const showToast = CustomToast()
 
   const password = watch("password", "");
   const [show, setShow] = useState(false);
@@ -31,14 +33,13 @@ const Register = () => {
       const responseData = await response.json();
 
       if (response.ok) {
+        showToast('success', 'User registered successfully', '')
         console.log(responseData.message); // User registered successfully
         // You can perform any additional actions here after successful registration
         navigate("/")
-      } else {
-        console.error(responseData.error); // Log the error message if registration fails
-        // You can handle the error in your application as needed
       }
     } catch (error) {
+      showToast('error', 'User registration failed', '')
       console.error("Error:", error);
       // Handle any unexpected errors that may occur during the request
     }

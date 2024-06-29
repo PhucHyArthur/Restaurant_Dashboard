@@ -3,12 +3,14 @@ import CardListSlider from "./components/cardListSlider";
 import CardOrder from "./components/cardOrder";
 import { Box } from "@chakra-ui/react";
 import axios from "axios";
+import CustomToast from "../../components/Toast";
 
 
 const Manage = () => {
   const title = ['TOTAL ORDERS', 'COMPLETED ORDERS', 'REVENUE']
   const [count, setCount] = useState({})
   const [pendingOrders, setPendingOrders] = useState([])
+  const showToast = CustomToast()
 
   useEffect(() => {
     const fetchPendingOrders = async () => {
@@ -65,23 +67,27 @@ const Manage = () => {
     try {
       const response = await axios.put(`/api/order/updateOrders/${orderId}`, { status: "CONFIRMED" })
       if (response.status === 200) {
-        console.log("Order confirmed:", response.data)
+        showToast("success", "Order confirmed", "")
+        // console.log("Order confirmed:", response.data)
         setPendingOrders(pendingOrders.filter(order => order._id !== orderId))
       }
     } catch (error) {
+      showToast("error", "Error accepting order", "")
       console.error("Error accepting order:", error)
     }
   }
 
   const handleDecline = async (orderId) => {
-    console.log("Declining order:", orderId)
+    // console.log("Declining order:", orderId)
     try {
       const response = await axios.put(`/api/order/updateOrders/${orderId}`, { status: "CANCELLED" })
       if (response.status === 200) {
-        console.log("Order cancelled:", response.data)
+        showToast("success", "Order cancelled", "")
+        // console.log("Order cancelled:", response.data)
         setPendingOrders(pendingOrders.filter(order => order._id !== orderId))
       }
     } catch (error) {
+      showToast("error", "Error declining order", "")
       console.error("Error declining order:", error)
     }
   }

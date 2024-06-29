@@ -1,10 +1,12 @@
-import { Box, Button, Flex, Grid, Image, Input, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 import AvatarPicking from './avatar'
 import axios from 'axios'
+import CustomToast from '../../../components/Toast'
 
 const PersonalDetails = () => {
+    const showToast = CustomToast()
     const {
         register,
         handleSubmit,
@@ -48,10 +50,12 @@ const PersonalDetails = () => {
             const response = await axios.put('/api/user/edit', userData)
 
             if (response.status===200) {
+                showToast('success', 'Profile edited successfully', '')
                 console.log("User updated successfully:", response.data)
             }
         } catch (error) {
             console.error("Error updating user:", error);
+            showToast('error', 'Profile edited failed', '')
         }
     }
 

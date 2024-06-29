@@ -93,8 +93,9 @@ const ProductEdit = () => {
         image: imageUpload,
       }
       const response = await axios.put(`/api/food/update/${productId}`, productData)
-      showToast('success', 'Cập nhật thành công', '')
+      showToast('success', 'Food updated successfully', '')
     } catch (error) {
+      showToast('error', 'Food updated failed', '')
       console.error("Error editing food: ", error)
     }
   };

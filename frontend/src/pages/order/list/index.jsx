@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import mockOrders from "./mockData";
-import { Box, Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { LuDownload, LuMoveDown } from "react-icons/lu";
+import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { LuMoveDown } from "react-icons/lu";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

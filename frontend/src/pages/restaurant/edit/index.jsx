@@ -2,11 +2,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import * as jwt_decode from "jwt-decode";
-import cookie from "cookie";
 import { useParams } from "react-router-dom";
 import { Box, Button } from "@chakra-ui/react";
 import uploadFileCloudinary from "../../actions/UploadFileCloudinary";
+import CustomToast from "../../../components/Toast";
 
 const RestaurantEdit = () => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -14,6 +13,7 @@ const RestaurantEdit = () => {
   const [categories, setCategories] = useState([]);
   const [restaurant, setRestaurant] = useState({}); 
   const [userID, setUserID] = useState("");
+  const showToast = CustomToast()
 
   useEffect(() => {
     // Lấy danh sách categories từ backend
@@ -75,8 +75,12 @@ const RestaurantEdit = () => {
 
       // Gửi dữ liệu đã chỉnh sửa đến backend
       const response = await axios.put(`/api/restaurant/edit/${restaurantId}`, restaurantData);
-      console.log("Restaurant updated successfully:", response.data);
+      if (response.status === 200) {
+        showToast("success","Restaurant edited successfully","")
+        console.log("Restaurant updated successfully:", response.data);
+      }
     } catch (error) {
+      showToast("error","Restaurant added failed","")
       console.error("Error updating restaurant:", error);
     }
   };

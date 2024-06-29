@@ -5,6 +5,7 @@ import { useContext, useState } from "react"
 
 import './styles.scss'
 import { UserContext } from "../../../context/UserContext"
+import CustomToast from "../../../components/Toast"
 
 
 const Login = () => {
@@ -12,6 +13,7 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors }, } = useForm()
   const [show, setShow] = useState(false)
   const [userData, setUserData] = useContext(UserContext)
+  const showToast = CustomToast()
 
   const onSubmit = async (data) => {
     // console.log(data)
@@ -27,15 +29,14 @@ const Login = () => {
       const responseData = await response.json();
       // console.log(response)
       if (response.ok) {
+        showToast('success', 'Login successfully', '')
         setUserData({
           user : responseData.user
         })
         navigate('/owner/restaurant/list')
-      } else {
-        console.error(responseData.error); // Log the error message if registration fails
-        // You can handle the error in your application as needed
-      }
+      } 
     } catch (error) {
+      showToast('error', 'Login failed', '')
       console.error("Error:", error);
       // Handle any unexpected errors that may occur during the request
     }
