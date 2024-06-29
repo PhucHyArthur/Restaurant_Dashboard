@@ -5,6 +5,7 @@ import * as jwt_decode from "jwt-decode";
 import cookie from "cookie";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import CustomToast from "../../../components/Toast";
+import uploadFileCloudinary from "../../actions/UploadFileCloudinary";
 // import dotenv from 'dotenv'
 // dotenv.config()
 
@@ -40,9 +41,9 @@ const RestaurantAdd = () => {
   const onSubmit = async (data) => {
     try {
       // Upload files to Cloudinary
-      const logoUpload = data.logo[0] ? await uploadFileToCloudinary(data.logo[0]) : "";
-      const posterUpload = data.poster[0] ? await uploadFileToCloudinary(data.poster[0]) : "";
-      const coverUpload = data.cover[0] ? await uploadFileToCloudinary(data.cover[0]) : "";
+      const logoUpload = data.logo[0] ? await uploadFileCloudinary(data.logo[0]) : "";
+      const posterUpload = data.poster[0] ? await uploadFileCloudinary(data.poster[0]) : "";
+      const coverUpload = data.cover[0] ? await uploadFileCloudinary(data.cover[0]) : "";
       console.log(logoUpload);
       // Create restaurant data object
       const restaurantData = {
@@ -66,20 +67,6 @@ const RestaurantAdd = () => {
     } catch (error) {
       console.error("Error adding restaurant:", error);
     }
-  };
-  const uploadFileToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", 'j9rkirfq'); // Replace with your Cloudinary upload preset
-
-    const response = await axios.post(
-      'https://api.cloudinary.com/v1_1/dpxey0jta/image/upload', // Replace with your Cloudinary cloud name
-      formData
-    );
-
-    console.log(response.data);
-
-    return response.data.secure_url;
   };
 
   return (
